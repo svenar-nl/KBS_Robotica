@@ -3,6 +3,7 @@ package nl.windesheim.ictm2f;
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.gui.Splash;
 import nl.windesheim.ictm2f.serial.SerialManager;
+import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.OSManager;
 
@@ -28,7 +29,8 @@ public class Main {
 
         this.guiManager = new GUIManager(this.screenDimension);
         this.guiManager.setTitle("KBS Robotica");
-        this.guiManager.setVisible(true); // TODO: not the best place for this tbh
+        this.guiManager.changeTheme(GUIThemes.Theme.DARK);
+        this.guiManager.show();
 
         this.splash.close();
     }

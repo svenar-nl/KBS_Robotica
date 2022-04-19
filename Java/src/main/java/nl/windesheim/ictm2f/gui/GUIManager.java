@@ -23,8 +23,7 @@ public class GUIManager extends JFrame {
         this.repaint();
     }
 
-    @Override
-    public void show() {
+    public void display() {
         this.setVisible(true);
     }
 

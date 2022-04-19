@@ -41,4 +41,12 @@ public class Main {
 
         this.splash.close();
     }
+
+    public SerialManager getSerialManager() {
+        return this.serialManager;
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
 }

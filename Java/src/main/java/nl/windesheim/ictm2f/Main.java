@@ -5,6 +5,7 @@ import nl.windesheim.ictm2f.gui.Splash;
 import nl.windesheim.ictm2f.serial.SerialManager;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
+import nl.windesheim.ictm2f.util.Logger;
 import nl.windesheim.ictm2f.util.OSManager;
 
 public class Main {
@@ -25,12 +26,18 @@ public class Main {
     public void setup() {
         this.splash = new Splash();
 
-        this.serialManager = new SerialManager(OSManager.getOS());
+        Logger.logToSysOut(true);
+
+        this.serialManager = new SerialManager();
 
         this.guiManager = new GUIManager(this.screenDimension);
         this.guiManager.setTitle("KBS Robotica");
         this.guiManager.changeTheme(GUIThemes.Theme.DARK);
-        this.guiManager.show();
+        this.guiManager.display();
+
+        Logger.info("Running on OS: " + OSManager.getOS());
+        Logger.info(String.format("Found %s serial port%s", this.serialManager.getAvailablePorts().size(),
+                this.serialManager.getAvailablePorts().size() == 1 ? "" : "s"));
 
         this.splash.close();
     }

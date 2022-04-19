@@ -2,7 +2,7 @@ package nl.windesheim.ictm2f.util;
 
 public class OSManager {
     public enum OS {
-        WINDOWS, LINUX, MAC, SOLARIS
+        WINDOWS, LINUX, MAC, SOLARIS, BSD
     };
 
     private static OS os = null;
@@ -19,6 +19,8 @@ public class OSManager {
                 os = OS.MAC;
             } else if (operSys.contains("sunos")) {
                 os = OS.SOLARIS;
+            } else if (operSys.contains("bsd")) {
+                os = OS.BSD;
             }
         }
         return os;

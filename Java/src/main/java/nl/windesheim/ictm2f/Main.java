@@ -2,14 +2,19 @@ package nl.windesheim.ictm2f;
 
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.gui.Splash;
+import nl.windesheim.ictm2f.serial.SerialManager;
 import nl.windesheim.ictm2f.util.Dimension;
+import nl.windesheim.ictm2f.util.OSManager;
 
 public class Main {
 
+    private Dimension screenDimension = new Dimension(800, 600);
+
     private static Main instance;
+
+    private SerialManager serialManager;
     private GUIManager guiManager;
     private Splash splash;
-    private Dimension screenDimension = new Dimension(800, 600);
 
     public static void main(String[] args) {
         instance = new Main();
@@ -18,6 +23,8 @@ public class Main {
 
     public void setup() {
         this.splash = new Splash();
+
+        this.serialManager = new SerialManager(OSManager.getOS());
 
         this.guiManager = new GUIManager(this.screenDimension);
         this.guiManager.setTitle("KBS Robotica");

@@ -4,17 +4,18 @@
 	<artifactId>kbs</artifactId>
 	<version>1.0.0</version>
 	<name>KBS</name>
-	<description>GUI application to conrol an Arduino-based endpoint</description>
+	<description>GUI application to control an Arduino-based endpoint</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<src.dir>src/main/java</src.dir>
 		<rsc.dir>src/main/resources</rsc.dir>
+		<shade.basepattern>nl.windesheim.lib</shade.basepattern>
 	</properties>
 
 	<build>
-		<defaultGoal>clean compile package</defaultGoal>
+		<defaultGoal>clean compile package shade:shade</defaultGoal>
 		<finalName>${project.name}</finalName>
 		<sourceDirectory>${src.dir}</sourceDirectory>
 		<resources>
@@ -25,6 +26,7 @@
 		</resources>
 		<pluginManagement>
 			<plugins>
+
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.0</version>
@@ -36,18 +38,61 @@
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>3.1.0</version>
+					<configuration>
+						<minimizeJar>true</minimizeJar>
+						<createSourcesJar>false</createSourcesJar>
+						<shadeSourcesContent>false</shadeSourcesContent>
+						<createDependencyReducedPom>false</createDependencyReducedPom>
+						<shadedArtifactAttached>false</shadedArtifactAttached>
+						<filters>
+							<filter>
+								<artifact>*:*</artifact>
+								<excludes>
+									<exclude>build.properties</exclude>
+								</excludes>
+							</filter>
+						</filters>
+						<artifactSet>
+							<includes>
+								<include>com.fazecast:jSerialComm</include>
+							</includes>
+						</artifactSet>
+						<relocations>
+							<relocation>
+								<pattern>jSerialComm</pattern>
+								<shadedPattern>${shade.basepattern}.jSerialComm</shadedPattern>
+							</relocation>
+						</relocations>
+						<dependencyReducedPomLocation>target/reduced-pom.xml</dependencyReducedPomLocation>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>2.3.1</version>
-                    <configuration>
-                        <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>nl.windesheim.ictm2f.Main</mainClass>
-                        </manifest>
-                        </archive>
-                    </configuration>
+					<configuration>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<classpathPrefix>lib/</classpathPrefix>
+								<mainClass>nl.windesheim.ictm2f.Main</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -60,5 +105,10 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.fazecast</groupId>
+			<artifactId>jSerialComm</artifactId>
+			<version>[2.0.0,3.0.0)</version>
+		  </dependency>
 	</dependencies>
 </project>

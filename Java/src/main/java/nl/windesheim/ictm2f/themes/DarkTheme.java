@@ -10,8 +10,18 @@ public class DarkTheme implements ITheme {
     }
 
     @Override
+    public Color getAltBackgroundColor() {
+        return new Color(42, 42, 42);
+    }
+
+    @Override
     public Color getTextColor() {
         return new Color(242, 242, 242);
+    }
+
+    @Override
+    public Color getAltTextColor() {
+        return new Color(152, 152, 152);
     }
     
 }

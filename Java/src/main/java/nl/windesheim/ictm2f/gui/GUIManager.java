@@ -9,13 +9,25 @@ import nl.windesheim.ictm2f.util.Dimension;
 public class GUIManager extends JFrame {
 
     private GUIThemes guiTheme;
-    
+
+    private SerialConnectionManager scmPanel;
+    private ControlPanel controlPanel;
+
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
-        
+
+        this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
+        this.controlPanel = new ControlPanel(screenDimension, this.guiTheme);
+
+        this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.setLayout(null);
+
+        this.add(this.scmPanel);
+        this.add(this.controlPanel);
     }
 
     public void changeTheme(Theme theme) {
@@ -29,6 +41,7 @@ public class GUIManager extends JFrame {
 
     @Override
     public void repaint() {
+        super.repaint();
         this.getContentPane().setBackground(this.guiTheme.getTheme().getBackgroundColor());
     }
 }

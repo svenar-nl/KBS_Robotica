@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
@@ -68,12 +69,16 @@ public class SerialConnectionManager extends JPanel {
         this.connectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Main.getInstance().getSerialManager().isConnected()) {
-                    Main.getInstance().getSerialManager().disconnect();
-                } else {
-                    Main.getInstance().getSerialManager().connect(jComboBox.getItemAt(jComboBox.getSelectedIndex()));
+                try {
+                    if (Main.getInstance().getSerialManager().isConnected()) {
+                        Main.getInstance().getSerialManager().disconnect();
+                    } else {
+                        Main.getInstance().getSerialManager().connect(jComboBox.getItemAt(jComboBox.getSelectedIndex()));
+                    }
+                    repaint();
+                } catch (SerialPortInvalidPortException ex) {
+                    Logger.exception(ex);
                 }
-                repaint();
             }
         });
 

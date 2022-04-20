@@ -1,7 +1,10 @@
 package nl.windesheim.ictm2f.gui;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
 import java.awt.event.ActionEvent;
@@ -10,10 +13,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
+import nl.windesheim.ictm2f.util.Logger;
 
 public class SerialConnectionManager extends JPanel {
 
@@ -34,14 +39,26 @@ public class SerialConnectionManager extends JPanel {
         ports = availablePorts.toArray(ports);
         JComboBox<String> jComboBox = new JComboBox<>(ports);
         jComboBox.setBounds(160, 10, 180, 30);
+        jComboBox.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        jComboBox.setForeground(this.guiTheme.getTheme().getTextColor());
 
         this.connectionButton = new JButton("Connect");
         this.connectionButton.setBounds(350, 10, 120, 30);
 
+        this.connectionButton.setBorderPainted(false);
+        this.connectionButton.setFocusPainted(false);
+        this.connectionButton.setContentAreaFilled(true);
+        this.connectionButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
+
         this.btn0 = new JButton("0");
         this.btn0.setBounds(480, 10, 60, 30);
+        this.btn0.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.btn0.setForeground(this.guiTheme.getTheme().getTextColor());
         this.btn1 = new JButton("1");
         this.btn1.setBounds(550, 10, 60, 30);
+        this.btn1.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.btn1.setForeground(this.guiTheme.getTheme().getTextColor());
 
         this.add(jComboBox);
         this.add(this.connectionButton);
@@ -76,6 +93,7 @@ public class SerialConnectionManager extends JPanel {
                         }
                     } catch (NegativeArraySizeException nase) {
                         Main.getInstance().getSerialManager().disconnect();
+                        Logger.warning("Serial device disconnected!");
                         repaint();
                     }
                 }

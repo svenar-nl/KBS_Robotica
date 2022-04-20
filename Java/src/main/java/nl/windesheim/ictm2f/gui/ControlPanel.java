@@ -19,7 +19,7 @@ public class ControlPanel extends JPanel {
         this.setPreferredSize(this.screenDimension.getDimension());
         this.setSize(this.screenDimension.getX(), this.screenDimension.getY());
     }
-    
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

@@ -3,6 +3,12 @@
 
 SerialManager serialManager = SerialManager();
 
+bool handleSerialInNumber(int number);
+bool handleSerialInString(String text);
+
+String lastTextCommand = "";
+int lastNumberCommand = -1;
+
 void setup() {
   serialManager.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -16,17 +22,26 @@ void loop() {
     String text = serialManager.getData();
 
     if (isDigit(text.charAt(0))) {
-      if (num == 0) {
-        digitalWrite(LED_BUILTIN, LOW);
-        Serial.println("ACK");
-      } else if (num == 1) {
-        digitalWrite(LED_BUILTIN, HIGH);
-        Serial.println("ACK");
-      } else {
-        Serial.println("NACK");
-      }
+      Serial.println(handleSerialInNumber(num) ? "ACK" : "NACK");
+      lastNumberCommand = num;
     } else {
-      Serial.println("NACK");
+      Serial.println(handleSerialInString(text) ? "ACK" : "NACK");
+      lastTextCommand = text;
     }
   }
+}
+
+bool handleSerialInNumber(int number) {
+
+  return false;
+}
+
+bool handleSerialInString(String text) {
+  text.toLowerCase();
+  
+  if (text == "ping") {
+    return true;
+  }
+
+  return false;
 }

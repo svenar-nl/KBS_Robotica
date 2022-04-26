@@ -6,12 +6,12 @@ public class LightTheme implements ITheme {
 
     @Override
     public Color getBackgroundColor() {
-        return new Color(244, 236, 219);
+        return new Color(229, 229, 229);
     }
 
     @Override
     public Color getAltBackgroundColor() {
-        return new Color(255, 245, 234);
+        return new Color(183, 183, 183);
     }
 
     @Override
@@ -23,5 +23,5 @@ public class LightTheme implements ITheme {
     public Color getAltTextColor() {
         return new Color(22, 22, 22);
     }
-    
+
 }

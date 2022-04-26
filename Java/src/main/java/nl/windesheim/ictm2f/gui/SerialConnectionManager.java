@@ -1,10 +1,7 @@
 package nl.windesheim.ictm2f.gui;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
 import java.awt.event.ActionEvent;
@@ -13,7 +10,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import nl.windesheim.ictm2f.Main;

@@ -14,15 +14,17 @@ public class GridArray {
             }
         }
 
-        addBox(1,1,"AA");
-        addBox(1,2,"AAA");
-        addBox(4,4,"WAdw");
-        System.out.println(this.storage.get(1).get(1).toString());
+//        addBox(1,1,"AA");
+//        addBox(1,2,"AAA");
+//        addBox(4,4,"WAdw");
+//        System.out.println(this.storage.get(1).get(1).toString());
+        // Testing line!
     }
 
     public Dimension addBox(int x, int y, String content) {
+        if (x > 5 || y > 5) { return new Dimension(-1,-1); }
         Box box = new Box(x,y,content);
-        //this.storage.get(x).add(y,box);
+        this.storage.get(x).set(y,box);
         if (this.storage.get(x).get(y).getClass() == Box.class) {
             return new Dimension(x,y);
         } else {

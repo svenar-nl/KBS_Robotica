@@ -26,4 +26,9 @@ public class Box {
             this.content = "empty";
         }
     }
+
+    @Override
+    public String toString() {
+        return "Box position: " + this.position.getX() + ", " + this.position.getY() + ". Box contents: " + this.content;
+    }
 }

@@ -1,12 +1,18 @@
 package nl.windesheim.ictm2f.gui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;
 
-public class GUIManager extends JFrame {
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
 
@@ -17,14 +23,15 @@ public class GUIManager extends JFrame {
         this.guiTheme = new GUIThemes();
 
         this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
-        this.controlPanel = new ControlPanel(screenDimension, this.guiTheme);
+        this.controlPanel = new ControlPanel(350, this.guiTheme);
+        controlPanel.addMouseListener(this);
 
         this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        this.setLayout(null);
+        this.setLayout(new FlowLayout());
 
         this.add(this.scmPanel);
         this.add(this.controlPanel);
@@ -43,5 +50,30 @@ public class GUIManager extends JFrame {
     public void repaint() {
         super.repaint();
         this.getContentPane().setBackground(this.guiTheme.getTheme().getBackgroundColor());
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        controlPanel.mouseClicked(e.getX(), e.getY());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

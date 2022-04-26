@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
+import nl.windesheim.ictm2f.util.GridArray;
 import nl.windesheim.ictm2f.util.GridPoint;
 
 public class ControlPanel extends JPanel {
@@ -18,6 +19,8 @@ public class ControlPanel extends JPanel {
     static int textPaddingLeft = 5;
     static int circleSize = 15;
 
+    private GridArray storage;
+
     private GUIThemes guiTheme;
     private Dimension screenDimension;
     private ArrayList<GridPoint> destinationPoints;
@@ -27,6 +30,7 @@ public class ControlPanel extends JPanel {
         this.guiTheme = guiTheme;
         this.destinationPoints = new ArrayList<>();
         this.destinationPoints.add(new GridPoint("1", 3, 3));
+        this.storage = new GridArray(5,5);
 
         this.setPreferredSize(this.screenDimension.getDimension());
         this.setSize(this.screenDimension.getX(), this.screenDimension.getY());

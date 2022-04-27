@@ -21,12 +21,14 @@ public class ControlPanel extends JPanel {
     private GUIThemes guiTheme;
     private Dimension screenDimension;
     private ArrayList<GridPoint> destinationPoints;
+    private GridPoint robotLocation;
 
     public ControlPanel(int screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension + 2, screenDimension + 31); // +2 for the grid lines
         this.guiTheme = guiTheme;
         this.destinationPoints = new ArrayList<>();
-        this.destinationPoints.add(new GridPoint("1", 3, 3));
+        //this.destinationPoints.add(new GridPoint("1", 3, 3));  // test point
+        this.robotLocation = new GridPoint("Robot", 1, 1);
 
         this.setPreferredSize(this.screenDimension.getDimension());
         this.setSize(this.screenDimension.getX(), this.screenDimension.getY());
@@ -44,6 +46,7 @@ public class ControlPanel extends JPanel {
         }
         for (GridPoint p : destinationPoints){
             if(p.getX() == cellX && p.getY() == cellY){
+                //TODO remove if clicked on again
                 return;
             }
         }
@@ -92,5 +95,9 @@ public class ControlPanel extends JPanel {
             g.setColor(Color.red);    // TODO get from theme
             g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2, (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2, circleSize, circleSize);
         }
+
+        // robot point
+        g.setColor(Color.CYAN);    // TODO get from theme
+        g.fillOval((robotLocation.getX() * gridSize) + marginLeft - circleSize / 4 - gridSize / 2, (robotLocation.getY() * gridSize) + marginTop - circleSize / 4 - gridSize / 2, circleSize / 2, circleSize / 2);
     }
 }

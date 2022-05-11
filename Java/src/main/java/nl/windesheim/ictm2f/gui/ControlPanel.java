@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.GridPoint;
+import nl.windesheim.ictm2f.util.Solver;
 
 public class ControlPanel extends JPanel {
 
@@ -20,13 +22,11 @@ public class ControlPanel extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private ArrayList<GridPoint> destinationPoints;
     private GridPoint robotLocation;
 
     public ControlPanel(int screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension + 2, screenDimension + 31); // +2 for the grid lines
         this.guiTheme = guiTheme;
-        this.destinationPoints = new ArrayList<>();
         //this.destinationPoints.add(new GridPoint("1", 3, 3));  // test point
         this.robotLocation = new GridPoint("Robot", 1, 1);
 
@@ -35,6 +35,9 @@ public class ControlPanel extends JPanel {
     }
 
     public void mouseClicked(int x, int y){
+        Solver solver = Main.getInstance().getSolver();
+        ArrayList<GridPoint> destinationPoints = solver.getPoints();
+
         // translate mouse coords to cell
         int cellX = ((x - marginLeft) / gridSize) + 1;
         int cellY = ((y - marginTop) / gridSize) + 1;
@@ -52,7 +55,7 @@ public class ControlPanel extends JPanel {
         }
 
         // add point to list
-        destinationPoints.add(new GridPoint(pointName, cellX, cellY));
+        solver.addPoint(new GridPoint(pointName, cellX, cellY));
 
         // redraw the grid so the point can be updated
         repaint();
@@ -60,6 +63,10 @@ public class ControlPanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        Solver solver = Main.getInstance().getSolver();
+        ArrayList<GridPoint> destinationPoints = solver.getPoints();
+        ArrayList<Integer> path = solver.getResultPath();
+
         super.paintComponent(g);
 
         setBackground(this.guiTheme.getTheme().getBackgroundColor());
@@ -86,18 +93,42 @@ public class ControlPanel extends JPanel {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
                 String txt = String.format("%s:%s", row + 1, col + 1);
-                g.drawString(txt, (row * gridSize) + marginLeft + textPaddingLeft, (col * gridSize) + marginTop + textPaddingTop);
+                g.drawString(txt,
+                        (row * gridSize) + marginLeft + textPaddingLeft,
+                        (col * gridSize) + marginTop + textPaddingTop);
             }
         }
 
         // draw points
         for (GridPoint p : destinationPoints){
             g.setColor(Color.red);    // TODO get from theme
-            g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2, (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2, circleSize, circleSize);
+            g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2,
+                    (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2,
+                    circleSize,
+                    circleSize);
         }
 
         // robot point
         g.setColor(Color.CYAN);    // TODO get from theme
-        g.fillOval((robotLocation.getX() * gridSize) + marginLeft - circleSize / 4 - gridSize / 2, (robotLocation.getY() * gridSize) + marginTop - circleSize / 4 - gridSize / 2, circleSize / 2, circleSize / 2);
+        g.fillOval((robotLocation.getX() * gridSize) + marginLeft - circleSize / 4 - gridSize / 2,
+                (robotLocation.getY() * gridSize) + marginTop - circleSize / 4 - gridSize / 2,
+                circleSize / 2,
+                circleSize / 2);
+
+        // robot path
+        if(path != null){
+            g.setColor(Color.red);    // TODO get from theme
+
+            for (int i = 0; i < path.size(); i++){
+                if(i == 0) continue;
+                GridPoint p1 = destinationPoints.get(path.get(i - 1));
+                GridPoint p2 = destinationPoints.get(path.get(i));
+
+                g.drawLine(((p1.getX() * gridSize) + marginLeft) - gridSize / 2,
+                        ((p1.getY() * gridSize) + marginTop) - gridSize / 2,
+                        ((p2.getX() * gridSize) + marginLeft) - gridSize / 2,
+                        ((p2.getY() * gridSize) + marginTop) - gridSize / 2);
+            }
+        }
     }
 }

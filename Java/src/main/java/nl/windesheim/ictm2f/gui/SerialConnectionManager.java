@@ -20,6 +20,7 @@ import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
+import nl.windesheim.ictm2f.util.Solver;
 
 public class SerialConnectionManager extends JPanel {
 
@@ -96,7 +97,8 @@ public class SerialConnectionManager extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-
+                    Main.getInstance().getSolver().SolveDynamic();
+                    repaint(); // TODO: no work???
                 } catch (SerialPortInvalidPortException ex) {
                     Logger.exception(ex);
                 }

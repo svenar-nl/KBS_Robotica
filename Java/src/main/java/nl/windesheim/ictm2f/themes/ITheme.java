@@ -8,4 +8,10 @@ public interface ITheme {
     public Color getAltBackgroundColor();
     public Color getTextColor();
     public Color getAltTextColor();
+    public Color getGridLineColor();
+    public Color getGridBackgroundColor();
+    public Color getGridTextColor();
+    public Color getGridPointColor();
+    public Color getGridPathColor();
+    public Color getGridTitleColor();
 }

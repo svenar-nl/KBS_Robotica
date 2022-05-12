@@ -58,6 +58,9 @@ public class ControlPanel extends JPanel {
         // add point to list
         solver.addPoint(new GridPoint(pointName, cellX, cellY));
 
+        // solve
+        Main.getInstance().getSolver().SolveDynamic();
+
         // redraw the grid so the point can be updated
         repaint();
     }
@@ -78,8 +81,8 @@ public class ControlPanel extends JPanel {
 
         // text
         g.setColor(this.guiTheme.getTheme().getGridTitleColor());
-        g.setFont(new Font("default", Font.PLAIN, 20));
-        g.drawString("Schap", 120, 70);
+        g.setFont(new Font("default", Font.PLAIN, 30));
+        g.drawString("Schap", 110, 70);
 
         // grid lines
         for (int i = 0; i < 360; i += gridSize){

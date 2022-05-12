@@ -58,4 +58,9 @@ public class DarkTheme implements ITheme {
     public Color getGridRobotColor() {
         return Color.cyan;
     }
+
+    @Override
+    public Color getControlTextColor() {
+        return Color.black;
+    }
 }

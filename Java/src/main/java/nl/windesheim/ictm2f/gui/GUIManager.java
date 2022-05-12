@@ -16,14 +16,14 @@ public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
 
-    private SerialConnectionManager scmPanel;
-    private ControlPanel controlPanel;
+    private static SerialConnectionManager scmPanel;
+    private static ControlPanel controlPanel;
 
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
 
-        this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
-        this.controlPanel = new ControlPanel(350, this.guiTheme);
+        scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
+        controlPanel = new ControlPanel(350, this.guiTheme);
         controlPanel.addMouseListener(this);
 
         this.setPreferredSize(screenDimension.getDimension());
@@ -75,5 +75,13 @@ public class GUIManager extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public static SerialConnectionManager getSerialConnectionManager() {
+        return scmPanel;
+    }
+
+    public static ControlPanel getControlPanel() {
+        return controlPanel;
     }
 }

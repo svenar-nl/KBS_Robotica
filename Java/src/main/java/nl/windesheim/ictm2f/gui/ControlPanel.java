@@ -49,7 +49,8 @@ public class ControlPanel extends JPanel {
         }
         for (GridPoint p : destinationPoints){
             if(p.getX() == cellX && p.getY() == cellY){
-                //TODO remove if clicked on again
+                destinationPoints.remove(p);
+                repaint();
                 return;
             }
         }
@@ -72,11 +73,11 @@ public class ControlPanel extends JPanel {
         setBackground(this.guiTheme.getTheme().getBackgroundColor());
 
         // grid background
-        g.setColor(Color.white);    // TODO get from theme
+        g.setColor(this.guiTheme.getTheme().getGridBackgroundColor());
         g.fillRect(marginLeft, marginTop, 300, 300);
 
         // text
-        g.setColor(Color.white);    // TODO get from theme
+        g.setColor(this.guiTheme.getTheme().getGridTitleColor());
         g.setFont(new Font("default", Font.PLAIN, 20));
         g.drawString("Schap", 120, 70);
 

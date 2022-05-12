@@ -18,7 +18,8 @@ public class Solver {
         int pointCount = points.size();
 
         if(pointCount < 3){
-            // TODO: error not enough points
+            Logger.warning("not enough points");
+            return;
         }
 
         this.distanceMap = CreateDistanceMap();

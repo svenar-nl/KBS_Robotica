@@ -39,6 +39,13 @@ bool handleSerialInNumber(long number) {
     delay(number);
     digitalWrite(LED_BUILTIN, LOW);
     return true;
+  } else {
+    if (number == 0) {
+      digitalWrite(LED_BUILTIN, LOW);
+    }
+    if (number == 1) {
+      digitalWrite(LED_BUILTIN, HIGH);
+    }
   }
 
   return false;

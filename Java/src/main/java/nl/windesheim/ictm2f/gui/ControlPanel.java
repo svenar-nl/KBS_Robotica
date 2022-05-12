@@ -83,13 +83,13 @@ public class ControlPanel extends JPanel {
 
         // grid lines
         for (int i = 0; i < 360; i += gridSize){
-            g.setColor(Color.gray);    // TODO get from theme
+            g.setColor(this.guiTheme.getTheme().getGridLineColor());
             g.drawLine(i, marginTop, i, 300 + marginTop);
             g.drawLine(0,marginTop + i, 300, marginTop + i);
         }
 
         // grid numbers
-        g.setColor(Color.lightGray);    // TODO get from theme
+        g.setColor(this.guiTheme.getTheme().getGridTextColor());
         g.setFont(new Font("default", Font.PLAIN, 35));
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
@@ -102,7 +102,7 @@ public class ControlPanel extends JPanel {
 
         // draw points
         for (GridPoint p : destinationPoints){
-            g.setColor(Color.red);    // TODO get from theme
+            g.setColor(this.guiTheme.getTheme().getGridPointColor());
             g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2,
                     (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2,
                     circleSize,
@@ -110,7 +110,7 @@ public class ControlPanel extends JPanel {
         }
 
         // robot point
-        g.setColor(Color.CYAN);    // TODO get from theme
+        g.setColor(this.guiTheme.getTheme().getGridRobotColor());
         g.fillOval((robotLocation.getX() * gridSize) + marginLeft - circleSize / 4 - gridSize / 2,
                 (robotLocation.getY() * gridSize) + marginTop - circleSize / 4 - gridSize / 2,
                 circleSize / 2,
@@ -118,7 +118,7 @@ public class ControlPanel extends JPanel {
 
         // robot path
         if(path != null){
-            g.setColor(Color.red);    // TODO get from theme
+            g.setColor(this.guiTheme.getTheme().getGridPathColor());
 
             for (int i = 0; i < path.size(); i++){
                 if(i == 0) continue;

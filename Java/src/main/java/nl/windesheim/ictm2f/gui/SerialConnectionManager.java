@@ -98,7 +98,7 @@ public class SerialConnectionManager extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Main.getInstance().getSolver().SolveDynamic();
-                    GUIManager.getControlPanel().repaint();
+                    GUIManager.getControlPanel().repaint();         // repain
                 } catch (SerialPortInvalidPortException ex) {
                     Logger.exception(ex);
                 }

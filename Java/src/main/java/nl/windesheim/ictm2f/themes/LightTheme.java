@@ -48,4 +48,14 @@ public class LightTheme implements ITheme {
     public Color getGridPathColor() {
         return Color.green;
     }
+
+    @Override
+    public Color getGridTitleColor() {
+        return Color.white;
+    }
+
+    @Override
+    public Color getGridRobotColor() {
+        return Color.cyan;
+    }
 }

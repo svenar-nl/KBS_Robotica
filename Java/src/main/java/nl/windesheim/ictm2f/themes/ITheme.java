@@ -14,4 +14,5 @@ public interface ITheme {
     public Color getGridPointColor();
     public Color getGridPathColor();
     public Color getGridTitleColor();
+    public Color getGridRobotColor();
 }

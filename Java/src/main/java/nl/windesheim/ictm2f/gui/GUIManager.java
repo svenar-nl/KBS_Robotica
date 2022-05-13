@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui;
 
 import javax.swing.*;
 
+import nl.windesheim.ictm2f.gui.Settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Set;
 
 public class GUIManager extends JFrame implements MouseListener {
 

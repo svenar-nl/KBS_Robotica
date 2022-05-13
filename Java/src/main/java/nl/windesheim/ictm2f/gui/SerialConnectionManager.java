@@ -17,7 +17,9 @@ import javax.swing.border.Border;
 
 import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import nl.windesheim.ictm2f.Main;
+import nl.windesheim.ictm2f.gui.Settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
+import nl.windesheim.ictm2f.themes.ITheme;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
 import nl.windesheim.ictm2f.util.Solver;
@@ -26,7 +28,8 @@ public class SerialConnectionManager extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private JButton connectionButton, btn0, btn1, startButton;
+    private SettingsFrame settings;
+    private JButton connectionButton, btn0, btn1, startButton, settingsButton;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension.getX(), 50);
@@ -54,7 +57,7 @@ public class SerialConnectionManager extends JPanel {
         this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
         this.startButton = new JButton("Start");
-        this.startButton.setBounds(650, 10, 120, 30);
+        this.startButton.setBounds(620, 10, 120, 30);
 
         this.startButton.setBorderPainted(false);
         this.startButton.setFocusPainted(false);
@@ -71,11 +74,21 @@ public class SerialConnectionManager extends JPanel {
         this.btn1.setBackground(this.guiTheme.getTheme().getBackgroundColor());
         this.btn1.setForeground(this.guiTheme.getTheme().getTextColor());
 
+        this.settingsButton = new JButton("Se");
+        this.settingsButton.setBounds(750,10,30,30);
+
+        this.settingsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.settingsButton.setForeground(this.guiTheme.getTheme().getTextColor());
+        this.settingsButton.setBorderPainted(false);
+        this.settingsButton.setFocusPainted(false);
+        this.settingsButton.setContentAreaFilled(true);
+
         this.add(jComboBox);
         this.add(this.connectionButton);
         this.add(this.startButton);
         this.add(this.btn0);
         this.add(this.btn1);
+        this.add(this.settingsButton);
 
         this.connectionButton.addActionListener(new ActionListener() {
             @Override
@@ -89,6 +102,18 @@ public class SerialConnectionManager extends JPanel {
                     repaint();
                 } catch (SerialPortInvalidPortException ex) {
                     Logger.exception(ex);
+                }
+            }
+        });
+
+        this.settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (GUIManager.getSerialConnectionManager().getSettings() == null) {
+                GUIManager.getSerialConnectionManager().setSettings(new SettingsFrame(GUIManager.getSerialConnectionManager().getTheme()));
+                } else {
+                    GUIManager.getSerialConnectionManager().setSettings(null);
+                    GUIManager.getSerialConnectionManager().setSettings(new SettingsFrame(GUIManager.getSerialConnectionManager().getTheme()));
                 }
             }
         });
@@ -149,6 +174,17 @@ public class SerialConnectionManager extends JPanel {
                 }
             }
         });
+    }
+
+    public void setSettings(SettingsFrame sets) {
+        this.settings = sets;
+    }
+    public SettingsFrame getSettings() {
+        return this.settings;
+    }
+
+    public ITheme getTheme() {
+        return this.guiTheme.getTheme();
     }
 
     @Override

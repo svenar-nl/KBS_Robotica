@@ -28,7 +28,6 @@ public class SerialConnectionManager extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private SettingsFrame settings;
     private JButton connectionButton, btn0, btn1, startButton, settingsButton;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
@@ -106,18 +105,6 @@ public class SerialConnectionManager extends JPanel {
             }
         });
 
-        this.settingsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (GUIManager.getSerialConnectionManager().getSettings() == null) {
-                GUIManager.getSerialConnectionManager().setSettings(new SettingsFrame(GUIManager.getSerialConnectionManager().getTheme()));
-                } else {
-                    GUIManager.getSerialConnectionManager().setSettings(null);
-                    GUIManager.getSerialConnectionManager().setSettings(new SettingsFrame(GUIManager.getSerialConnectionManager().getTheme()));
-                }
-            }
-        });
-
         this.startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,6 +140,13 @@ public class SerialConnectionManager extends JPanel {
             }
         });
 
+        this.settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIManager.getSettings().setVisible(true);
+            }
+        });
+
         this.btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,13 +168,6 @@ public class SerialConnectionManager extends JPanel {
                 }
             }
         });
-    }
-
-    public void setSettings(SettingsFrame sets) {
-        this.settings = sets;
-    }
-    public SettingsFrame getSettings() {
-        return this.settings;
     }
 
     public ITheme getTheme() {

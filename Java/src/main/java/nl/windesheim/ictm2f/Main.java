@@ -56,4 +56,8 @@ public class Main {
     public static Main getInstance() {
         return instance;
     }
+
+    public GUIManager getGuiManager() {
+        return guiManager;
+    }
 }

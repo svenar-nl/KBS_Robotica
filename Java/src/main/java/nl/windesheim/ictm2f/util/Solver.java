@@ -116,8 +116,8 @@ public class Solver {
     }
 
     public int min(int v, double[][] D, int set, int n) {
-        int[] m = new int[10];
-        int[] i = new int[10];
+        int[] m = new int[n];
+        int[] i = new int[n];
         int ind = 0;
 
         for(int j = 0 ; j< n-1 ; j++){

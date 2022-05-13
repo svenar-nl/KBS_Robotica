@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
 public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
-
+  
     private static SerialConnectionManager scmPanel;
     private static ControlPanel controlPanel;
     private static StatusPanel statusPanel;
@@ -56,17 +56,20 @@ public class GUIManager extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        controlPanel.mouseClicked(e.getX(), e.getY());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (mouseDown) {
+            return;
+        }
+        mouseDown = true;
+        controlPanel.mouseClicked(e.getX(), e.getY());
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        mouseDown = false;
     }
 
     @Override

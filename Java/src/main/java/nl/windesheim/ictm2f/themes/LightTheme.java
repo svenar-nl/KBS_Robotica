@@ -50,9 +50,7 @@ public class LightTheme implements ITheme {
     }
 
     @Override
-    public Color getGridTitleColor() {
-        return Color.white;
-    }
+    public Color getGridTitleColor() { return Color.gray; }
 
     @Override
     public Color getGridRobotColor() {

@@ -7,8 +7,6 @@ import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -36,9 +34,9 @@ public class GUIManager extends JFrame implements MouseListener {
 
         this.setLayout(new FlowLayout());
 
-        this.add(this.scmPanel);
-        this.add(this.controlPanel);
-        this.add(this.statusPanel);
+        this.add(scmPanel);
+        this.add(controlPanel);
+        this.add(statusPanel);
     }
 
     public void changeTheme(Theme theme) {

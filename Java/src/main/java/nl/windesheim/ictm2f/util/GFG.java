@@ -1,4 +1,5 @@
 package nl.windesheim.ictm2f.util;// Java Program to Solve Travelling Salesman Problem
+
 // Using Incremental Insertion Method
 
 // Main class
@@ -6,22 +7,19 @@ public class GFG {
     // Method 1
     // Travelling Salesman Incremental Insertion Method
     static int tspdp(int c[][], int tour[], int start,
-                     int n)
-    {
+            int n) {
 
         int mintour[] = new int[20], temp[] = new int[20],
                 mincost = 999, ccost, i, j, k;
 
-        if (start == n - 1)
-        {
+        if (start == n - 1) {
             return (c[tour[n - 1]][tour[n]]
                     + c[tour[n]][1]);
         }
 
         // Logic for implementing the minimal cost
 
-        for (i = start + 1; i <= n; i++)
-        {
+        for (i = start + 1; i <= n; i++) {
 
             for (j = 1; j <= n; j++)
 
@@ -32,8 +30,7 @@ public class GFG {
             temp[i] = tour[start + 1];
 
             if ((c[tour[start]][tour[i]]
-                    + (ccost = tspdp(c, temp, start + 1, n)))
-                    < mincost)
+                    + (ccost = tspdp(c, temp, start + 1, n))) < mincost)
 
             {
 
@@ -57,7 +54,7 @@ public class GFG {
 
     // Method 2
     // Main driver method
-    public static int[] GFG(int numCities, int[][] c){
+    public static int[] calculateGFG(int numCities, int[][] c) {
         int r[] = new int[numCities + 1];
         // Creating an object of Scanner class to take user
         // input
@@ -68,7 +65,7 @@ public class GFG {
         int tour[] = new int[20];
 
         // Declaring variables
-        int i, j, cost;
+        int i;
 
         // Step 1: To read number of cities
 
@@ -95,17 +92,13 @@ public class GFG {
 
         // Again, reading the cost of the matrix
 
-
         // Travelling across cities using nested loops
         for (i = 1; i <= n; i++)
             tour[i] = i - 1;
 
-        // Calling the above Method 1 to
-        cost = tspdp(c, tour, 1, n);
-
         // Now, coming to logic to print the optimal tour
 
-        for (i = 1; i <= n; i++){
+        for (i = 1; i <= n; i++) {
             r[i - 1] = tour[i];
         }
 

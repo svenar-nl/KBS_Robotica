@@ -4,7 +4,7 @@ package nl.windesheim.ictm2f.util;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class TspDynamicProgrammingIterative {
+public class TSPSolver {
 
     private final int N, start;
     private final double[][] distance;
@@ -12,11 +12,11 @@ public class TspDynamicProgrammingIterative {
     private double minTourCost = Double.POSITIVE_INFINITY;
     private boolean ranSolver = false;
 
-    public TspDynamicProgrammingIterative(double[][] distance) {
+    public TSPSolver(double[][] distance) {
         this(0, distance);
     }
 
-    public TspDynamicProgrammingIterative(int start, double[][] distance) {
+    public TSPSolver(int start, double[][] distance) {
         N = distance.length;
 
         if (N <= 2) throw new IllegalStateException("N <= 2 not yet supported.");

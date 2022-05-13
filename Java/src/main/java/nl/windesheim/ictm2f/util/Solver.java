@@ -26,7 +26,7 @@ public class Solver {
 //        }
 //        Logger.info(String.format("GFG PATH: %s", r));
 
-        TspDynamicProgrammingIterative solver = new TspDynamicProgrammingIterative(0, CreateDistanceMap());
+        TSPSolver solver = new TSPSolver(0, CreateDistanceMap());
 
         this.resultPath = solver.getTour();
 

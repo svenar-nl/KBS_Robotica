@@ -45,6 +45,8 @@ public class Solver {
             j = j& ~(1 << (i-1));
         }
         resultPath.add(0);
+
+        Logger.info("finished creating path");
     }
 
     // generate an array with all the distances between all the points, distance between itself is 0
@@ -158,6 +160,9 @@ public class Solver {
     public void addPoint(GridPoint p){
         points.add(p);
     }
+    public void removePoint(GridPoint p){
+        this.points.remove(p);
+    }
 
     public ArrayList<Integer> getResultPath() {
         return resultPath;
@@ -165,5 +170,9 @@ public class Solver {
 
     public int getPathLength() {
         return pathLength;
+    }
+
+    public void clearPath() {
+        this.resultPath.clear();
     }
 }

@@ -57,10 +57,15 @@ public class StatusPanel extends JPanel {
         // logs
         g.setColor(this.guiTheme.getTheme().getControlTextColor());
         g.setFont(new Font("default", Font.PLAIN, 12));
-        for (int i = 0; i < Logger.getLog().size(); i++){
-            String log = Logger.getLog().get(i);
 
-            g.drawString(log, 2, (marginTop + 70) + (i * 12));
+        int logCount = 0;
+        for (int i = Logger.getLog().size(); i > 0; i--){
+            if(logCount == 20) return;
+            String log = Logger.getLog().get(i - 1);
+
+            g.drawString(log, 2, (marginTop + 70) + (logCount * 12));
+
+            logCount++;
         }
     }
 

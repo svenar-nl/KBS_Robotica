@@ -199,7 +199,7 @@ public class SerialConnectionManager extends JPanel {
         g.setColor(this.guiTheme.getTheme().getTextColor());
 
         g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("Select device:", 10, this.screenDimension.getY() - 20);
+        g.drawString("Select device:", 20, this.screenDimension.getY() - 20);
 
         this.connectionButton.setText(Main.getInstance().getSerialManager().isConnected() ? "Disconnect" : "Connect");
     }

@@ -28,7 +28,6 @@ public class ControlPanel extends JPanel {
     public ControlPanel(int screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension + 2, screenDimension + 101); // +2 for the grid lines
         this.guiTheme = guiTheme;
-        //this.destinationPoints.add(new GridPoint("1", 3, 3));  // test point
         this.robotLocation = new GridPoint("Robot", 1, 1);
 
         this.setPreferredSize(this.screenDimension.getDimension());
@@ -50,7 +49,9 @@ public class ControlPanel extends JPanel {
         }
         for (GridPoint p : destinationPoints){
             if(p.getX() == cellX && p.getY() == cellY){
-                destinationPoints.remove(p);
+                solver.removePoint(p);
+                solver.clearPath();
+                solver.SolveDynamic();
                 repaint();
                 return;
             }
@@ -60,7 +61,7 @@ public class ControlPanel extends JPanel {
         solver.addPoint(new GridPoint(pointName, cellX, cellY));
 
         // solve
-        Main.getInstance().getSolver().SolveDynamic();
+        solver.SolveDynamic();
 
         // redraw the grid so the point can be updated
         repaint();
@@ -108,7 +109,7 @@ public class ControlPanel extends JPanel {
         g.setFont(new Font("default", Font.PLAIN, 15));
         g.setColor(this.guiTheme.getTheme().getGridPointColor());
 
-        for (GridPoint p : destinationPoints){
+        for (GridPoint p : solver.getPoints()){
             g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2,
                     (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2,
                     circleSize,

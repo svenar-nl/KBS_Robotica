@@ -18,14 +18,15 @@ public class ControlPanel extends JPanel {
     static int gridSize = 60;
     static int textPaddingTop = 43;
     static int textPaddingLeft = 5;
-    static int circleSize = 15;
+    static int circleSize = 25;
+    static int pathWidth = 5;
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
     private GridPoint robotLocation;
 
     public ControlPanel(int screenDimension, GUIThemes guiTheme) {
-        this.screenDimension = new Dimension(screenDimension + 2, screenDimension + 31); // +2 for the grid lines
+        this.screenDimension = new Dimension(screenDimension + 2, screenDimension + 101); // +2 for the grid lines
         this.guiTheme = guiTheme;
         //this.destinationPoints.add(new GridPoint("1", 3, 3));  // test point
         this.robotLocation = new GridPoint("Robot", 1, 1);
@@ -104,12 +105,19 @@ public class ControlPanel extends JPanel {
         }
 
         // draw points
+        g.setFont(new Font("default", Font.PLAIN, 15));
+        g.setColor(this.guiTheme.getTheme().getGridPointColor());
+
         for (GridPoint p : destinationPoints){
-            g.setColor(this.guiTheme.getTheme().getGridPointColor());
             g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2,
                     (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2,
                     circleSize,
                     circleSize);
+
+            // point name
+            g.drawString(p.getName(),
+                    ((p.getX() - 1) * gridSize) + marginLeft + 2,
+                    ((p.getY() - 1) * gridSize) + marginTop + 15);
         }
 
         // robot point
@@ -119,20 +127,47 @@ public class ControlPanel extends JPanel {
                 circleSize / 2,
                 circleSize / 2);
 
-        // robot path
+        // legend
+        g.setColor(this.guiTheme.getTheme().getGridRobotColor());
+        g.fillRect(0, 400, 20, 20);
+        g.setColor(this.guiTheme.getTheme().getGridPathColor());
+        g.fillRect(0, 430, 20, 20);
+        g.setColor(this.guiTheme.getTheme().getGridPointColor());
+        g.fillRect(150, 400, 20, 20);
+        g.setColor(this.guiTheme.getTheme().getGridFetchedPointColor());
+        g.fillRect(150, 430, 20, 20);
+
+        g.setColor(this.guiTheme.getTheme().getGridTextColor());
+        g.drawRect(0, 400, 20, 20);
+        g.drawRect(0, 430, 20, 20);
+        g.drawRect(150, 400, 20, 20);
+        g.drawRect(150, 430, 20, 20);
+
+        g.setFont(new Font("default", Font.PLAIN, 15));
+        g.drawString("Robot location", 25, 415);
+        g.drawString("Robot path", 25, 445);
+        g.drawString("Unvisited product", 175, 415);
+        g.drawString("Fetched product", 175, 445);
+
+        // robot path, needs to be last
         if(path != null){
             g.setColor(this.guiTheme.getTheme().getGridPathColor());
+
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setStroke(new BasicStroke(pathWidth));
 
             for (int i = 0; i < path.size(); i++){
                 if(i == 0) continue;
                 GridPoint p1 = destinationPoints.get(path.get(i - 1));
                 GridPoint p2 = destinationPoints.get(path.get(i));
 
-                g.drawLine(((p1.getX() * gridSize) + marginLeft) - gridSize / 2,
+                g2d.drawLine(((p1.getX() * gridSize) + marginLeft) - gridSize / 2,
                         ((p1.getY() * gridSize) + marginTop) - gridSize / 2,
                         ((p2.getX() * gridSize) + marginLeft) - gridSize / 2,
                         ((p2.getY() * gridSize) + marginTop) - gridSize / 2);
             }
+
+            g2d.dispose();
         }
     }
 }

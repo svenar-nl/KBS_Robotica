@@ -1,6 +1,11 @@
 package nl.windesheim.ictm2f.util;
 
+import nl.windesheim.ictm2f.Main;
+import nl.windesheim.ictm2f.gui.GUIManager;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Logger {
@@ -45,7 +50,8 @@ public class Logger {
     }
 
     private static void log(String type, String message) {
-        log.add(String.format("[%s] %s", type, message));
+        log.add(String.format("%s [%s] %s", getPrefix(), type, message));
+
         if (logToSysOut) {
             switch (type.toLowerCase()) {
                 default:
@@ -59,6 +65,8 @@ public class Logger {
                     break;
             }
         }
+
+        GUIManager.getStatusPanel().repaint();
     }
 
     public static List<String> getLog() {
@@ -77,5 +85,11 @@ public class Logger {
         warning("Exception:");
         severe(exception.getMessage());
         warning("===-------------------------===");
+    }
+
+    public static String getPrefix(){
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        return String.format("%s >", formatter.format(date));
     }
 }

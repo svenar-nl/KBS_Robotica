@@ -2,21 +2,19 @@ package nl.windesheim.ictm2f.gui;
 
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
+import nl.windesheim.ictm2f.util.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class StatusPanel extends JPanel {
-    static int marginTop = 90;
+    static int marginTop = 55;
     static int marginLeft = 0;
     static int width = 400;
     static int screenHeight = 400;
     static int height = 300;
 
     private String orderNumber = "testOrder";
-    private int logCount = 0;
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
@@ -56,20 +54,14 @@ public class StatusPanel extends JPanel {
         g.drawLine(0, marginTop + 25, width, marginTop + 25);
         g.drawLine(0, marginTop + 55, width, marginTop + 55);
 
-        addLog("test", g);
-        addLog("nog een test", g);
-    }
-
-    public void addLog(String message, Graphics g){
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        String txt = String.format("%s > %s", formatter.format(date), message);
-
+        // logs
         g.setColor(this.guiTheme.getTheme().getControlTextColor());
         g.setFont(new Font("default", Font.PLAIN, 12));
-        g.drawString(txt, 2, (marginTop + 45) + (logCount * 12));
+        for (int i = 0; i < Logger.getLog().size(); i++){
+            String log = Logger.getLog().get(i);
 
-        logCount++;
+            g.drawString(log, 2, (marginTop + 70) + (i * 12));
+        }
     }
 
     public void setOrderNumber(String orderNumber) {

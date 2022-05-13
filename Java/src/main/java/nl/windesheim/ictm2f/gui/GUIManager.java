@@ -88,4 +88,7 @@ public class GUIManager extends JFrame implements MouseListener {
     public static ControlPanel getControlPanel() {
         return controlPanel;
     }
+    public static StatusPanel getStatusPanel() {
+        return statusPanel;
+    }
 }

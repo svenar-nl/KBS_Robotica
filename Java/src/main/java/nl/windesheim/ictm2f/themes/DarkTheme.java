@@ -63,4 +63,9 @@ public class DarkTheme implements ITheme {
     public Color getControlTextColor() {
         return Color.black;
     }
+
+    @Override
+    public Color getGridFetchedPointColor() {
+        return Color.ORANGE;
+    }
 }

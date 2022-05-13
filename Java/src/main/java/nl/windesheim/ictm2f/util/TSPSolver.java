@@ -12,10 +12,6 @@ public class TSPSolver {
     private double minTourCost = Double.POSITIVE_INFINITY;
     private boolean ranSolver = false;
 
-    public TSPSolver(double[][] distance) {
-        this(0, distance);
-    }
-
     public TSPSolver(int start, double[][] distance) {
         N = distance.length;
 

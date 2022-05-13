@@ -26,13 +26,15 @@ public class Solver {
 //        }
 //        Logger.info(String.format("GFG PATH: %s", r));
 
+        long start = System.currentTimeMillis();
+
         TSPSolver solver = new TSPSolver(0, CreateDistanceMap());
 
         this.resultPath = solver.getTour();
 
         pathLength = (int) solver.getTourCost();
 
-        Logger.info("finished creating path");
+        Logger.info(String.format("finished creating path in: %sms", System.currentTimeMillis() - start));
     }
 
     // generate an array with all the distances between all the points, distance between itself is 0
@@ -77,6 +79,8 @@ public class Solver {
     }
 
     public void clearPath() {
-        this.resultPath.clear();
+        if(this.resultPath != null){
+            this.resultPath.clear();
+        }
     }
 }

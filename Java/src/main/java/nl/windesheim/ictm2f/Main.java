@@ -7,6 +7,7 @@ import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
 import nl.windesheim.ictm2f.util.OSManager;
+import nl.windesheim.ictm2f.util.Solver;
 
 public class Main {
 
@@ -15,6 +16,7 @@ public class Main {
     private static Main instance;
 
     private SerialManager serialManager;
+    private Solver solver;
     private GUIManager guiManager;
     private Splash splash;
 
@@ -29,6 +31,7 @@ public class Main {
         Logger.logToSysOut(true);
 
         this.serialManager = new SerialManager();
+        this.solver = new Solver();
 
         this.guiManager = new GUIManager(this.screenDimension);
         this.guiManager.setTitle("KBS Robotica");
@@ -44,6 +47,9 @@ public class Main {
 
     public SerialManager getSerialManager() {
         return this.serialManager;
+    }
+    public Solver getSolver(){
+        return this.solver;
     }
 
     public static Main getInstance() {

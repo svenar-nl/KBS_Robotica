@@ -21,7 +21,7 @@ public class SerialConnectionManager extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private JButton connectionButton, btn0, btn1;
+    private JButton connectionButton, btn0, btn1, startButton;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension.getX(), 50);
@@ -48,6 +48,15 @@ public class SerialConnectionManager extends JPanel {
         this.connectionButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
         this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
+        this.startButton = new JButton("Start");
+        this.startButton.setBounds(650, 10, 120, 30);
+
+        this.startButton.setBorderPainted(false);
+        this.startButton.setFocusPainted(false);
+        this.startButton.setContentAreaFilled(true);
+        this.startButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.startButton.setForeground(this.guiTheme.getTheme().getTextColor());
+
         this.btn0 = new JButton("0");
         this.btn0.setBounds(480, 10, 60, 30);
         this.btn0.setBackground(this.guiTheme.getTheme().getBackgroundColor());
@@ -59,6 +68,7 @@ public class SerialConnectionManager extends JPanel {
 
         this.add(jComboBox);
         this.add(this.connectionButton);
+        this.add(this.startButton);
         this.add(this.btn0);
         this.add(this.btn1);
 
@@ -72,6 +82,18 @@ public class SerialConnectionManager extends JPanel {
                         Main.getInstance().getSerialManager().connect(jComboBox.getItemAt(jComboBox.getSelectedIndex()));
                     }
                     repaint();
+                } catch (SerialPortInvalidPortException ex) {
+                    Logger.exception(ex);
+                }
+            }
+        });
+
+        this.startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Main.getInstance().getSolver().SolveDynamic();
+                    GUIManager.getControlPanel().repaint();         // repain
                 } catch (SerialPortInvalidPortException ex) {
                     Logger.exception(ex);
                 }
@@ -136,7 +158,7 @@ public class SerialConnectionManager extends JPanel {
         g.setColor(this.guiTheme.getTheme().getTextColor());
 
         g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("Select device:", 10, this.screenDimension.getY() - 20);
+        g.drawString("Select device:", 20, this.screenDimension.getY() - 20);
 
         this.connectionButton.setText(Main.getInstance().getSerialManager().isConnected() ? "Disconnect" : "Connect");
     }

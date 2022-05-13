@@ -13,17 +13,19 @@ import java.awt.event.MouseListener;
 public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
-
-    private SerialConnectionManager scmPanel;
-    private ControlPanel controlPanel;
-    private boolean mouseDown = false;
+  
+    private static SerialConnectionManager scmPanel;
+    private static ControlPanel controlPanel;
+    private static StatusPanel statusPanel;
 
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
 
-        this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
-        this.controlPanel = new ControlPanel(350, this.guiTheme);
+        scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
+        controlPanel = new ControlPanel(350, this.guiTheme);
         controlPanel.addMouseListener(this);
+
+        statusPanel = new StatusPanel(this.guiTheme);
 
         this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
@@ -32,8 +34,9 @@ public class GUIManager extends JFrame implements MouseListener {
 
         this.setLayout(new FlowLayout());
 
-        this.add(this.scmPanel);
-        this.add(this.controlPanel);
+        this.add(scmPanel);
+        this.add(controlPanel);
+        this.add(statusPanel);
     }
 
     public void changeTheme(Theme theme) {
@@ -77,5 +80,16 @@ public class GUIManager extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public static SerialConnectionManager getSerialConnectionManager() {
+        return scmPanel;
+    }
+
+    public static ControlPanel getControlPanel() {
+        return controlPanel;
+    }
+    public static StatusPanel getStatusPanel() {
+        return statusPanel;
     }
 }

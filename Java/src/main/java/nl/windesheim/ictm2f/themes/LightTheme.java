@@ -25,18 +25,33 @@ public class LightTheme implements ITheme {
     }
 
     @Override
+    public Color getInfoTextColor() {
+        return new Color(52, 119, 174);
+    }
+
+    @Override
+    public Color getWarningTextColor() {
+        return new Color(174, 148, 52);
+    }
+
+    @Override
+    public Color getErrorTextColor() {
+        return new Color(174, 52, 52);
+    }
+
+    @Override
     public Color getGridLineColor() {
         return Color.gray;
     }
 
     @Override
     public Color getGridBackgroundColor() {
-        return Color.white;
+        return new Color(255, 255, 255);
     }
 
     @Override
     public Color getGridTextColor() {
-        return Color.lightGray;
+        return new Color(144, 144, 144);
     }
 
     @Override
@@ -51,17 +66,12 @@ public class LightTheme implements ITheme {
 
     @Override
     public Color getGridTitleColor() {
-        return Color.white;
+        return new Color(56, 56, 56);
     }
 
     @Override
     public Color getGridRobotColor() {
         return Color.cyan;
-    }
-
-    @Override
-    public Color getControlTextColor() {
-        return Color.black;
     }
 
     @Override

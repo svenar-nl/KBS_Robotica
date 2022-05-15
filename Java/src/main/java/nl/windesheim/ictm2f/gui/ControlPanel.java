@@ -153,7 +153,7 @@ public class ControlPanel extends JPanel {
         g.setColor(this.guiTheme.getTheme().getGridFetchedPointColor());
         g.fillRect(150, 430, 20, 20);
 
-        g.setColor(this.guiTheme.getTheme().getGridTextColor());
+        g.setColor(this.guiTheme.getTheme().getTextColor());
         g.drawRect(0, 400, 20, 20);
         g.drawRect(0, 430, 20, 20);
         g.drawRect(150, 400, 20, 20);

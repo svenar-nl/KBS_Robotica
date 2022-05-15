@@ -25,13 +25,28 @@ public class DarkTheme implements ITheme {
     }
 
     @Override
+    public Color getInfoTextColor() {
+        return new Color(172, 213, 254);
+    }
+
+    @Override
+    public Color getWarningTextColor() {
+        return new Color(254, 238, 172);
+    }
+
+    @Override
+    public Color getErrorTextColor() {
+        return new Color(254, 172, 172);
+    }
+
+    @Override
     public Color getGridLineColor() {
         return Color.gray;
     }
 
     @Override
     public Color getGridBackgroundColor() {
-        return Color.white;
+        return new Color(30, 30, 30);
     }
 
     @Override
@@ -57,11 +72,6 @@ public class DarkTheme implements ITheme {
     @Override
     public Color getGridRobotColor() {
         return Color.cyan;
-    }
-
-    @Override
-    public Color getControlTextColor() {
-        return Color.black;
     }
 
     @Override

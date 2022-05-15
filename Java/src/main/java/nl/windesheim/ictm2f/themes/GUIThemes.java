@@ -6,7 +6,7 @@ public class GUIThemes {
         DARK
     }
 
-    private Theme theme = Theme.LIGHT;
+    private Theme theme = Theme.DARK;
 
     public void setTheme(Theme theme) {
         this.theme = theme;

@@ -2,7 +2,6 @@ package nl.windesheim.ictm2f;
 
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.gui.Splash;
-import nl.windesheim.ictm2f.gui.StatusPanel;
 import nl.windesheim.ictm2f.serial.SerialManager;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;

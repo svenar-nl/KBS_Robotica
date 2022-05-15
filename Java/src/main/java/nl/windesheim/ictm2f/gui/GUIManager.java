@@ -8,8 +8,6 @@ import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Set;
@@ -17,11 +15,12 @@ import java.util.Set;
 public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
-
+  
     private static SerialConnectionManager scmPanel;
     private static ControlPanel controlPanel;
     private static StatusPanel statusPanel;
     private static SettingsFrame settings;
+    private boolean mouseDown;
 
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
@@ -40,9 +39,9 @@ public class GUIManager extends JFrame implements MouseListener {
 
         this.setLayout(new FlowLayout());
 
-        this.add(this.scmPanel);
-        this.add(this.controlPanel);
-        this.add(this.statusPanel);
+        this.add(scmPanel);
+        this.add(controlPanel);
+        this.add(statusPanel);
     }
 
     public void changeTheme(Theme theme) {
@@ -62,17 +61,20 @@ public class GUIManager extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        controlPanel.mouseClicked(e.getX(), e.getY());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (mouseDown) {
+            return;
+        }
+        mouseDown = true;
+        controlPanel.mouseClicked(e.getX(), e.getY());
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        mouseDown = false;
     }
 
     @Override

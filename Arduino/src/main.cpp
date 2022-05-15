@@ -3,7 +3,7 @@
 
 SerialManager serialManager = SerialManager();
 
-bool handleSerialInNumber(int number);
+bool handleSerialInNumber(long number);
 bool handleSerialInString(String text);
 
 String lastTextCommand = "";
@@ -18,7 +18,7 @@ void loop() {
   serialManager.update();
 
   if (serialManager.isAvailable()) {
-    int num = serialManager.getData().toInt();
+    long num = serialManager.getData().toInt();
     String text = serialManager.getData();
 
     if (isDigit(text.charAt(0))) {
@@ -31,7 +31,22 @@ void loop() {
   }
 }
 
-bool handleSerialInNumber(int number) {
+bool handleSerialInNumber(long number) {
+
+  if (lastTextCommand == "flash") {
+    Serial.println(String(number));
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(number);
+    digitalWrite(LED_BUILTIN, LOW);
+    return true;
+  } else {
+    if (number == 0) {
+      digitalWrite(LED_BUILTIN, LOW);
+    }
+    if (number == 1) {
+      digitalWrite(LED_BUILTIN, HIGH);
+    }
+  }
 
   return false;
 }
@@ -41,6 +56,16 @@ bool handleSerialInString(String text) {
   
   if (text == "ping") {
     return true;
+  }
+
+  if (text == "flash") {
+    Serial.println("wait@number");
+    return true;
+  }
+
+  if (text == "owo") {
+    Serial.println("uwu");
+    return false;
   }
 
   return false;

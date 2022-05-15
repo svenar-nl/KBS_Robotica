@@ -2,12 +2,14 @@ package nl.windesheim.ictm2f.gui;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
+import nl.windesheim.ictm2f.util.GridArray;
 import nl.windesheim.ictm2f.util.GridPoint;
 import nl.windesheim.ictm2f.util.Solver;
 
@@ -20,6 +22,9 @@ public class ControlPanel extends JPanel {
     static int textPaddingLeft = 5;
     static int circleSize = 25;
     static int pathWidth = 5;
+    int[] usedNames = new int[25];
+
+    private GridArray storage;
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
@@ -41,7 +46,6 @@ public class ControlPanel extends JPanel {
         // translate mouse coords to cell
         int cellX = ((x - marginLeft) / gridSize) + 1;
         int cellY = ((y - marginTop) / gridSize) + 1;
-        String pointName = Integer.toString(destinationPoints.size() + 1);
 
         // run some checks to see if the point can exist
         if(cellX > 5 || cellY > 5 || cellY < 0 || cellX < 0){
@@ -52,13 +56,24 @@ public class ControlPanel extends JPanel {
                 solver.removePoint(p);
                 solver.clearPath();
                 solver.SolveDynamic();
+
+                usedNames[Integer.parseInt(p.getName()) - 1] = 0;   // de allocate name
+
                 repaint();
                 return;
             }
         }
 
         // add point to list
-        solver.addPoint(new GridPoint(pointName, cellX, cellY));
+        int name = 0;
+        for(int i = 0; i < usedNames.length; i++){
+            if(usedNames[i] == 0){
+                name = i + 1;
+                usedNames[i] = 1;
+                break;
+            }
+        }
+        solver.addPoint(new GridPoint(String.valueOf(name), cellX, cellY));
 
         // solve
         solver.SolveDynamic();

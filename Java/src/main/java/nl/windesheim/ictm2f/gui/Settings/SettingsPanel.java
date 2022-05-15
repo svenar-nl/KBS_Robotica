@@ -1,6 +1,5 @@
 package nl.windesheim.ictm2f.gui.Settings;
 
-import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.themes.DarkTheme;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
@@ -11,13 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SettingsPanel extends JPanel {
-    private Dimension startDimensions;
     private SettingsFrame parentFrame;
     private GUIThemes currentTheme;
     private JButton ThemeToggle;
 
     public SettingsPanel(Dimension startDimensions, SettingsFrame parentFrame, GUIThemes currentTheme) {
-        this.startDimensions = startDimensions;
         this.parentFrame = parentFrame;
         this.currentTheme = currentTheme;
         this.setLayout(new GridLayout(5,1));

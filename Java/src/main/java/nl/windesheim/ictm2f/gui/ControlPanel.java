@@ -2,14 +2,12 @@ package nl.windesheim.ictm2f.gui;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
-import nl.windesheim.ictm2f.util.GridArray;
 import nl.windesheim.ictm2f.util.GridPoint;
 import nl.windesheim.ictm2f.util.Solver;
 
@@ -23,8 +21,6 @@ public class ControlPanel extends JPanel {
     static int circleSize = 25;
     static int pathWidth = 5;
     int[] usedNames = new int[25];
-
-    private GridArray storage;
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;

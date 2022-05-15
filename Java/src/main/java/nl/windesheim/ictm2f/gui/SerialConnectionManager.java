@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import nl.windesheim.ictm2f.Main;
-import nl.windesheim.ictm2f.gui.Settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.ITheme;
 import nl.windesheim.ictm2f.util.Dimension;

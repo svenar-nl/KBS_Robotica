@@ -10,7 +10,6 @@ import nl.windesheim.ictm2f.util.Dimension;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Set;
 
 public class GUIManager extends JFrame implements MouseListener {
 

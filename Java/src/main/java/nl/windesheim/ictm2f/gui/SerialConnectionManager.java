@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -67,7 +69,8 @@ public class SerialConnectionManager extends JPanel {
         this.btn1.setBackground(this.guiTheme.getTheme().getBackgroundColor());
         this.btn1.setForeground(this.guiTheme.getTheme().getTextColor());
 
-        this.settingsButton = new JButton("Se");
+        Icon settingsIcon = new ImageIcon(getClass().getResource("/gear.png"));
+        this.settingsButton = new JButton(settingsIcon);
         this.settingsButton.setBounds(750,10,30,30);
 
         this.settingsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());

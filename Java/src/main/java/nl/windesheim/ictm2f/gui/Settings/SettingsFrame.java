@@ -2,26 +2,20 @@ package nl.windesheim.ictm2f.gui.Settings;
 
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.themes.GUIThemes;
-import nl.windesheim.ictm2f.util.Dimension;
+
+import java.awt.Dimension;
 
 import javax.swing.*;
 
 public class SettingsFrame extends JFrame {
     private GUIThemes currentTheme;
-    private Dimension startDimension = new Dimension(500,500);
+    private Dimension startDimension = new Dimension(380, 500);
     private SettingsPanel panel;
     private GUIManager manager;
-
 
     public SettingsFrame(GUIThemes currentTheme, GUIManager manager) {
         this.currentTheme = currentTheme;
         this.manager = manager;
-        drawFrame(this.startDimension);
-    }
-
-    public SettingsFrame(GUIThemes currentTheme, Dimension startDimension) {
-        this.currentTheme = currentTheme;
-        this.startDimension = startDimension;
         drawFrame(this.startDimension);
     }
 
@@ -30,10 +24,18 @@ public class SettingsFrame extends JFrame {
     }
 
     public void drawFrame(Dimension startDimension) {
-        this.setSize(startDimension.getX(),startDimension.getY());
+        this.setPreferredSize(startDimension);
+        this.setSize((int) startDimension.getWidth(), (int) startDimension.getHeight());
         this.setTitle("Settings");
         this.setLocationRelativeTo(null);
-        this.panel = new SettingsPanel(this.startDimension,this,currentTheme);
-        this.add(this.panel);
+    }
+
+    public void display() {
+        this.setVisible(true);
+
+        if (this.panel == null) {
+            this.panel = new SettingsPanel(this.getPreferredSize(), this, currentTheme);
+            this.add(this.panel);
+        }
     }
 }

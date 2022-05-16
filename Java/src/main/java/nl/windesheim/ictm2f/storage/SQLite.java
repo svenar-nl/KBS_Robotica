@@ -117,7 +117,7 @@ public class SQLite implements IDatabase {
             ex.printStackTrace();
         }
 
-        Logger.info(String.format("Loaded database data in %sms",
+        Logger.info(String.format("Loaded data from database in %sms",
                 String.valueOf(Duration.between(startTime, Instant.now()).toMillis())));
 
         return data;
@@ -161,7 +161,7 @@ public class SQLite implements IDatabase {
             e.printStackTrace();
         }
 
-        Logger.info(String.format("Saved database data in %sms",
+        Logger.info(String.format("Saved data to database in %sms",
                 String.valueOf(Duration.between(startTime, Instant.now()).toMillis())));
     }
 

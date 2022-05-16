@@ -140,7 +140,7 @@ public class SerialConnectionManager extends JPanel {
         this.settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUIManager.getSettings().setVisible(true);
+                GUIManager.getSettings().display();
             }
         });
 

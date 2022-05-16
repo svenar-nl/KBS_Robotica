@@ -2,8 +2,18 @@ package nl.windesheim.ictm2f.themes;
 
 public class GUIThemes {
     public enum Theme {
-        LIGHT,
-        DARK
+        LIGHT("Light"),
+        DARK("Dark");
+
+        private String name;
+
+        private Theme(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
     }
 
     private Theme theme = Theme.DARK;
@@ -23,5 +33,18 @@ public class GUIThemes {
             default:
                 return null;
         }
+    }
+
+    public static Theme getTheme(String name) {
+        for (Theme theme : Theme.values()) {
+            if (theme.getName().equalsIgnoreCase(name)) {
+                return theme;
+            }
+        }
+        return null;
+    }
+
+    public String getThemeName() {
+        return this.theme.getName();
     }
 }

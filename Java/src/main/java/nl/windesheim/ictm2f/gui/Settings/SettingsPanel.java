@@ -52,6 +52,8 @@ public class SettingsPanel extends JPanel {
                 } else {
                     parentFrame.getManager().changeTheme(GUIThemes.Theme.LIGHT);
                 }
+
+                Main.getInstance().getCachedData().set("theme", Main.getInstance().getGuiManager().getTheme().getThemeName());
                 buttonToggleTheme
                         .setIcon(currentTheme.getTheme() instanceof LightTheme ? iconThemeDark : iconThemeLight);
                 currentTheme = Main.getInstance().getGuiManager().getTheme();

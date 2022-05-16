@@ -77,6 +77,13 @@ public class Main {
         }
         this.cachedData.setData(this.database.load());
 
+        if (!this.cachedData.hasKey("theme")) {
+            this.guiManager.changeTheme(GUIThemes.Theme.DARK);
+            this.cachedData.set("theme", this.guiManager.getTheme().getThemeName());
+            this.database.save(this.cachedData.getData());
+        }
+        this.guiManager.changeTheme(GUIThemes.getTheme(this.cachedData.getString("theme")));
+
         this.splash.close();
     }
 

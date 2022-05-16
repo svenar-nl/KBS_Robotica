@@ -73,4 +73,8 @@ public class CachedData {
     public void setData(Map<String, Object> data) {
         this.data = data;
     }
+
+    public boolean hasKey(String key) {
+        return this.data.containsKey(key);
+    }
 }

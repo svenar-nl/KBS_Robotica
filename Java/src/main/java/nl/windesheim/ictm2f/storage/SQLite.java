@@ -147,6 +147,8 @@ public class SQLite implements IDatabase {
                 stmt.setString(1, key);
                 stmt.setString(2, value);
                 stmt.setString(3, valueType);
+                stmt.setString(4, value);
+                stmt.setString(5, valueType);
                 stmt.addBatch();
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -44,26 +44,34 @@ public class StatusPanel extends JPanel {
         g.drawString("Status", (width / 2) - 50, marginTop - 10);
 
         String fulltext = String.format("Order: %s", orderNumber);
-        g.setColor(this.guiTheme.getTheme().getControlTextColor());
+        g.setColor(this.guiTheme.getTheme().getTextColor());
         g.setFont(new Font("default", Font.PLAIN, 20));
         g.drawString(fulltext, (width / 2) - 76, marginTop + 20);
         g.drawString("Logs:", (width / 2) - 30, marginTop + 50);
 
         // dividers
-        g.setColor(this.guiTheme.getTheme().getControlTextColor());
+        g.setColor(this.guiTheme.getTheme().getTextColor());
         g.drawLine(0, marginTop + 25, width, marginTop + 25);
         g.drawLine(0, marginTop + 55, width, marginTop + 55);
 
         // logs
-        g.setColor(this.guiTheme.getTheme().getControlTextColor());
         g.setFont(new Font("default", Font.PLAIN, 12));
 
         int logCount = 0;
         for (int i = Logger.getLog().size(); i > 0; i--){
             if(logCount == 20) return;
-            String log = Logger.getLog().get(i - 1);
+            String line = Logger.getLog().get(i - 1);
 
-            g.drawString(log, 2, (marginTop + 70) + (logCount * 12));
+            if (line.toLowerCase().contains("[info]")) {
+                g.setColor(this.guiTheme.getTheme().getInfoTextColor());
+            } else if (line.toLowerCase().contains("[warn]")) {
+                g.setColor(this.guiTheme.getTheme().getWarningTextColor());
+            } else if (line.toLowerCase().contains("[severe]")) {
+                g.setColor(this.guiTheme.getTheme().getErrorTextColor());
+            } else {
+                g.setColor(this.guiTheme.getTheme().getTextColor());
+            }
+            g.drawString(line, 2, (marginTop + 70) + (logCount * 12));
 
             logCount++;
         }

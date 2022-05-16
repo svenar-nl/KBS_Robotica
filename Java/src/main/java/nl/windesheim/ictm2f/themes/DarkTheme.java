@@ -25,47 +25,62 @@ public class DarkTheme implements ITheme {
     }
 
     @Override
+    public Color getInfoTextColor() {
+        return new Color(172, 213, 254);
+    }
+
+    @Override
+    public Color getWarningTextColor() {
+        return new Color(254, 238, 172);
+    }
+
+    @Override
+    public Color getErrorTextColor() {
+        return new Color(254, 172, 172);
+    }
+
+    @Override
     public Color getGridLineColor() {
-        return Color.gray;
+        return new Color(128, 128, 128);
     }
 
     @Override
     public Color getGridBackgroundColor() {
-        return Color.white;
+        return new Color(30, 30, 30);
     }
 
     @Override
     public Color getGridTextColor() {
-        return Color.lightGray;
+        return new Color(54, 54, 54);
     }
 
     @Override
     public Color getGridPointColor() {
-        return Color.red;
+        return new Color(187, 15, 15);
+    }
+
+    @Override
+    public Color getGridPointTextColor() {
+        return new Color(235, 235, 235);
     }
 
     @Override
     public Color getGridPathColor() {
-        return Color.green;
-    }
-
-    @Override
-    public Color getGridTitleColor() {
-        return Color.white;
-    }
-
-    @Override
-    public Color getGridRobotColor() {
-        return Color.cyan;
-    }
-
-    @Override
-    public Color getControlTextColor() {
-        return Color.black;
+        return new Color(76, 182, 32);
     }
 
     @Override
     public Color getGridFetchedPointColor() {
-        return Color.ORANGE;
+        return new Color(115, 33, 234);
+    }
+
+    @Override
+    public Color getGridTitleColor() {
+        return new Color(235, 235, 235);
+    }
+
+    @Override
+    public Color getGridRobotColor() {
+        return new Color(0, 197, 201);
     }
 }

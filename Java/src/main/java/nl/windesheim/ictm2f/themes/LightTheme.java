@@ -25,47 +25,62 @@ public class LightTheme implements ITheme {
     }
 
     @Override
+    public Color getInfoTextColor() {
+        return new Color(52, 119, 174);
+    }
+
+    @Override
+    public Color getWarningTextColor() {
+        return new Color(174, 148, 52);
+    }
+
+    @Override
+    public Color getErrorTextColor() {
+        return new Color(174, 52, 52);
+    }
+
+    @Override
     public Color getGridLineColor() {
-        return Color.gray;
+        return new Color(128, 128, 128);
     }
 
     @Override
     public Color getGridBackgroundColor() {
-        return Color.white;
+        return new Color(255, 255, 255);
     }
 
     @Override
     public Color getGridTextColor() {
-        return Color.lightGray;
+        return new Color(196, 196, 196);
     }
 
     @Override
     public Color getGridPointColor() {
-        return Color.red;
+        return new Color(176, 0, 0);
+    }
+
+    @Override
+    public Color getGridPointTextColor() {
+        return new Color(235, 235, 235);
     }
 
     @Override
     public Color getGridPathColor() {
-        return Color.green;
-    }
-
-    @Override
-    public Color getGridTitleColor() {
-        return Color.white;
-    }
-
-    @Override
-    public Color getGridRobotColor() {
-        return Color.cyan;
-    }
-
-    @Override
-    public Color getControlTextColor() {
-        return Color.black;
+        return new Color(51, 182, 0);
     }
 
     @Override
     public Color getGridFetchedPointColor() {
-        return Color.ORANGE;
+        return new Color(147, 0, 242);
+    }
+
+    @Override
+    public Color getGridTitleColor() {
+        return new Color(56, 56, 56);
+    }
+
+    @Override
+    public Color getGridRobotColor() {
+        return new Color(0, 190, 190);
     }
 }

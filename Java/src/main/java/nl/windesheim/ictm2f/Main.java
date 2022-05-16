@@ -44,6 +44,7 @@ public class Main {
         this.guiManager = new GUIManager(this.screenDimension);
         this.guiManager.setTitle("KBS Robotica");
         this.guiManager.changeTheme(GUIThemes.Theme.DARK);
+        this.guiManager.setResizable(false);
         this.guiManager.display();
 
         Logger.info("Running on OS: " + OSManager.getOS());
@@ -101,5 +102,9 @@ public class Main {
 
     public static Main getInstance() {
         return instance;
+    }
+
+    public GUIManager getGuiManager() {
+        return guiManager;
     }
 }

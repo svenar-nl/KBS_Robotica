@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.themes.GUIThemes;
+import nl.windesheim.ictm2f.themes.ITheme;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
 
@@ -21,7 +24,7 @@ public class SerialConnectionManager extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private JButton connectionButton, btn0, btn1, startButton;
+    private JButton connectionButton, btn0, btn1, startButton, settingsButton;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension.getX(), 50);
@@ -49,7 +52,7 @@ public class SerialConnectionManager extends JPanel {
         this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
         this.startButton = new JButton("Start");
-        this.startButton.setBounds(650, 10, 120, 30);
+        this.startButton.setBounds(620, 10, 120, 30);
 
         this.startButton.setBorderPainted(false);
         this.startButton.setFocusPainted(false);
@@ -66,11 +69,22 @@ public class SerialConnectionManager extends JPanel {
         this.btn1.setBackground(this.guiTheme.getTheme().getBackgroundColor());
         this.btn1.setForeground(this.guiTheme.getTheme().getTextColor());
 
+        Icon settingsIcon = new ImageIcon(getClass().getResource("/gear.png"));
+        this.settingsButton = new JButton(settingsIcon);
+        this.settingsButton.setBounds(750,10,30,30);
+
+        this.settingsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.settingsButton.setForeground(this.guiTheme.getTheme().getTextColor());
+        this.settingsButton.setBorderPainted(false);
+        this.settingsButton.setFocusPainted(false);
+        this.settingsButton.setContentAreaFilled(true);
+
         this.add(jComboBox);
         this.add(this.connectionButton);
         this.add(this.startButton);
         this.add(this.btn0);
         this.add(this.btn1);
+        this.add(this.settingsButton);
 
         this.connectionButton.addActionListener(new ActionListener() {
             @Override
@@ -123,6 +137,13 @@ public class SerialConnectionManager extends JPanel {
             }
         });
 
+        this.settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GUIManager.getSettings().setVisible(true);
+            }
+        });
+
         this.btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,6 +165,10 @@ public class SerialConnectionManager extends JPanel {
                 }
             }
         });
+    }
+
+    public ITheme getTheme() {
+        return this.guiTheme.getTheme();
     }
 
     @Override

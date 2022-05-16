@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui;
 
 import javax.swing.*;
 
+import nl.windesheim.ictm2f.gui.Settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;
@@ -17,6 +18,7 @@ public class GUIManager extends JFrame implements MouseListener {
     private static SerialConnectionManager scmPanel;
     private static ControlPanel controlPanel;
     private static StatusPanel statusPanel;
+    private static SettingsFrame settings;
     private boolean mouseDown;
 
     public GUIManager(Dimension screenDimension) {
@@ -27,6 +29,7 @@ public class GUIManager extends JFrame implements MouseListener {
         controlPanel.addMouseListener(this);
 
         statusPanel = new StatusPanel(this.guiTheme);
+        settings = new SettingsFrame(this.guiTheme,this);
 
         this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
@@ -93,4 +96,5 @@ public class GUIManager extends JFrame implements MouseListener {
     public static StatusPanel getStatusPanel() {
         return statusPanel;
     }
+    public static SettingsFrame getSettings() { return settings; }
 }

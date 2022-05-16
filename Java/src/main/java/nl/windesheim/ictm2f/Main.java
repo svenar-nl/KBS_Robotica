@@ -3,6 +3,11 @@ package nl.windesheim.ictm2f;
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.gui.Splash;
 import nl.windesheim.ictm2f.serial.SerialManager;
+import nl.windesheim.ictm2f.storage.CachedData;
+import nl.windesheim.ictm2f.storage.ConfigManager;
+import nl.windesheim.ictm2f.storage.IDatabase;
+import nl.windesheim.ictm2f.storage.SQLite;
+import nl.windesheim.ictm2f.storage.MySQL;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
@@ -19,6 +24,9 @@ public class Main {
     private Solver solver;
     private GUIManager guiManager;
     private Splash splash;
+    private CachedData cachedData;
+    private IDatabase database;
+    private ConfigManager configManager;
 
     public static void main(String[] args) {
         instance = new Main();
@@ -42,14 +50,53 @@ public class Main {
         Logger.info(String.format("Found %s serial port%s", this.serialManager.getAvailablePorts().size(),
                 this.serialManager.getAvailablePorts().size() == 1 ? "" : "s"));
 
+        this.configManager = new ConfigManager();
+        this.cachedData = new CachedData();
+
+        switch (this.configManager.getStorageMethod().toLowerCase()) {
+            case "mysql":
+                this.database = new MySQL();
+                break;
+
+            case "sqlite":
+                this.database = new SQLite();
+                break;
+
+            default:
+                Logger.severe(
+                        String.format("Unknown DB type: %s. Using SQLite", this.configManager.getStorageMethod()));
+                this.database = new SQLite();
+                break;
+        }
+        Logger.info(String.format("Loading database (%s)...", this.database.getType()));
+        if (this.database.connect()) {
+            Logger.info("Database connected!");
+        } else {
+            System.exit(-1);
+        }
+        this.cachedData.setData(this.database.load());
+
         this.splash.close();
     }
 
     public SerialManager getSerialManager() {
         return this.serialManager;
     }
-    public Solver getSolver(){
+
+    public Solver getSolver() {
         return this.solver;
+    }
+
+    public CachedData getCachedData() {
+        return this.cachedData;
+    }
+
+    public IDatabase getDatabase() {
+        return this.database;
+    }
+
+    public ConfigManager getConfigManager() {
+        return this.configManager;
     }
 
     public static Main getInstance() {

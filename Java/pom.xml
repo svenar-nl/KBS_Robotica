@@ -11,12 +11,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<src.dir>src/main/java</src.dir>
 		<rsc.dir>src/main/resources</rsc.dir>
+		<output.dir>target/</output.dir>
 		<shade.basepattern>nl.windesheim.lib</shade.basepattern>
+		<main.class>nl.windesheim.ictm2f.Main</main.class>
 	</properties>
 
 	<build>
-		<defaultGoal>clean compile package shade:shade</defaultGoal>
-		<finalName>${project.name}</finalName>
+		<defaultGoal>clean compile package assembly:single</defaultGoal>
+		<finalName>${project.name}-${project.version}</finalName>
 		<sourceDirectory>${src.dir}</sourceDirectory>
 		<resources>
 			<resource>
@@ -38,59 +40,29 @@
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-shade-plugin</artifactId>
-					<version>3.1.0</version>
+					<artifactId>maven-assembly-plugin</artifactId>
 					<configuration>
-						<minimizeJar>true</minimizeJar>
-						<createSourcesJar>false</createSourcesJar>
-						<shadeSourcesContent>false</shadeSourcesContent>
-						<createDependencyReducedPom>false</createDependencyReducedPom>
-						<shadedArtifactAttached>false</shadedArtifactAttached>
-						<filters>
-							<filter>
-								<artifact>*:*</artifact>
-								<excludes>
-									<exclude>build.properties</exclude>
-								</excludes>
-							</filter>
-						</filters>
-						<artifactSet>
-							<includes>
-								<include>com.fazecast:jSerialComm</include>
-							</includes>
-						</artifactSet>
-						<relocations>
-							<relocation>
-								<pattern>jSerialComm</pattern>
-								<shadedPattern>${shade.basepattern}.jSerialComm</shadedPattern>
-							</relocation>
-						</relocations>
-						<dependencyReducedPomLocation>target/reduced-pom.xml</dependencyReducedPomLocation>
+						<archive>
+							<manifest>
+								<mainClass>${main.class}</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<appendAssemblyId>false</appendAssemblyId>
+						<attach>false</attach>
+						<outputDirectory>${output.dir}</outputDirectory>
+						<finalName>${project.name}</finalName>
 					</configuration>
 					<executions>
 						<execution>
 							<phase>package</phase>
 							<goals>
-								<goal>shade</goal>
+								<goal>single</goal>
 							</goals>
-
 						</execution>
 					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.3.1</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<classpathPrefix>lib/</classpathPrefix>
-								<mainClass>nl.windesheim.ictm2f.Main</mainClass>
-							</manifest>
-						</archive>
-					</configuration>
 				</plugin>
 
 			</plugins>
@@ -109,6 +81,18 @@
 			<groupId>com.fazecast</groupId>
 			<artifactId>jSerialComm</artifactId>
 			<version>[2.0.0,3.0.0)</version>
-		  </dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.26</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.36.0.3</version>
+			<type>jar</type>
+		</dependency>
 	</dependencies>
 </project>

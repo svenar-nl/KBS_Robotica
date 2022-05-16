@@ -43,7 +43,6 @@ public class Solver {
         TSPSolver solver = new TSPSolver(0, CreateDistanceMap());
 
         this.resultPath = solver.getTour();
-        System.out.println(this.resultPath);
 
         pathLength = (int) solver.getTourCost();
 

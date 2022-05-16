@@ -41,7 +41,7 @@ public class LightTheme implements ITheme {
 
     @Override
     public Color getGridLineColor() {
-        return Color.gray;
+        return new Color(128, 128, 128);
     }
 
     @Override
@@ -51,17 +51,27 @@ public class LightTheme implements ITheme {
 
     @Override
     public Color getGridTextColor() {
-        return new Color(144, 144, 144);
+        return new Color(196, 196, 196);
     }
 
     @Override
     public Color getGridPointColor() {
-        return Color.red;
+        return new Color(176, 0, 0);
+    }
+
+    @Override
+    public Color getGridPointTextColor() {
+        return new Color(235, 235, 235);
     }
 
     @Override
     public Color getGridPathColor() {
-        return Color.green;
+        return new Color(51, 182, 0);
+    }
+
+    @Override
+    public Color getGridFetchedPointColor() {
+        return new Color(147, 0, 242);
     }
 
     @Override
@@ -71,11 +81,6 @@ public class LightTheme implements ITheme {
 
     @Override
     public Color getGridRobotColor() {
-        return Color.cyan;
-    }
-
-    @Override
-    public Color getGridFetchedPointColor() {
-        return Color.ORANGE;
+        return new Color(0, 190, 190);
     }
 }

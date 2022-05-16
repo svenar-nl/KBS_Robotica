@@ -15,8 +15,9 @@ public interface ITheme {
     public Color getGridBackgroundColor();
     public Color getGridTextColor();
     public Color getGridPointColor();
+    public Color getGridPointTextColor();
     public Color getGridPathColor();
+    public Color getGridFetchedPointColor();
     public Color getGridTitleColor();
     public Color getGridRobotColor();
-    public Color getGridFetchedPointColor();
 }

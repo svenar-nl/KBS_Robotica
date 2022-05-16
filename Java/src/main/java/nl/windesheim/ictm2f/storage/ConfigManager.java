@@ -93,4 +93,8 @@ public class ConfigManager {
     public String getStorageMethod() {
         return this.storageMethod;
     }
+
+    public void setStorageMethod(String storageMethod) {
+        this.storageMethod = storageMethod;
+    }
 }

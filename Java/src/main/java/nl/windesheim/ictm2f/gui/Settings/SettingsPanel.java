@@ -21,10 +21,13 @@ public class SettingsPanel extends JPanel {
     private JButton buttonToggleTheme, buttonSaveSettings;
     private JComboBox<String> selectStorage;
     private Icon iconThemeLight, iconThemeDark;
+    private boolean saveQueued;
 
     public SettingsPanel(Dimension startDimensions, SettingsFrame parentFrame, GUIThemes currentTheme) {
         this.parentFrame = parentFrame;
         this.currentTheme = currentTheme;
+        this.saveQueued = false;
+
         this.setLayout(null);
         this.setPreferredSize(startDimensions);
         this.setSize(startDimensions);
@@ -68,6 +71,7 @@ public class SettingsPanel extends JPanel {
                     parentFrame.getManager().changeTheme(GUIThemes.Theme.LIGHT);
                 }
 
+                saveQueued = true;
                 Main.getInstance().getCachedData().set("theme",
                         Main.getInstance().getGuiManager().getTheme().getThemeName());
                 buttonToggleTheme
@@ -81,10 +85,17 @@ public class SettingsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
-
-                Main.getInstance().getConfigManager().setStorageMethod(selectStorage.getItemAt(selectStorage.getSelectedIndex()));
                 Main.getInstance().getConfigManager().save();
                 parentFrame.dispose();
+            }
+        });
+
+        this.selectStorage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.getInstance().getConfigManager()
+                        .setStorageMethod(selectStorage.getItemAt(selectStorage.getSelectedIndex()));
+                saveQueued = true;
             }
         });
     }
@@ -97,8 +108,13 @@ public class SettingsPanel extends JPanel {
 
         this.buttonToggleTheme.setBackground(new Color(0, 0, 0, 0));
 
-        this.buttonSaveSettings.setBackground(currentTheme.getTheme().getAltBackgroundColor());
-        this.buttonSaveSettings.setForeground(currentTheme.getTheme().getAltTextColor());
+        this.buttonSaveSettings.setBackground(this.saveQueued ? currentTheme.getTheme().getGridPathColor()
+                : currentTheme.getTheme().getAltBackgroundColor());
+        this.buttonSaveSettings.setForeground(this.saveQueued
+                ? (this.currentTheme.getTheme() instanceof LightTheme
+                        ? this.currentTheme.getTheme().getAltTextColor()
+                        : this.currentTheme.getTheme().getAltBackgroundColor())
+                : this.currentTheme.getTheme().getAltTextColor());
 
         this.storagelabel.setForeground(this.currentTheme.getTheme().getTextColor());
         this.selectStorage.setBackground(this.currentTheme.getTheme().getBackgroundColor());

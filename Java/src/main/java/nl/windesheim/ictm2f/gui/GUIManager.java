@@ -2,7 +2,7 @@ package nl.windesheim.ictm2f.gui;
 
 import javax.swing.*;
 
-import nl.windesheim.ictm2f.gui.Settings.SettingsFrame;
+import nl.windesheim.ictm2f.gui.settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;

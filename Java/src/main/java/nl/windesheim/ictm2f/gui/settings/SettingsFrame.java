@@ -1,4 +1,4 @@
-package nl.windesheim.ictm2f.gui.Settings;
+package nl.windesheim.ictm2f.gui.settings;
 
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.themes.GUIThemes;

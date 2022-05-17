@@ -15,21 +15,21 @@ public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
 
-    private static SerialConnectionManager scmPanel;
-    private static ControlPanel controlPanel;
-    private static StatusPanel statusPanel;
-    private static SettingsFrame settings;
+    private SerialConnectionManager scmPanel;
+    private ControlPanel controlPanel;
+    private StatusPanel statusPanel;
+    private SettingsFrame settings;
     private boolean mouseDown;
 
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
 
-        scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
-        controlPanel = new ControlPanel(350, this.guiTheme);
-        controlPanel.addMouseListener(this);
+        this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
+        this.controlPanel = new ControlPanel(350, this.guiTheme);
+        this.controlPanel.addMouseListener(this);
 
-        statusPanel = new StatusPanel(this.guiTheme);
-        settings = new SettingsFrame(this.guiTheme, this);
+        this.statusPanel = new StatusPanel(this.guiTheme);
+        this.settings = new SettingsFrame(this.guiTheme, this);
 
         this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
@@ -86,19 +86,19 @@ public class GUIManager extends JFrame implements MouseListener {
 
     }
 
-    public static SerialConnectionManager getSerialConnectionManager() {
+    public SerialConnectionManager getSerialConnectionManager() {
         return scmPanel;
     }
 
-    public static ControlPanel getControlPanel() {
+    public ControlPanel getControlPanel() {
         return controlPanel;
     }
 
-    public static StatusPanel getStatusPanel() {
+    public StatusPanel getStatusPanel() {
         return statusPanel;
     }
 
-    public static SettingsFrame getSettings() {
+    public SettingsFrame getSettings() {
         return settings;
     }
 

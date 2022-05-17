@@ -96,68 +96,17 @@ public class SerialConnectionManager extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Main.getInstance().getSolver().SolveDynamic();
-                    GUIManager.getControlPanel().repaint(); // repain
+                    Main.getInstance().getGuiManager().getControlPanel().repaint(); // repaint panel
                 } catch (SerialPortInvalidPortException ex) {
                     Logger.exception(ex);
                 }
             }
         });
 
-        // this.btn0.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        // Main.getInstance().getSerialManager().write("0\r\n");
-
-        // if (Main.getInstance().getSerialManager().isConnected()) {
-        // try {
-        // byte[] readBuffer = new
-        // byte[Main.getInstance().getSerialManager().getPort().bytesAvailable()];
-        // int numRead =
-        // Main.getInstance().getSerialManager().getPort().readBytes(readBuffer,
-        // readBuffer.length);
-        // if (numRead > 0) {
-        // System.out.println(new String(readBuffer,
-        // StandardCharsets.UTF_8).substring(0, numRead - 2)
-        // + " (" + numRead + " bytes)");
-        // }
-        // } catch (NegativeArraySizeException nase) {
-        // Main.getInstance().getSerialManager().disconnect();
-        // Logger.warning("Serial device disconnected!");
-        // repaint();
-        // }
-        // }
-        // }
-        // });
-
-        // this.btn1.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        // Main.getInstance().getSerialManager().write("1\r\n");
-
-        // if (Main.getInstance().getSerialManager().isConnected()) {
-        // try {
-        // byte[] readBuffer = new
-        // byte[Main.getInstance().getSerialManager().getPort().bytesAvailable()];
-        // int numRead =
-        // Main.getInstance().getSerialManager().getPort().readBytes(readBuffer,
-        // readBuffer.length);
-        // if (numRead > 0) {
-        // System.out.println(new String(readBuffer,
-        // StandardCharsets.UTF_8).substring(0, numRead - 2)
-        // + " (" + numRead + " bytes)");
-        // }
-        // } catch (NegativeArraySizeException nase) {
-        // Main.getInstance().getSerialManager().disconnect();
-        // repaint();
-        // }
-        // }
-        // }
-        // });
-
         this.settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUIManager.getSettings().display();
+                Main.getInstance().getGuiManager().getSettings().display();
             }
         });
     }

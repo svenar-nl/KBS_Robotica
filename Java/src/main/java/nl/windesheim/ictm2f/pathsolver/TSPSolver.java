@@ -1,4 +1,4 @@
-package nl.windesheim.ictm2f.util;
+package nl.windesheim.ictm2f.pathsolver;
 
 
 import java.util.ArrayList;

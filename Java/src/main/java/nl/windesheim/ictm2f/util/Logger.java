@@ -1,7 +1,6 @@
 package nl.windesheim.ictm2f.util;
 
 import nl.windesheim.ictm2f.Main;
-import nl.windesheim.ictm2f.gui.GUIManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -7,10 +7,10 @@ import javax.swing.JPanel;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.gui.graphics.DirectionalLine;
+import nl.windesheim.ictm2f.pathsolver.Solver;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.GridPoint;
-import nl.windesheim.ictm2f.util.Solver;
 
 public class ControlPanel extends JPanel {
 

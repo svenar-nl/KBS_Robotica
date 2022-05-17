@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f;
 
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.gui.Splash;
+import nl.windesheim.ictm2f.pathsolver.Solver;
 import nl.windesheim.ictm2f.serial.SerialManager;
 import nl.windesheim.ictm2f.storage.CachedData;
 import nl.windesheim.ictm2f.storage.ConfigManager;
@@ -12,7 +13,6 @@ import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
 import nl.windesheim.ictm2f.util.OSManager;
-import nl.windesheim.ictm2f.util.Solver;
 
 public class Main {
 

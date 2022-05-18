@@ -29,9 +29,10 @@ public class ConfigManager {
     private String configFileName = "config.yml";
     private File configFile;
 
-    private String storageMethod = "SQLITE";
+    private Map<String, Object> data;
 
     public ConfigManager() {
+        this.data = new HashMap<>();
         load();
     }
 
@@ -51,7 +52,6 @@ public class ConfigManager {
             save();
         }
 
-        Map<String, Object> data = new HashMap<String, Object>();
         try {
             InputStream inputStream = new FileInputStream(this.configFile);
             data = this.yaml.load(inputStream);
@@ -61,15 +61,11 @@ public class ConfigManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        if (data.containsKey("storage-method")) {
-            this.storageMethod = String.valueOf(data.get("storage-method"));
-        }
     }
 
     public void save() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("storage-method", storageMethod);
+        // Map<String, Object> data = new HashMap<>();
+        // data.put("storage-method", storageMethod);
 
         try {
             this.yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -90,11 +86,11 @@ public class ConfigManager {
         return this.baseDataPath;
     }
 
-    public String getStorageMethod() {
-        return this.storageMethod;
+    public Object get(String field) {
+        return this.data.get(field);
     }
 
-    public void setStorageMethod(String storageMethod) {
-        this.storageMethod = storageMethod;
+    public void set(String field, String value) {
+        this.data.put(field, value);
     }
 }

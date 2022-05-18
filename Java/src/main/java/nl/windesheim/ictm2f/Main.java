@@ -54,7 +54,7 @@ public class Main {
         this.configManager = new ConfigManager();
         this.cachedData = new CachedData();
 
-        switch (this.configManager.getStorageMethod().toLowerCase()) {
+        switch (String.valueOf(this.configManager.get("storage-method")).toLowerCase()) {
             case "mysql":
                 this.database = new MySQL();
                 break;
@@ -65,7 +65,8 @@ public class Main {
 
             default:
                 Logger.severe(
-                        String.format("Unknown DB type: %s. Using SQLite", this.configManager.getStorageMethod()));
+                        String.format("Unknown DB type: %s. Using SQLite",
+                                String.valueOf(this.configManager.get("storage-method"))));
                 this.database = new SQLite();
                 break;
         }

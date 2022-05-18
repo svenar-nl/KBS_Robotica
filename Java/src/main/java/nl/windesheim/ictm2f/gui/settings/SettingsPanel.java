@@ -5,6 +5,9 @@ import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.LightTheme;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
@@ -17,10 +20,11 @@ public class SettingsPanel extends JPanel {
 
     private SettingsFrame parentFrame;
     private GUIThemes currentTheme;
-    private JLabel storagelabel, titleMysqlSettings, lblMysqlHost, lblMysqlDB, lblMysqlUser, lblMysqlPass;
+    private JLabel storagelabel, titleMysqlSettings, lblMysqlHost, lblMysqlDB, lblMysqlUser, lblMysqlPass,
+            titleSQLiteSettings, lblSQLiteDBFile;
     private JButton buttonToggleTheme, buttonSaveSettings;
     private JComboBox<String> selectStorage;
-    private JTextField mysqlIP, mysqlPort, mysqlDatabase, mysqlUsername, mysqlPassword;
+    private JTextField mysqlIP, mysqlPort, mysqlDatabase, mysqlUsername, mysqlPassword, sqliteDBFile;
     private Icon iconThemeLight, iconThemeDark;
     private boolean saveQueued;
 
@@ -59,11 +63,23 @@ public class SettingsPanel extends JPanel {
         this.lblMysqlDB = new JLabel("DB");
         this.lblMysqlUser = new JLabel("User");
         this.lblMysqlPass = new JLabel("Pass");
-        this.mysqlIP = new JTextField("127.0.0.1");
-        this.mysqlPort = new JTextField("3306");
-        this.mysqlDatabase = new JTextField("db");
-        this.mysqlUsername = new JTextField("username");
-        this.mysqlPassword = new JTextField("password");
+        String configMysqlIP = String.valueOf(Main.getInstance().getConfigManager().get("mysql-connection-ip"));
+        String configMysqlPort = String.valueOf(Main.getInstance().getConfigManager().get("mysql-connection-port"));
+        String configMysqlDatabase = String
+                .valueOf(Main.getInstance().getConfigManager().get("mysql-connection-database"));
+        String configMysqlUsername = String
+                .valueOf(Main.getInstance().getConfigManager().get("mysql-connection-username"));
+        String configMysqlPassword = String
+                .valueOf(Main.getInstance().getConfigManager().get("mysql-connection-password"));
+        String configSQLiteDBFile = String
+                .valueOf(Main.getInstance().getConfigManager().get("sqlite-connection-dbfile"));
+        this.mysqlIP = new JTextField(!configMysqlIP.equalsIgnoreCase("null") ? configMysqlIP : "127.0.0.1");
+        this.mysqlPort = new JTextField(!configMysqlPort.equalsIgnoreCase("null") ? configMysqlPort : "3306");
+        this.mysqlDatabase = new JTextField(!configMysqlDatabase.equalsIgnoreCase("null") ? configMysqlDatabase : "db");
+        this.mysqlUsername = new JTextField(
+                !configMysqlUsername.equalsIgnoreCase("null") ? configMysqlUsername : "username");
+        this.mysqlPassword = new JTextField(
+                !configMysqlPassword.equalsIgnoreCase("null") ? configMysqlPassword : "password");
 
         this.titleMysqlSettings.setBounds(30, 80, (int) startDimensions.getWidth() - 52, 20);
         this.lblMysqlHost.setBounds(10, 100, (int) startDimensions.getWidth() - 52, 20);
@@ -71,10 +87,19 @@ public class SettingsPanel extends JPanel {
         this.lblMysqlUser.setBounds(10, 160, (int) startDimensions.getWidth() - 52, 20);
         this.lblMysqlPass.setBounds(10, 190, (int) startDimensions.getWidth() - 52, 20);
         this.mysqlIP.setBounds(50, 100, (int) startDimensions.getWidth() / 3 - 10, 25);
-        this.mysqlPort.setBounds(50 + (int) startDimensions.getWidth() / 3, 100, (int) (startDimensions.getWidth() / 2 - startDimensions.getWidth() / 3), 25);
+        this.mysqlPort.setBounds(50 + (int) startDimensions.getWidth() / 3, 100,
+                (int) (startDimensions.getWidth() / 2 - startDimensions.getWidth() / 3), 25);
         this.mysqlDatabase.setBounds(50, 130, (int) startDimensions.getWidth() / 2, 25);
         this.mysqlUsername.setBounds(50, 160, (int) startDimensions.getWidth() / 2, 25);
         this.mysqlPassword.setBounds(50, 190, (int) startDimensions.getWidth() / 2, 25);
+
+        this.titleSQLiteSettings = new JLabel("SQLite connection settings");
+        this.lblSQLiteDBFile = new JLabel("DB file");
+        this.sqliteDBFile = new JTextField(!configSQLiteDBFile.equalsIgnoreCase("null") ? configMysqlIP : "database.db");
+
+        this.titleSQLiteSettings.setBounds(30, 80, (int) startDimensions.getWidth() - 52, 20);
+        this.lblSQLiteDBFile.setBounds(10, 100, (int) startDimensions.getWidth() - 52, 20);
+        this.sqliteDBFile.setBounds(60, 100, (int) startDimensions.getWidth() / 2 - 10, 25);
 
         this.add(this.buttonToggleTheme);
         this.add(this.buttonSaveSettings);
@@ -90,6 +115,16 @@ public class SettingsPanel extends JPanel {
         this.add(this.mysqlDatabase);
         this.add(this.mysqlUsername);
         this.add(this.mysqlPassword);
+        this.add(this.titleSQLiteSettings);
+        this.add(this.lblSQLiteDBFile);
+        this.add(this.sqliteDBFile);
+
+        Main.getInstance().getConfigManager().set("mysql-connection-ip", this.mysqlIP.getText());
+        Main.getInstance().getConfigManager().set("mysql-connection-port", this.mysqlPort.getText());
+        Main.getInstance().getConfigManager().set("mysql-connection-database", this.mysqlDatabase.getText());
+        Main.getInstance().getConfigManager().set("mysql-connection-username", this.mysqlUsername.getText());
+        Main.getInstance().getConfigManager().set("mysql-connection-password", this.mysqlPassword.getText());
+        Main.getInstance().getConfigManager().set("sqlite-connection-dbfile", this.sqliteDBFile.getText());
 
         setupListeners();
     }
@@ -127,20 +162,131 @@ public class SettingsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.getInstance().getConfigManager()
-                        .setStorageMethod(selectStorage.getItemAt(selectStorage.getSelectedIndex()));
+                        .set("storage-method", selectStorage.getItemAt(selectStorage.getSelectedIndex()));
                 saveQueued = true;
             }
         });
 
-        this.mysqlIP.addActionListener(new ActionListener() {
+        this.mysqlIP.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(((JTextField) e.getSource()).getText());
-                saveQueued = true;          
+            public void insertUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            private void update(DocumentEvent e) {
+                updateTextfield("mysql-connection-ip", mysqlIP.getText());
             }
 
         });
+
+        this.mysqlPort.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            private void update(DocumentEvent e) {
+                updateTextfield("mysql-connection-port", mysqlPort.getText());
+            }
+
+        });
+
+        this.mysqlDatabase.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            private void update(DocumentEvent e) {
+                updateTextfield("mysql-connection-database", mysqlDatabase.getText());
+            }
+
+        });
+
+        this.mysqlUsername.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            private void update(DocumentEvent e) {
+                updateTextfield("mysql-connection-username", mysqlUsername.getText());
+            }
+
+        });
+
+        this.mysqlPassword.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update(e);
+            }
+
+            private void update(DocumentEvent e) {
+                updateTextfield("mysql-connection-password", mysqlPassword.getText());
+            }
+
+        });
+    }
+
+    public void updateTextfield(String field, String value) {
+        System.out.println(field + ": " + value);
+        Main.getInstance().getConfigManager().set(field, value);
+        saveQueued = true;
     }
 
     @Override
@@ -178,8 +324,13 @@ public class SettingsPanel extends JPanel {
         this.mysqlUsername.setForeground(this.currentTheme.getTheme().getTextColor());
         this.mysqlPassword.setBackground(this.currentTheme.getTheme().getBackgroundColor());
         this.mysqlPassword.setForeground(this.currentTheme.getTheme().getTextColor());
+        this.titleSQLiteSettings.setForeground(this.currentTheme.getTheme().getTextColor());
+        this.lblSQLiteDBFile.setForeground(this.currentTheme.getTheme().getTextColor());
+        this.sqliteDBFile.setBackground(this.currentTheme.getTheme().getBackgroundColor());
+        this.sqliteDBFile.setForeground(this.currentTheme.getTheme().getTextColor());
 
         boolean mysqlVisible = selectStorage.getItemAt(selectStorage.getSelectedIndex()).equalsIgnoreCase("MySQL");
+        boolean sqliteVisible = selectStorage.getItemAt(selectStorage.getSelectedIndex()).equalsIgnoreCase("SQLite");
         this.titleMysqlSettings.setVisible(mysqlVisible);
         this.lblMysqlHost.setVisible(mysqlVisible);
         this.lblMysqlDB.setVisible(mysqlVisible);
@@ -190,5 +341,8 @@ public class SettingsPanel extends JPanel {
         this.mysqlDatabase.setVisible(mysqlVisible);
         this.mysqlUsername.setVisible(mysqlVisible);
         this.mysqlPassword.setVisible(mysqlVisible);
+        this.titleSQLiteSettings.setVisible(sqliteVisible);
+        this.lblSQLiteDBFile.setVisible(sqliteVisible);
+        this.sqliteDBFile.setVisible(sqliteVisible);
     }
 }

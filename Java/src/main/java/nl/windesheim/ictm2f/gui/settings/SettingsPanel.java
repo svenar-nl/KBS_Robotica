@@ -131,6 +131,16 @@ public class SettingsPanel extends JPanel {
                 saveQueued = true;
             }
         });
+
+        this.mysqlIP.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(((JTextField) e.getSource()).getText());
+                saveQueued = true;          
+            }
+
+        });
     }
 
     @Override

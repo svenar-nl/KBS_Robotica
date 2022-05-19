@@ -60,6 +60,11 @@ public class LightTheme implements ITheme {
     }
 
     @Override
+    public Color getGridStartPointColor() {
+        return new Color(130, 75, 15);
+    }
+
+    @Override
     public Color getGridPointTextColor() {
         return new Color(235, 235, 235);
     }

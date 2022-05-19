@@ -41,6 +41,9 @@ public class Main {
         this.serialManager = new SerialManager();
         this.solver = new Solver();
 
+        this.configManager = new ConfigManager();
+        this.cachedData = new CachedData();
+
         this.guiManager = new GUIManager(this.screenDimension);
         this.guiManager.setTitle("KBS Robotica");
         this.guiManager.changeTheme(GUIThemes.Theme.DARK);
@@ -50,9 +53,6 @@ public class Main {
         Logger.info("Running on OS: " + OSManager.getOS());
         Logger.info(String.format("Found %s serial port%s", this.serialManager.getAvailablePorts().size(),
                 this.serialManager.getAvailablePorts().size() == 1 ? "" : "s"));
-
-        this.configManager = new ConfigManager();
-        this.cachedData = new CachedData();
 
         switch (String.valueOf(this.configManager.get("storage-method")).toLowerCase()) {
             case "mysql":

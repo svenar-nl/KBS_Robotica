@@ -65,7 +65,9 @@ public class Logger {
             }
         }
 
-        Main.getInstance().getGuiManager().getStatusPanel().repaint(); // TODO: Shouldn't be done here!
+        if (Main.getInstance().getGuiManager() != null) {
+            Main.getInstance().getGuiManager().getStatusPanel().repaint(); // TODO: Shouldn't be done here!
+        }
     }
 
     public static List<String> getLog() {

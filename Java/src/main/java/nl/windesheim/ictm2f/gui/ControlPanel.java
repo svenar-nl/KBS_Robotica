@@ -141,8 +141,10 @@ public class ControlPanel extends JPanel {
         // Draw points
         g.setFont(new Font("default", Font.PLAIN, 15));
 
+        int pointIndex = 0;
         for (GridPoint p : solver.getPoints()) {
-            g.setColor(this.guiTheme.getTheme().getGridPointColor());
+            g.setColor(pointIndex > 0 ? this.guiTheme.getTheme().getGridPointColor()
+                    : this.guiTheme.getTheme().getGridStartPointColor());
             g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2,
                     (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2, circleSize, circleSize);
 
@@ -151,6 +153,8 @@ public class ControlPanel extends JPanel {
             g.drawString(p.getName(),
                     (p.getX() * gridSize) - gridSize / 2 - g.getFontMetrics().stringWidth(p.getName()) / 2,
                     (p.getY() * gridSize) + circleSize + gridSize / 2);
+
+            pointIndex++;
         }
 
         // Robot point

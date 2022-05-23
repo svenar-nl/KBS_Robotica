@@ -8,16 +8,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class StatusPanel extends JPanel {
-    static int marginTop = 55;
-    static int marginLeft = 0;
-    static int width = 400;
-    static int screenHeight = 400;
-    static int height = 300;
+    private final int marginTop = 55;
+    private final int marginLeft = 0;
+    private final int width = 400;
+    private final int screenHeight = 500;
+    private final int height = 300;
 
-    private String orderNumber = "testOrder";
+    private String orderNumber = "";
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
+    private OrderPanel orderPanel;
 
     public StatusPanel(GUIThemes guiTheme){
         this.screenDimension = new Dimension(width, screenHeight);
@@ -26,13 +27,19 @@ public class StatusPanel extends JPanel {
 
         this.setPreferredSize(this.screenDimension.getDimension());
         this.setSize(this.screenDimension.getX(), this.screenDimension.getY());
+
+        this.orderPanel = new OrderPanel(this.guiTheme);
+
+        this.setLayout(null);
+
+        this.add(this.orderPanel);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.setBackground(new Color(0, 0, 0, 0));
 
         // grid background
         g.setColor(this.guiTheme.getTheme().getGridBackgroundColor());

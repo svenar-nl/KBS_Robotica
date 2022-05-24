@@ -51,32 +51,24 @@ void duw(){
 }
 
 void calib() {
-  Serial.println("Calibrating...");
-  s1.write(90);
   unsigned long tijd = millis();
-  while (millis() - tijd <= 500){
-  Motor2(120, false);
+  while (millis() - tijd <= 3000) {
+    Motor2(60,true);
   }
-  tijd = millis();
-  while (millis() - tijd <= 1000){
-  Motor2(60, false);
-  }
-  Motor2(0,true);
-  s1.write(0);
-  return;
+  Motor2(0,false);
 }
 
 void loop() {
   if (Serial.available() > 0){
     int t = Serial.read();
     if(t == '0'){
-      Motor2(120,false);
+      Motor2(255,true);
       delay(250);
-      Motor2(100,true);  
+      Motor2(50,false);  
     } else if(t == '1'){
-      Motor2(255, true);
+      Motor2(255, false);
       delay(250);
-      Motor2(100, true);
+      Motor2(50, false);
     } else if (t == 'p'){
       duw();
     } else if (t == '3') {

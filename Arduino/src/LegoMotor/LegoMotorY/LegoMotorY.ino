@@ -1,4 +1,12 @@
+#include <ArduinoRobotMotorBoard.h>
+#include <EasyTransfer2.h>
+#include <LineFollow.h>
+#include <Multiplexer.h>
+
 #include <Servo.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(8,9);
 
 int M2R = 6;
 int M2S = 7;
@@ -10,10 +18,12 @@ int s1Pos = 0;
 
 void setup() {
   for(int i=0; i<=13; i++){
-    pinMode(i, OUTPUT);
+    if (!(i==8||i==9)) {
+      pinMode(i, OUTPUT);
+    }
   }
   pinMode(A0, INPUT);
-  Serial.begin(115200);
+  mySerial.begin(57600);
   s1.attach(13);
 }
 
@@ -38,7 +48,7 @@ void Motor1(int pwm, boolean links){
 }
 
 void duw(){
-  Serial.println("duw");
+  mySerial.println("duw");
   unsigned long tijd = millis();
   while (millis() - tijd <= 800){
   Motor2(255, false);
@@ -59,8 +69,9 @@ void calib() {
 }
 
 void loop() {
-  if (Serial.available() > 0){
-    int t = Serial.read();
+  if (mySerial.available() > 0){
+    char t = mySerial.read();
+    mySerial.write(t);
     if(t == '0'){
       Motor2(255,true);
       delay(250);

@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f;
 
 import nl.windesheim.ictm2f.gui.GUIManager;
 import nl.windesheim.ictm2f.gui.Splash;
+import nl.windesheim.ictm2f.order.OrderManager;
 import nl.windesheim.ictm2f.pathsolver.Solver;
 import nl.windesheim.ictm2f.serial.SerialManager;
 import nl.windesheim.ictm2f.storage.CachedData;
@@ -27,6 +28,7 @@ public class Main {
     private CachedData cachedData;
     private IDatabase database;
     private ConfigManager configManager;
+    private OrderManager orderManager;
 
     public static void main(String[] args) {
         instance = new Main();
@@ -50,6 +52,8 @@ public class Main {
         this.guiManager.setResizable(false);
         this.guiManager.display();
 
+        this.orderManager = new OrderManager();
+
         Logger.info("Running on OS: " + OSManager.getOS());
         Logger.info(String.format("Found %s serial port%s", this.serialManager.getAvailablePorts().size(),
                 this.serialManager.getAvailablePorts().size() == 1 ? "" : "s"));
@@ -67,6 +71,8 @@ public class Main {
                 Logger.severe(
                         String.format("Unknown DB type: %s. Using SQLite",
                                 String.valueOf(this.configManager.get("storage-method"))));
+                this.configManager.set("storage-method", "SQLite");
+                this.configManager.save();
                 this.database = new SQLite();
                 break;
         }
@@ -108,11 +114,15 @@ public class Main {
         return this.configManager;
     }
 
-    public static Main getInstance() {
-        return instance;
+    public GUIManager getGuiManager() {
+        return this.guiManager;
     }
 
-    public GUIManager getGuiManager() {
-        return guiManager;
+    public OrderManager getOrderManager() {
+        return this.orderManager;
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 }

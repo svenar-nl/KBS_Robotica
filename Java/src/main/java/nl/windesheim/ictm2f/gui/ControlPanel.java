@@ -14,7 +14,7 @@ import nl.windesheim.ictm2f.util.GridPoint;
 
 public class ControlPanel extends JPanel {
 
-    static int marginTop = 80;
+    static int marginTop = 30;
     static int marginLeft = 0;
     static int gridSize = 60;
     static int textPaddingTop = 43;
@@ -96,7 +96,7 @@ public class ControlPanel extends JPanel {
         // Titles
         g.setColor(this.guiTheme.getTheme().getGridTitleColor());
         g.setFont(new Font("default", Font.PLAIN, 30));
-        g.drawString("Schap", 110, 70);
+        g.drawString("Rack", 110, marginTop - 5);
 
         // Grid lines
         for (int i = 0; i < 360; i += gridSize) {
@@ -152,7 +152,7 @@ public class ControlPanel extends JPanel {
             g.setColor(this.guiTheme.getTheme().getGridPointTextColor());
             g.drawString(p.getName(),
                     (p.getX() * gridSize) - gridSize / 2 - g.getFontMetrics().stringWidth(p.getName()) / 2,
-                    (p.getY() * gridSize) + circleSize + gridSize / 2);
+                    (p.getY() * gridSize) + circleSize + gridSize / 2 - marginTop - 18);
 
             pointIndex++;
         }
@@ -166,26 +166,26 @@ public class ControlPanel extends JPanel {
 
         // Legend
         g.setColor(this.guiTheme.getTheme().getGridRobotColor());
-        g.fillRect(0, 400, 20, 20);
+        g.fillRect(0, marginTop + 310, 20, 20);
         g.setColor(this.guiTheme.getTheme().getGridPathColor());
-        g.fillRect(0, 430, 20, 20);
+        g.fillRect(0, marginTop + 340, 20, 20);
         g.setColor(this.guiTheme.getTheme().getGridStartPointColor());
-        g.fillRect(150, 400, 20, 10);
+        g.fillRect(150, marginTop + 310, 20, 10);
         g.setColor(this.guiTheme.getTheme().getGridPointColor());
-        g.fillRect(150, 410, 20, 10);
+        g.fillRect(150, marginTop + 320, 20, 10);
         g.setColor(this.guiTheme.getTheme().getGridFetchedPointColor());
-        g.fillRect(150, 430, 20, 20);
+        g.fillRect(150, marginTop + 340, 20, 20);
 
         g.setColor(this.guiTheme.getTheme().getTextColor());
-        g.drawRect(0, 400, 20, 20);
-        g.drawRect(0, 430, 20, 20);
-        g.drawRect(150, 400, 20, 20);
-        g.drawRect(150, 430, 20, 20);
+        g.drawRect(0, marginTop + 310, 20, 20);
+        g.drawRect(0, marginTop + 340, 20, 20);
+        g.drawRect(150, marginTop + 310, 20, 20);
+        g.drawRect(150, marginTop + 340, 20, 20);
 
         g.setFont(new Font("default", Font.PLAIN, 15));
-        g.drawString("Robot location", 25, 415);
-        g.drawString("Robot path", 25, 445);
-        g.drawString("Unvisited product", 175, 415);
-        g.drawString("Fetched product", 175, 445);
+        g.drawString("Robot location", 25, marginTop + 325);
+        g.drawString("Robot path", 25, marginTop + 355);
+        g.drawString("Unvisited product", 175, marginTop + 325);
+        g.drawString("Fetched product", 175, marginTop + 355);
     }
 }

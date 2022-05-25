@@ -12,15 +12,13 @@ public class StatusPanel extends JPanel {
     private final int marginLeft = 0;
     private final int width = 400;
     private final int screenHeight = 500;
-    private final int height = 300;
-
-    private String orderNumber = "";
+    private final int height = 275;
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
     private OrderPanel orderPanel;
 
-    public StatusPanel(GUIThemes guiTheme){
+    public StatusPanel(GUIThemes guiTheme) {
         this.screenDimension = new Dimension(width, screenHeight);
 
         this.guiTheme = guiTheme;
@@ -48,25 +46,23 @@ public class StatusPanel extends JPanel {
         // text
         g.setColor(this.guiTheme.getTheme().getGridTitleColor());
         g.setFont(new Font("default", Font.PLAIN, 30));
-        g.drawString("Status", (width / 2) - 50, marginTop - 10);
+        g.drawString("Status", (width / 2) - 50, marginTop - 6);
 
-        String fulltext = String.format("Order: %s", orderNumber);
         g.setColor(this.guiTheme.getTheme().getTextColor());
         g.setFont(new Font("default", Font.PLAIN, 20));
-        g.drawString(fulltext, (width / 2) - 76, marginTop + 20);
-        g.drawString("Logs:", (width / 2) - 30, marginTop + 50);
+        g.drawString("Logs:", (width / 2) - 30, marginTop + 20);
 
         // dividers
         g.setColor(this.guiTheme.getTheme().getTextColor());
         g.drawLine(0, marginTop + 25, width, marginTop + 25);
-        g.drawLine(0, marginTop + 55, width, marginTop + 55);
 
         // logs
         g.setFont(new Font("default", Font.PLAIN, 12));
 
         int logCount = 0;
-        for (int i = Logger.getLog().size(); i > 0; i--){
-            if(logCount == 20) return;
+        for (int i = Logger.getLog().size(); i > 0; i--) {
+            if (logCount == 20)
+                break;
             String line = Logger.getLog().get(i - 1);
 
             if (line.toLowerCase().contains("[info]")) {
@@ -78,13 +74,10 @@ public class StatusPanel extends JPanel {
             } else {
                 g.setColor(this.guiTheme.getTheme().getTextColor());
             }
-            g.drawString(line, 2, (marginTop + 70) + (logCount * 12));
+            g.drawString(line, 2, (marginTop + 40) + (logCount * 12));
 
             logCount++;
         }
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
 }

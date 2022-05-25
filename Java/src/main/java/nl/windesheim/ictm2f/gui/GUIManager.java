@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui;
 
 import javax.swing.*;
 
+import nl.windesheim.ictm2f.gui.order.OrderManagerGUI;
 import nl.windesheim.ictm2f.gui.settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
@@ -18,6 +19,7 @@ public class GUIManager extends JFrame implements MouseListener {
     private SerialConnectionManager scmPanel;
     private ControlPanel controlPanel;
     private StatusPanel statusPanel;
+    private OrderManagerGUI orderManagerGui;
     private SettingsFrame settings;
     private boolean mouseDown;
 
@@ -31,6 +33,8 @@ public class GUIManager extends JFrame implements MouseListener {
         this.statusPanel = new StatusPanel(this.guiTheme);
         this.settings = new SettingsFrame(this.guiTheme, this);
 
+        this.orderManagerGui = new OrderManagerGUI(this.guiTheme);
+
         this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
         this.setLocationRelativeTo(null);
@@ -38,9 +42,9 @@ public class GUIManager extends JFrame implements MouseListener {
 
         this.setLayout(new FlowLayout());
 
-        this.add(scmPanel);
-        this.add(controlPanel);
-        this.add(statusPanel);
+        this.add(this.scmPanel);
+        this.add(this.controlPanel);
+        this.add(this.statusPanel);
     }
 
     public void changeTheme(Theme theme) {
@@ -87,19 +91,23 @@ public class GUIManager extends JFrame implements MouseListener {
     }
 
     public SerialConnectionManager getSerialConnectionManager() {
-        return scmPanel;
+        return this.scmPanel;
     }
 
     public ControlPanel getControlPanel() {
-        return controlPanel;
+        return this.controlPanel;
     }
 
     public StatusPanel getStatusPanel() {
-        return statusPanel;
+        return this.statusPanel;
     }
 
     public SettingsFrame getSettings() {
-        return settings;
+        return this.settings;
+    }
+
+    public OrderManagerGUI getOrderManagerGUI() {
+        return this.orderManagerGui;
     }
 
     public GUIThemes getTheme() {

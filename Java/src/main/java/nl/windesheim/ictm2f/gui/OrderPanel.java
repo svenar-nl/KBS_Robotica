@@ -59,7 +59,7 @@ public class OrderPanel extends JPanel {
         this.managerOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Logger.severe("TODO: Show manage orders popup");
+                Main.getInstance().getGuiManager().getOrderManagerGUI().display();
             }
         });
 

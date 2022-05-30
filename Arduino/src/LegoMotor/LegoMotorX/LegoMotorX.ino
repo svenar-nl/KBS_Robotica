@@ -1,4 +1,6 @@
-#include <Servo.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(2,3);
 
 int M2R = 6;
 int M2S = 7;
@@ -6,16 +8,15 @@ int M1R = 4;
 int M1S = 5;
 int p = 0;
 
-Servo s1;
-int s1Pos = 0;
-
 void setup() {
   for(int i=0; i<=13; i++){
-    pinMode(i, OUTPUT);
+    if (!(i==2||i==3)) {
+      pinMode(i, OUTPUT);
+    }
   }
   pinMode(A0, INPUT);
   Serial.begin(115200);
-  s1.attach(13);
+  mySerial.begin(38400);
 }
 
 void Motor2(int pwm, boolean links){
@@ -71,6 +72,13 @@ void terug(int schap){
 }
 
 void loop() {
+  if (mySerial.available() > 0) {
+    int b = mySerial.read();
+    Serial.println(b);
+    if (b == '1') {
+     duw();
+    }
+  }
   if (Serial.available() > 0){
     int t = Serial.read();
     if(t == '0'){

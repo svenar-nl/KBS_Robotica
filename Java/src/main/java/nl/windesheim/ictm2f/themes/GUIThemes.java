@@ -3,7 +3,8 @@ package nl.windesheim.ictm2f.themes;
 public class GUIThemes {
     public enum Theme {
         LIGHT,
-        DARK
+        DARK,
+        PAIN
     }
 
     private Theme theme = Theme.LIGHT;
@@ -19,6 +20,9 @@ public class GUIThemes {
 
             case DARK:
                 return new DarkTheme();
+
+            case PAIN:
+                return new PainTheme();
 
             default:
                 return null;

@@ -6,16 +6,18 @@ int M2R = 6;
 int M2S = 7;
 int M1R = 4;
 int M1S = 5;
-int p = 0;
+int robotX = 1;
+
+char currentCommand = 'n';
+unsigned long startTime = millis();
 
 void setup() {
   for(int i=0; i<=13; i++){
     if (!(i==2||i==3)) {
-      pinMode(i, OUTPUT);
+     pinMode(i, OUTPUT); 
     }
   }
   pinMode(A0, INPUT);
-  Serial.begin(115200);
   mySerial.begin(38400);
 }
 
@@ -40,102 +42,97 @@ void Motor1(int pwm, boolean links){
 }
 
 void duw(){
-  Serial.println("duw");
-  unsigned long tijd = millis();
-  while (millis() - tijd <= 450){
-  Motor2(125, true);
-  }
-  tijd = millis();
-  while(millis() - tijd <= 575){
-  Motor2(125, false);
-  }
-  Motor2(0, true);
+  if(millis() - startTime <= 450){
+    Motor2(100, true);
+  }else if(millis() - startTime <= 900){
+    Motor2(100, false);
+  }else{
+    currentCommand = 'n';
+    Motor2(0, true);
+    mySerial.write('e');
+  } 
 }
 
-void Gaan(int schap){
-  for(int i=0; i<schap; i++){
-    unsigned long tijd = millis();
-    while (millis() - tijd <= 640){
-      Motor1(100,false);
-      Motor1(0,false);
-    }
+void gaan(int schap){
+  bool richting = (robotX - schap) > 0;
+  int runtime = (robotX - schap) * 620;
+
+  // make positive
+  if(!richting){
+    runtime = runtime * -1;
   }
-}
-void terug(int schap){
-  for(int i=0; i<schap; i++){
-    unsigned long tijd = millis();
-    while(millis() - tijd <= 640){
-      Motor1(100, true);
-      Motor1(0, true);
-    }
+
+  if(millis() - startTime <= runtime){
+    Motor1(200, richting);
+  }else{
+    currentCommand = 'n';
+    mySerial.write('e');
+    Motor1(0, false);
+    robotX = schap;
   }
 }
 
 void loop() {
-  if (mySerial.available() > 0) {
-    int b = mySerial.read();
-    Serial.println(b);
-    if (b == '1') {
-     duw();
+    // Check for mySerial commands. (Override)
+  if (mySerial.available()){
+    if(currentCommand == 'n'){ // als er op dit moment geen commando gegeven word
+      char c = mySerial.read();
+      if(c == 'p' || c == '1' || c == '2'|| c == '3'|| c == '4'|| c == '5' || c == '6'|| c == '7'|| c=='c'){            // lijst van geverifieerde commandos
+        mySerial.println(c);
+
+        currentCommand = c;
+
+        startTime = millis();
+      }
     }
   }
-  if (Serial.available() > 0){
-    int t = Serial.read();
-    if(t == '0'){
-      terug(p);
-      p = 0;
-    } else if(t == '1'){
-      if(p>1){
-        terug(p-1);
-      } else if (p<1) {
-        Gaan(1);
-      }
-      p = 1;
-    } else if (t == '2'){
-      if(p>2){
-        terug(p-2);
-      } else if(p<2){
-        if(p==1){
-          Gaan(1);
-        } else {
-          Gaan(2);
-        }
-      }
-      p = 2;
-    } else if(t == '3'){
-      if(p>3){
-        terug(p-3);
-      } else if (p<3){
-        if (p==2){
-          Gaan(1);
-        } else if (p==1){
-          Gaan(2);
-        } else {
-          Gaan(3);
-        }
-      }
-      p = 3;
-    } else if(t == '4'){
-      if(p==0){
-        Gaan(4);
-      } else if (p==1){
-        Gaan(3);
-      } else if (p==2){
-        Gaan(2);
-      } else if (p==3){
-        Gaan(1);
-      }
-      p = 4;
-    } else if (t == '5'){
-      Motor1(200,false);
-      delay(100);
-      Motor1(0,false);
-    } else if (t=='6'){
-      Motor1(200,true);
-      delay(100);
-      Motor1(0,true);
-    } else if (t=='p'){
+
+  // execute commands for x as
+  switch (currentCommand)
+  {
+    case 'p':
       duw();
-    }
+      break;
+    case '1':
+      gaan(1);  //TODO char to int
+    break;
+    case '2':
+      gaan(2);
+    break;
+    case '3':
+      gaan(3);
+    break;
+    case '4':
+      gaan(4);
+    break;
+    case '5':
+      gaan(5);
+    break;
+    case '6':
+      Motor1(200, true);
+      delay(1000);
+      Motor1(0, false);
+      currentCommand = 'n';
+      mySerial.write('e');
+    break;
+    case '7':
+      Motor1(200, false);
+      delay(1000);
+      Motor1(0, false);
+      currentCommand = 'n';
+      mySerial.write('e');
+    break;
+    case 'c':
+      Motor1(100, true);
+      delay(3000);
+      currentCommand = 'n';
+      mySerial.write('e');
+      Motor1(0, false);
+    break;
+    default:
+      break;
   }
+
+  // execute commands for y as
+
 }

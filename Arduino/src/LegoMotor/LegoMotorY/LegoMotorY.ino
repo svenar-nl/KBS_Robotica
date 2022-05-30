@@ -7,6 +7,7 @@ int M2S = 7;
 int M1R = 4;
 int M1S = 5;
 bool XControl = false;
+bool waiting = false;
 
 void setup() {
   for(int i=0; i<=13; i++){
@@ -71,13 +72,31 @@ void loop() {
       XControl = true;
       while (XControl == true) {
          if (Serial.available() > 0){
-           char t = Serial.read();
+           int t = Serial.read();
            if (t == 'x') {
             XControl = false;
             Serial.println("Ending X axis control.");
-           } else if (t == '1') {
-            Serial.println("Sending X to vak 1.");
-            mySerial.write('1');
+           } else if (t == '\n') {
+           } else {
+            mySerial.write(t);
+            Serial.print("Send: ");
+            Serial.write(t);
+            Serial.println();
+            waiting = true;
+            while (waiting == true) {
+              if (mySerial.available() > 0) {
+                char e = mySerial.read();
+                if (e=='\n') {
+                } else {
+                  Serial.print("Recieved: ");
+                  Serial.write(e);
+                  Serial.println();
+                }
+                if (e=='e') {
+                  waiting = false;
+                }
+              }
+            }
            }
          }
       }

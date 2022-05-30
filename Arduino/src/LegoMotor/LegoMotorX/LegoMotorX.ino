@@ -39,41 +39,20 @@ void Motor1(int pwm, boolean links){
   }
 }
 
-// void Gaan(int schap){
-//   for(int i=0; i<schap; i++){
-//     unsigned long tijd = millis();
-//     while (millis() - tijd <= 640){
-//       Motor1(100,false);
-//       Motor1(0,false);
-//     }
-//   }
-// }
-void terug(int schap){
-  for(int i=0; i<schap; i++){
-    unsigned long tijd = millis();
-    while(millis() - tijd <= 640){
-      Motor1(100, true);
-      Motor1(0, true);
-    }
-  }
-}
-
 void duw(){
   if(millis() - startTime <= 450){
-    Motor2(125, true);
+    Motor2(100, true);
   }else if(millis() - startTime <= 900){
-    Motor2(125, false);
+    Motor2(100, false);
   }else{
     currentCommand = 'n';
     Motor2(0, true);
-  }
+  } 
 }
 
 void gaan(int schap){
-  // robotX
-  // schap
   bool richting = (robotX - schap) > 0;
-  int runtime = (robotX - schap) * 1100;
+  int runtime = (robotX - schap) * 620;
 
   // make positive
   if(!richting){
@@ -81,7 +60,7 @@ void gaan(int schap){
   }
 
   if(millis() - startTime <= runtime){
-    Motor1(100, richting);
+    Motor1(200, richting);
   }else{
     currentCommand = 'n';
     Motor1(0, false);
@@ -126,13 +105,13 @@ void loop() {
       gaan(5);
     break;
     case '6':
-      Motor1(100, true);
+      Motor1(200, true);
       delay(1000);
       Motor1(0, false);
       currentCommand = 'n';
     break;
     case '7':
-      Motor1(100, false);
+      Motor1(200, false);
       delay(1000);
       Motor1(0, false);
       currentCommand = 'n';

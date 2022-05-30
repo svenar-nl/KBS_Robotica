@@ -77,6 +77,7 @@ void loop() {
             Serial.println("Ending X axis control.");
            } else if (t == '1') {
             Serial.println("Sending X to vak 1.");
+            mySerial.write('1');
            }
          }
       }

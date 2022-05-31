@@ -33,6 +33,10 @@ public class StatusPanel extends JPanel {
         this.add(this.orderPanel);
     }
 
+    public OrderPanel getOrderPanel() {
+        return this.orderPanel;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

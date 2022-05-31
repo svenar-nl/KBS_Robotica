@@ -18,6 +18,9 @@ public class Solver {
 
     public void SolveDynamic() {
         int pointCount = points.size();
+        if (pointCount == 0) {
+            return;
+        }
 
         if (pointCount < 3) {
             if (pointCount == 2) {
@@ -99,5 +102,9 @@ public class Solver {
         if (this.resultPath != null) {
             this.resultPath.clear();
         }
+    }
+
+    public void clearPoints() {
+        this.points.clear();
     }
 }

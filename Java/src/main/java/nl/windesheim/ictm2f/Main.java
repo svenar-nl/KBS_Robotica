@@ -64,7 +64,7 @@ public class Main {
                 break;
 
             case "sqlite":
-                this.database = new SQLite();
+                this.database = new SQLite(String.valueOf(this.getConfigManager().get("sqlite-connection-dbfile")));
                 break;
 
             default:
@@ -73,7 +73,7 @@ public class Main {
                                 String.valueOf(this.configManager.get("storage-method"))));
                 this.configManager.set("storage-method", "SQLite");
                 this.configManager.save();
-                this.database = new SQLite();
+                this.database = new SQLite(String.valueOf(this.getConfigManager().get("sqlite-connection-dbfile")));
                 break;
         }
         Logger.info(String.format("Loading database (%s)...", this.database.getType()));

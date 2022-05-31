@@ -95,7 +95,8 @@ public class SettingsPanel extends JPanel {
 
         this.titleSQLiteSettings = new JLabel("SQLite connection settings");
         this.lblSQLiteDBFile = new JLabel("DB file");
-        this.sqliteDBFile = new JTextField(!configSQLiteDBFile.equalsIgnoreCase("null") ? configMysqlIP : "database.db");
+        this.sqliteDBFile = new JTextField(
+                !configSQLiteDBFile.equalsIgnoreCase("null") ? configSQLiteDBFile : "database.db");
 
         this.titleSQLiteSettings.setBounds(30, 80, (int) startDimensions.getWidth() - 52, 20);
         this.lblSQLiteDBFile.setBounds(10, 100, (int) startDimensions.getWidth() - 52, 20);
@@ -153,6 +154,14 @@ public class SettingsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
+
+                Main.getInstance().getConfigManager().set("mysql-connection-ip", mysqlIP.getText());
+                Main.getInstance().getConfigManager().set("mysql-connection-port", mysqlPort.getText());
+                Main.getInstance().getConfigManager().set("mysql-connection-database", mysqlDatabase.getText());
+                Main.getInstance().getConfigManager().set("mysql-connection-username", mysqlUsername.getText());
+                Main.getInstance().getConfigManager().set("mysql-connection-password", mysqlPassword.getText());
+                Main.getInstance().getConfigManager().set("sqlite-connection-dbfile", sqliteDBFile.getText());
+
                 Main.getInstance().getConfigManager().save();
                 parentFrame.dispose();
             }
@@ -284,7 +293,6 @@ public class SettingsPanel extends JPanel {
     }
 
     public void updateTextfield(String field, String value) {
-        System.out.println(field + ": " + value);
         Main.getInstance().getConfigManager().set(field, value);
         saveQueued = true;
     }

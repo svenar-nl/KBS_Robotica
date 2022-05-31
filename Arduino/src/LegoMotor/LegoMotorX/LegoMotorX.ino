@@ -43,9 +43,9 @@ void Motor1(int pwm, boolean links){
 
 void duw(){
   if(millis() - startTime <= 450){
-    Motor2(100, true);
+    Motor2(180, false);
   }else if(millis() - startTime <= 900){
-    Motor2(100, false);
+    Motor2(180, true);
   }else{
     currentCommand = 'n';
     Motor2(0, true);
@@ -55,7 +55,7 @@ void duw(){
 
 void gaan(int schap){
   bool richting = (robotX - schap) > 0;
-  int runtime = (robotX - schap) * 620;
+  int runtime = (robotX - schap) * 590;
 
   // make positive
   if(!richting){

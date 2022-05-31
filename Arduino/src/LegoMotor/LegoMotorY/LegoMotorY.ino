@@ -6,8 +6,14 @@ int M2R = 6;
 int M2S = 7;
 int M1R = 4;
 int M1S = 5;
-bool XControl = false;
-bool waiting = false;
+int currentPos = 1;
+bool newTasks = false;
+bool printBef = false;
+String taskList = "1123";
+char taskArray[] = {'s'};
+char currentTask = 'n';
+char nextTask = 'n';
+
 
 void setup() {
   for(int i=0; i<=13; i++){
@@ -18,6 +24,7 @@ void setup() {
   pinMode(A0, INPUT);
   Serial.begin(115200);
   mySerial.begin(38400);
+  Serial.println();
 }
 
 void Motor2(int pwm, boolean links){
@@ -51,57 +58,47 @@ void calib() {
 void loop() {
   if (Serial.available() > 0){
     char t = Serial.read();
-    if(t == '?') {
-      Serial.println("");
-    }
-    if(t == '0'){
-      Motor2(255,true);
-      delay(250);
-      Motor2(50,false);  
-    } else if(t == '1'){
-      Motor2(255, false);
-      delay(250);
-      Motor2(50, false);
-    } else if (t == '3') {
-      calib();
-    } else if (t == 'd') {
-      delay(250);
-    } else if (t == 'x') {
-      Serial.println();
-      Serial.println("Beginning X axis control.");
-      XControl = true;
-      while (XControl == true) {
-         if (Serial.available() > 0){
-           int t = Serial.read();
-           if (t == 'x') {
-            XControl = false;
-            Serial.println("Ending X axis control.");
-           } else if (t == '\n') {
-           } else {
-            mySerial.write(t);
-            Serial.print("Send: ");
-            Serial.write(t);
-            Serial.println();
-            waiting = true;
-            while (waiting == true) {
-              if (mySerial.available() > 0) {
-                char e = mySerial.read();
-                if (e=='\n') {
-                } else {
-                  Serial.print("Recieved: ");
-                  Serial.write(e);
-                  Serial.println();
-                }
-                if (e=='e') {
-                  waiting = false;
-                }
-              }
-            }
-           }
-         }
-      }
-      
-    }
-    Serial.write(t);
+    if (!(t == '\n')) {
+    taskList = taskList + t;
+    Serial.println(taskList);
+  } else {
+    newTasks = true;
   }
-}
+  } else if(newTasks == true && !(taskList.charAt(0) == '\0')){
+    if(taskList.charAt(0)=='x') {
+      Serial.print("Sending X command: ");
+      if(taskList.charAt(1)=='\0') {
+        Serial.println("Empty.");
+      } else {
+        mySerial.write(taskList.charAt(1));
+        Serial.write(taskList.charAt(1));
+        Serial.write('\n');
+      }
+      taskList.remove(0,2);
+    } else if (taskList.charAt(0)=='y') {
+      Serial.print("Sending Y command: ");
+      if(taskList.charAt(1)=='\0') {
+        Serial.println("Empty.");
+      } else {
+        switch(taskList.charAt(1)) {
+          case '1':
+            Serial.println("Y going up 1");
+            Motor2(255,false);
+            delay(450);
+            Motor2(50,false);
+            break;
+
+          case '0':
+            Serial.println("Y going down 1");
+            Motor2(60,true);
+            delay(370);
+            Motor2(50,false);
+        }
+      }
+     taskList.remove(0,2);
+    } else {
+      Serial.write(taskList.charAt(0));
+      Serial.println();
+      taskList.remove(0,1);
+    }
+}}

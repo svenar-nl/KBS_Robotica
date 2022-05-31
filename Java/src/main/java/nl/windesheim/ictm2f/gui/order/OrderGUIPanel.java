@@ -1,6 +1,8 @@
 package nl.windesheim.ictm2f.gui.order;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,6 +14,9 @@ public class OrderGUIPanel extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
+
+    private JTextArea inputNewOrder;
+    private JButton createNewEmptyOrderButton;
 
     public OrderGUIPanel(Dimension size, GUIThemes guiTheme) {
         this.screenDimension = size;

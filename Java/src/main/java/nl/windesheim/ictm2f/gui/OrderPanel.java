@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.order.Order;
+import nl.windesheim.ictm2f.serial.SerialStringBuilder;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
@@ -69,6 +70,9 @@ public class OrderPanel extends JPanel {
                 Order currentOrder = Main.getInstance().getOrderManager().getCurrentOrder();
                 if (currentOrder == null) {
                     Logger.warning("No order selected!");
+
+                    new SerialStringBuilder().buildString();
+
                     return;
                 }
                 Logger.severe("TODO: Start order streaming to Serial");

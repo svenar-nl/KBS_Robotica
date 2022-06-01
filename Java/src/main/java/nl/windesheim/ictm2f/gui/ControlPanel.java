@@ -22,6 +22,8 @@ public class ControlPanel extends JPanel {
     static int textPaddingLeft = 5;
     static int circleSize = 25;
     static int pathWidth = 5;
+    private boolean drawPointName = false;
+    
     int[] usedNames = new int[25];
 
     private GUIThemes guiTheme;
@@ -68,7 +70,8 @@ public class ControlPanel extends JPanel {
 
                 // Add points to the order aswell
                 Main.getInstance().getOrderManager().getCurrentOrder().setPoints(solver.getPoints());
-                Main.getInstance().getOrderManager().updateOrder(Main.getInstance().getOrderManager().getCurrentOrder());
+                Main.getInstance().getOrderManager()
+                        .updateOrder(Main.getInstance().getOrderManager().getCurrentOrder());
                 Main.getInstance().getOrderManager().save();
                 Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
 
@@ -171,10 +174,12 @@ public class ControlPanel extends JPanel {
                     (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2, circleSize, circleSize);
 
             // Point name
-            g.setColor(this.guiTheme.getTheme().getGridPointTextColor());
-            g.drawString(p.getName(),
-                    (p.getX() * gridSize) - gridSize / 2 - g.getFontMetrics().stringWidth(p.getName()) / 2,
-                    (p.getY() * gridSize) + circleSize + gridSize / 2 - marginTop - 18);
+            if (drawPointName) {
+                g.setColor(this.guiTheme.getTheme().getGridPointTextColor());
+                g.drawString(p.getName(),
+                        (p.getX() * gridSize) - gridSize / 2 - g.getFontMetrics().stringWidth(p.getName()) / 2,
+                        (p.getY() * gridSize) + circleSize + gridSize / 2 - marginTop - 18);
+            }
 
             pointIndex++;
         }

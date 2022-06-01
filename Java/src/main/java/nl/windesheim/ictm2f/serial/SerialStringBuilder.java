@@ -16,7 +16,7 @@ public class SerialStringBuilder {
         this.points = points;
 
         // TODO maybe check if it is already solved?
-        Main.getInstance().getSolver().SolveDynamic();
+        // Main.getInstance().getSolver().SolveDynamic();
         this.path = Main.getInstance().getSolver().getResultPath();
 
         if(!serialManager.isConnected()){
@@ -25,7 +25,8 @@ public class SerialStringBuilder {
 
         // if success send
     }
-    // get points from canvas
+
+    // get points from solver
     public SerialStringBuilder(){
         this(Main.getInstance().getSolver().getPoints());
     }
@@ -50,7 +51,7 @@ public class SerialStringBuilder {
         return r;
     }
 
-    private void Send(String s){
+    private void send(String s){
         serialManager.write(s);
     }
 

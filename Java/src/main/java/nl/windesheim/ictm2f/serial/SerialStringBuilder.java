@@ -14,16 +14,13 @@ public class SerialStringBuilder {
 
     public SerialStringBuilder(ArrayList<GridPoint> points){
         this.points = points;
-
-        // TODO maybe check if it is already solved?
-        // Main.getInstance().getSolver().SolveDynamic();
         this.path = Main.getInstance().getSolver().getResultPath();
-
         if(!serialManager.isConnected()){
-            // TODO connect serialManager.connect();
+            Logger.severe("Please connect serial first");
+            return;
         }
 
-        // if success send
+        buildString();
     }
 
     // get points from solver
@@ -31,7 +28,7 @@ public class SerialStringBuilder {
         this(Main.getInstance().getSolver().getPoints());
     }
 
-    public String buildString(){
+    private void buildString(){
         // prefix to control the exist E.I. x2y4 > x to 2 y to 4
         String r = "";
 
@@ -47,12 +44,16 @@ public class SerialStringBuilder {
         Logger.info(String.format("built string: %s", r));
 
         this.serialString = r;
-
-        return r;
     }
 
-    private void send(String s){
-        serialManager.write(s);
+    public boolean send(){
+        try{
+            serialManager.write(this.serialString);
+            return  true;
+        }catch (Exception e){
+            Logger.exception(e);
+            return  false;
+        }
     }
 
     public String getSerialString() {

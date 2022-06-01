@@ -71,11 +71,19 @@ public class OrderPanel extends JPanel {
                 if (currentOrder == null) {
                     Logger.warning("No order selected!");
 
-                    new SerialStringBuilder().buildString();
-
                     return;
                 }
-                Logger.severe("TODO: Start order streaming to Serial");
+
+                if(!Main.getInstance().getSerialManager().isConnected()){
+                    Logger.warning("Cannot send order, please connect serial first");
+                    return;
+                }
+
+                if(new SerialStringBuilder().send()){
+                    Logger.info(String.format("Sending order: \"%s\"", currentOrder.getName()));
+                }else{
+                    Logger.info(String.format("Failed to send order: \"%s\"", currentOrder.getName()));
+                }
             }
         });
     }

@@ -2,7 +2,8 @@ package nl.windesheim.ictm2f.gui;
 
 import javax.swing.*;
 
-import nl.windesheim.ictm2f.gui.Settings.SettingsFrame;
+import nl.windesheim.ictm2f.gui.order.OrderManagerGUI;
+import nl.windesheim.ictm2f.gui.settings.SettingsFrame;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.themes.GUIThemes.Theme;
 import nl.windesheim.ictm2f.util.Dimension;
@@ -14,22 +15,25 @@ import java.awt.event.MouseListener;
 public class GUIManager extends JFrame implements MouseListener {
 
     private GUIThemes guiTheme;
-  
-    private static SerialConnectionManager scmPanel;
-    private static ControlPanel controlPanel;
-    private static StatusPanel statusPanel;
-    private static SettingsFrame settings;
+
+    private SerialConnectionManager scmPanel;
+    private ControlPanel controlPanel;
+    private StatusPanel statusPanel;
+    private OrderManagerGUI orderManagerGui;
+    private SettingsFrame settings;
     private boolean mouseDown;
 
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
 
-        scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
-        controlPanel = new ControlPanel(350, this.guiTheme);
-        controlPanel.addMouseListener(this);
+        this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
+        this.controlPanel = new ControlPanel(350, this.guiTheme);
+        this.controlPanel.addMouseListener(this);
 
-        statusPanel = new StatusPanel(this.guiTheme);
-        settings = new SettingsFrame(this.guiTheme,this);
+        this.statusPanel = new StatusPanel(this.guiTheme);
+        this.settings = new SettingsFrame(this.guiTheme, this);
+
+        this.orderManagerGui = new OrderManagerGUI(this.guiTheme);
 
         this.setPreferredSize(screenDimension.getDimension());
         this.setSize(screenDimension.getX(), screenDimension.getY());
@@ -38,9 +42,9 @@ public class GUIManager extends JFrame implements MouseListener {
 
         this.setLayout(new FlowLayout());
 
-        this.add(scmPanel);
-        this.add(controlPanel);
-        this.add(statusPanel);
+        this.add(this.scmPanel);
+        this.add(this.controlPanel);
+        this.add(this.statusPanel);
     }
 
     public void changeTheme(Theme theme) {
@@ -86,15 +90,27 @@ public class GUIManager extends JFrame implements MouseListener {
 
     }
 
-    public static SerialConnectionManager getSerialConnectionManager() {
-        return scmPanel;
+    public SerialConnectionManager getSerialConnectionManager() {
+        return this.scmPanel;
     }
 
-    public static ControlPanel getControlPanel() {
-        return controlPanel;
+    public ControlPanel getControlPanel() {
+        return this.controlPanel;
     }
-    public static StatusPanel getStatusPanel() {
-        return statusPanel;
+
+    public StatusPanel getStatusPanel() {
+        return this.statusPanel;
     }
-    public static SettingsFrame getSettings() { return settings; }
+
+    public SettingsFrame getSettings() {
+        return this.settings;
+    }
+
+    public OrderManagerGUI getOrderManagerGUI() {
+        return this.orderManagerGui;
+    }
+
+    public GUIThemes getTheme() {
+        return this.guiTheme;
+    }
 }

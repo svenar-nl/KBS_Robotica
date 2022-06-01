@@ -1,6 +1,6 @@
 package nl.windesheim.ictm2f.util;
 
-import nl.windesheim.ictm2f.gui.GUIManager;
+import nl.windesheim.ictm2f.Main;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,7 +65,9 @@ public class Logger {
             }
         }
 
-        GUIManager.getStatusPanel().repaint();
+        if (Main.getInstance().getGuiManager() != null) {
+            Main.getInstance().getGuiManager().getStatusPanel().repaint(); // TODO: Shouldn't be done here!
+        }
     }
 
     public static List<String> getLog() {

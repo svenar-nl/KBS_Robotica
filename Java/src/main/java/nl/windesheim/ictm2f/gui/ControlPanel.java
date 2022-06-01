@@ -7,14 +7,15 @@ import javax.swing.JPanel;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.gui.graphics.DirectionalLine;
+import nl.windesheim.ictm2f.pathsolver.Solver;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.GridPoint;
-import nl.windesheim.ictm2f.util.Solver;
+import nl.windesheim.ictm2f.util.Logger;
 
 public class ControlPanel extends JPanel {
 
-    static int marginTop = 80;
+    static int marginTop = 30;
     static int marginLeft = 0;
     static int gridSize = 60;
     static int textPaddingTop = 43;
@@ -37,17 +38,26 @@ public class ControlPanel extends JPanel {
     }
 
     public void mouseClicked(int x, int y) {
-        Solver solver = Main.getInstance().getSolver();
-        ArrayList<GridPoint> destinationPoints = solver.getPoints();
-
         // translate mouse coords to cell
         int cellX = ((x - marginLeft) / gridSize) + 1;
         int cellY = ((y - marginTop) / gridSize) + 1;
 
         // run some checks to see if the point can exist
-        if (cellX > 5 || cellY > 5 || cellY < 0 || cellX < 0) {
+        if (cellX > 5 || cellY > 5 || cellY < 1 || cellX < 1) {
             return;
         }
+
+        // Check if an order is selected to add points to
+        if (Main.getInstance().getOrderManager().getCurrentOrder() == null) {
+            Logger.severe("No order selected!");
+            return;
+        }
+
+        Main.getInstance().getGuiManager().getOrderManagerGUI().getOrderGUIPanel().repaint();
+
+        Solver solver = Main.getInstance().getSolver();
+        ArrayList<GridPoint> destinationPoints = solver.getPoints();
+
         for (GridPoint p : destinationPoints) {
             if (p.getX() == cellX && p.getY() == cellY) {
                 solver.removePoint(p);
@@ -55,6 +65,12 @@ public class ControlPanel extends JPanel {
                 solver.SolveDynamic();
 
                 usedNames[Integer.parseInt(p.getName()) - 1] = 0; // de allocate name
+
+                // Add points to the order aswell
+                Main.getInstance().getOrderManager().getCurrentOrder().setPoints(solver.getPoints());
+                Main.getInstance().getOrderManager().updateOrder(Main.getInstance().getOrderManager().getCurrentOrder());
+                Main.getInstance().getOrderManager().save();
+                Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
 
                 repaint();
                 return;
@@ -71,6 +87,12 @@ public class ControlPanel extends JPanel {
             }
         }
         solver.addPoint(new GridPoint(String.valueOf(name), cellX, cellY));
+
+        // Add points to the order aswell
+        Main.getInstance().getOrderManager().getCurrentOrder().setPoints(solver.getPoints());
+        Main.getInstance().getOrderManager().updateOrder(Main.getInstance().getOrderManager().getCurrentOrder());
+        Main.getInstance().getOrderManager().save();
+        Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
 
         // solve
         solver.SolveDynamic();
@@ -96,7 +118,7 @@ public class ControlPanel extends JPanel {
         // Titles
         g.setColor(this.guiTheme.getTheme().getGridTitleColor());
         g.setFont(new Font("default", Font.PLAIN, 30));
-        g.drawString("Schap", 110, 70);
+        g.drawString("Rack", 110, marginTop - 5);
 
         // Grid lines
         for (int i = 0; i < 360; i += gridSize) {
@@ -141,8 +163,10 @@ public class ControlPanel extends JPanel {
         // Draw points
         g.setFont(new Font("default", Font.PLAIN, 15));
 
+        int pointIndex = 0;
         for (GridPoint p : solver.getPoints()) {
-            g.setColor(this.guiTheme.getTheme().getGridPointColor());
+            g.setColor(pointIndex > 0 ? this.guiTheme.getTheme().getGridPointColor()
+                    : this.guiTheme.getTheme().getGridStartPointColor());
             g.fillOval((p.getX() * gridSize) + marginLeft - circleSize / 2 - gridSize / 2,
                     (p.getY() * gridSize) + marginTop - circleSize / 2 - gridSize / 2, circleSize, circleSize);
 
@@ -150,7 +174,9 @@ public class ControlPanel extends JPanel {
             g.setColor(this.guiTheme.getTheme().getGridPointTextColor());
             g.drawString(p.getName(),
                     (p.getX() * gridSize) - gridSize / 2 - g.getFontMetrics().stringWidth(p.getName()) / 2,
-                    (p.getY() * gridSize) + circleSize + gridSize / 2);
+                    (p.getY() * gridSize) + circleSize + gridSize / 2 - marginTop - 18);
+
+            pointIndex++;
         }
 
         // Robot point
@@ -162,24 +188,26 @@ public class ControlPanel extends JPanel {
 
         // Legend
         g.setColor(this.guiTheme.getTheme().getGridRobotColor());
-        g.fillRect(0, 400, 20, 20);
+        g.fillRect(0, marginTop + 310, 20, 20);
         g.setColor(this.guiTheme.getTheme().getGridPathColor());
-        g.fillRect(0, 430, 20, 20);
+        g.fillRect(0, marginTop + 340, 20, 20);
+        g.setColor(this.guiTheme.getTheme().getGridStartPointColor());
+        g.fillRect(150, marginTop + 310, 20, 10);
         g.setColor(this.guiTheme.getTheme().getGridPointColor());
-        g.fillRect(150, 400, 20, 20);
+        g.fillRect(150, marginTop + 320, 20, 10);
         g.setColor(this.guiTheme.getTheme().getGridFetchedPointColor());
-        g.fillRect(150, 430, 20, 20);
+        g.fillRect(150, marginTop + 340, 20, 20);
 
         g.setColor(this.guiTheme.getTheme().getTextColor());
-        g.drawRect(0, 400, 20, 20);
-        g.drawRect(0, 430, 20, 20);
-        g.drawRect(150, 400, 20, 20);
-        g.drawRect(150, 430, 20, 20);
+        g.drawRect(0, marginTop + 310, 20, 20);
+        g.drawRect(0, marginTop + 340, 20, 20);
+        g.drawRect(150, marginTop + 310, 20, 20);
+        g.drawRect(150, marginTop + 340, 20, 20);
 
         g.setFont(new Font("default", Font.PLAIN, 15));
-        g.drawString("Robot location", 25, 415);
-        g.drawString("Robot path", 25, 445);
-        g.drawString("Unvisited product", 175, 415);
-        g.drawString("Fetched product", 175, 445);
+        g.drawString("Robot location", 25, marginTop + 325);
+        g.drawString("Robot path", 25, marginTop + 355);
+        g.drawString("Unvisited product", 175, marginTop + 325);
+        g.drawString("Fetched product", 175, marginTop + 355);
     }
 }

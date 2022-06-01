@@ -60,6 +60,11 @@ public class DarkTheme implements ITheme {
     }
 
     @Override
+    public Color getGridStartPointColor() {
+        return new Color(130, 35, 60);
+    }
+
+    @Override
     public Color getGridPointTextColor() {
         return new Color(235, 235, 235);
     }

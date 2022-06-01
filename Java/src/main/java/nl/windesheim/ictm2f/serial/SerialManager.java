@@ -11,6 +11,8 @@ public class SerialManager {
 
     private SerialPort currentPort;
 
+    private boolean stateHasRX, stateHasTX;
+
     public SerialManager() {
     }
 
@@ -53,11 +55,35 @@ public class SerialManager {
         return this.currentPort;
     }
 
+    public String read() {
+        if (!isConnected()) {
+            return "";
+        }
+
+        String data = "";
+
+        this.stateHasRX = true;
+        return data;
+    }
+
     public void write(String data) {
         if (!isConnected()) {
             return;
         }
 
         this.currentPort.writeBytes(data.getBytes(), data.length());
+        this.stateHasTX = true;
+    }
+
+    public boolean pingRX() {
+        boolean ret = this.stateHasRX;
+        this.stateHasRX = false;
+        return ret;
+    }
+
+    public boolean pingTX() {
+        boolean ret = this.stateHasTX;
+        this.stateHasTX = false;
+        return ret;
     }
 }

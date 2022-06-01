@@ -1,8 +1,11 @@
-package nl.windesheim.ictm2f.util;
+package nl.windesheim.ictm2f.pathsolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import nl.windesheim.ictm2f.util.GridPoint;
+import nl.windesheim.ictm2f.util.Logger;
 
 public class Solver {
     private ArrayList<GridPoint> points;
@@ -15,6 +18,9 @@ public class Solver {
 
     public void SolveDynamic() {
         int pointCount = points.size();
+        if (pointCount == 0) {
+            return;
+        }
 
         if (pointCount < 3) {
             if (pointCount == 2) {
@@ -96,5 +102,9 @@ public class Solver {
         if (this.resultPath != null) {
             this.resultPath.clear();
         }
+    }
+
+    public void clearPoints() {
+        this.points.clear();
     }
 }

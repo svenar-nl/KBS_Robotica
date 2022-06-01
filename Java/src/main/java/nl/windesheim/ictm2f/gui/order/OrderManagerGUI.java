@@ -27,4 +27,8 @@ public class OrderManagerGUI extends JFrame {
     public void display() {
         this.setVisible(true);
     }
+
+    public OrderGUIPanel getOrderGUIPanel() {
+        return this.orderGUIPanel;
+    }
 }

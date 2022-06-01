@@ -18,6 +18,11 @@ import nl.windesheim.ictm2f.util.Logger;
 public class SQLite implements IDatabase {
 
     private Connection connection;
+    private String db_name;
+
+    public SQLite(String db_name) {
+        this.db_name = db_name;
+    }
 
     @Override
     public String getType() {
@@ -34,7 +39,7 @@ public class SQLite implements IDatabase {
         }
         try {
             this.connection = DriverManager.getConnection(
-                    "jdbc:sqlite:" + Main.getInstance().getConfigManager().getStoragelocation() + "database.db");
+                    "jdbc:sqlite:" + Main.getInstance().getConfigManager().getStoragelocation() + this.db_name);
         } catch (SQLException e) {
             Logger.severe("Failed to load SQLite database!");
             Logger.severe(e.getMessage());
@@ -126,6 +131,20 @@ public class SQLite implements IDatabase {
     @Override
     public void save(Map<String, Object> data) {
         Instant startTime = Instant.now();
+
+        try {
+            String clearQuery = "DELETE FROM `kvstorage`;";
+            this.connection.createStatement().executeUpdate(clearQuery);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            String clearQuery = "DELETE FROM `kvstorage`;";
+            this.connection.createStatement().executeUpdate(clearQuery);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
 
         String query = "INSERT INTO `kvstorage` (keyname, val, type) VALUES (?, ?, ?) ON CONFLICT(keyname) DO UPDATE SET val=?, type=?;";
 

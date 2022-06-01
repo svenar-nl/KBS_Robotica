@@ -77,4 +77,10 @@ public class CachedData {
     public boolean hasKey(String key) {
         return this.data.containsKey(key);
     }
+
+    public void removeKey(String key) {
+        if (hasKey(key)) {
+            this.data.remove(key);
+        }
+    }
 }

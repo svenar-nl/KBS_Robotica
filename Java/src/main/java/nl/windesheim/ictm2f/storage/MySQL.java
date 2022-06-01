@@ -149,6 +149,13 @@ public class MySQL implements IDatabase {
     public void save(Map<String, Object> data) {
         Instant startTime = Instant.now();
 
+        try {
+            String clearQuery = "DELETE FROM `" + this.database + "`.`kvstorage`;";
+            this.connection.createStatement().executeUpdate(clearQuery);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         String query = "INSERT INTO `" + this.database
                 + "`.`kvstorage` (keyname, val, type) VALUES (?, ?, ?);";
 

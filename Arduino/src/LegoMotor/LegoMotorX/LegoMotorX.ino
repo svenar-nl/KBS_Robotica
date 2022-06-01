@@ -18,7 +18,7 @@ void setup() {
     }
   }
   pinMode(A0, INPUT);
-  mySerial.begin(38400);
+  mySerial.begin(115200);
 }
 
 void Motor2(int pwm, boolean links){
@@ -93,20 +93,8 @@ void loop() {
     case 'p':
       duw();
       break;
-    case '1':
-      gaan(1);  //TODO char to int
-    break;
-    case '2':
-      gaan(2);
-    break;
-    case '3':
-      gaan(3);
-    break;
-    case '4':
-      gaan(4);
-    break;
-    case '5':
-      gaan(5);
+    case '1' || '2' || '3' || '4' || '5':
+      gaan(currentCommand - '0');  //TODO char to int
     break;
     case '6':
       Motor1(200, true);
@@ -132,7 +120,4 @@ void loop() {
     default:
       break;
   }
-
-  // execute commands for y as
-
 }

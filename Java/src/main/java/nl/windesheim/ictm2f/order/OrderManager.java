@@ -2,6 +2,10 @@ package nl.windesheim.ictm2f.order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+
+import nl.windesheim.ictm2f.Main;
+import nl.windesheim.ictm2f.util.GridPoint;
 
 public class OrderManager {
     private List<Order> orders;
@@ -23,23 +27,17 @@ public class OrderManager {
     public void createEmptyOrder(String orderName) {
         Order newOrder = new Order();
         newOrder.setName(orderName);
-        if (orderName.equals("a")) {
-            newOrder.addPoint("0", 1, 1);
-            newOrder.addPoint("1", 2, 3);
-            newOrder.addPoint("2", 4, 4);
-        }
-
-        if (orderName.equals("b")) {
-            newOrder.addPoint("0", 2, 1);
-            newOrder.addPoint("1", 3, 4);
-            newOrder.addPoint("2", 5, 1);
-        }
 
         this.orders.add(newOrder);
     }
 
-    public void setCurrentOrder(Order order) {
-        this.currentOrder = order;
+    public void setCurrentOrder(String orderName) {
+        for (Order order : this.orders) {
+            if (order.getName().equals(orderName)) {
+                this.currentOrder = order;
+                break;
+            }
+        }
     }
 
     public void deleteOrder(String orderName) {
@@ -47,6 +45,39 @@ public class OrderManager {
             if (order.getName().equals(orderName)) {
                 this.orders.remove(order);
                 break;
+            }
+        }
+    }
+
+    public void save() {
+        for (Order order : getOrders()) {
+            String orderName = order.getName();
+            String orderPoints = "";
+            for (GridPoint point : order.getPoints()) {
+                orderPoints += point.getName() + "," + point.getX() + "," + point.getY() + ";";
+            }
+            orderPoints = orderPoints.substring(0, orderPoints.length() - 1);
+
+            Main.getInstance().getCachedData().set("orders." + orderName, orderPoints);
+        }
+    }
+
+    public void load() {
+        this.orders.clear();
+        for (Entry<String, Object> entry : Main.getInstance().getCachedData().getData().entrySet()) {
+            if (entry.getKey().startsWith("orders.")) {
+                String orderName = entry.getKey().replace("orders\\.", ""); // .substring(7);
+                Order order = new Order();
+                order.setName(orderName);
+                List<GridPoint> points = new ArrayList<GridPoint>();
+                for (String pointData : Main.getInstance().getCachedData().getString(entry.getKey()).split(";")) {
+                    String pointName = pointData.split(",")[0];
+                    int pointX = Integer.parseInt(pointData.split(",")[1]);
+                    int pointY = Integer.parseInt(pointData.split(",")[2]);
+                    points.add(new GridPoint(pointName, pointX, pointY));
+                }
+                order.setPoints(points);
+                this.orders.add(order);
             }
         }
     }

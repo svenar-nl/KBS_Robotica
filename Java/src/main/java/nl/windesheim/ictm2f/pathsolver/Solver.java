@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.util.GridPoint;
 import nl.windesheim.ictm2f.util.Logger;
 
@@ -17,6 +18,8 @@ public class Solver {
     }
 
     public void SolveDynamic() {
+        Main.getInstance().getOrderManager().getCurrentOrder().setPoints(getPoints());
+        
         int pointCount = points.size();
         if (pointCount == 0) {
             return;

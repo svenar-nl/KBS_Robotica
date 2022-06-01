@@ -11,6 +11,7 @@ import nl.windesheim.ictm2f.pathsolver.Solver;
 import nl.windesheim.ictm2f.themes.GUIThemes;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.GridPoint;
+import nl.windesheim.ictm2f.util.Logger;
 
 public class ControlPanel extends JPanel {
 
@@ -37,6 +38,10 @@ public class ControlPanel extends JPanel {
     }
 
     public void mouseClicked(int x, int y) {
+        if (Main.getInstance().getOrderManager().getCurrentOrder() == null) {
+            Logger.severe("No order selected!");
+            return;
+        }
         Solver solver = Main.getInstance().getSolver();
         ArrayList<GridPoint> destinationPoints = solver.getPoints();
 

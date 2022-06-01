@@ -89,12 +89,7 @@ public class OrderGUIPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedItem = (String) orderSelect.getSelectedValue();
-                for (Order order : Main.getInstance().getOrderManager().getOrders()) {
-                    if (order.getName().equals(selectedItem)) {
-                        selectOrder(order);
-                        break;
-                    }
-                }
+                selectOrder(selectedItem);
                 repaint();
             }
         });
@@ -109,11 +104,12 @@ public class OrderGUIPanel extends JPanel {
         });
     }
 
-    protected void selectOrder(Order order) {
-        Main.getInstance().getOrderManager().setCurrentOrder(order);
+    protected void selectOrder(String orderName) {
+        Main.getInstance().getOrderManager().setCurrentOrder(orderName);
+
         Main.getInstance().getSolver().clearPoints();
         Main.getInstance().getSolver().clearPath();
-        for (GridPoint point : order.getPoints()) {
+        for (GridPoint point : Main.getInstance().getOrderManager().getCurrentOrder().getPoints()) {
             Main.getInstance().getSolver().addPoint(point);
         }
         Main.getInstance().getSolver().SolveDynamic();
@@ -123,9 +119,9 @@ public class OrderGUIPanel extends JPanel {
 
     protected void deleteOrder(String orderName) {
         Main.getInstance().getOrderManager().deleteOrder(orderName);
+
         Main.getInstance().getSolver().clearPoints();
         Main.getInstance().getSolver().clearPath();
-        Main.getInstance().getSolver().SolveDynamic();
         Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
         Main.getInstance().getGuiManager().getControlPanel().repaint();
     }

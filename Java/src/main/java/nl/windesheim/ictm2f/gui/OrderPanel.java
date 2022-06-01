@@ -75,7 +75,7 @@ public class OrderPanel extends JPanel {
                 }
 
                 if(!Main.getInstance().getSerialManager().isConnected()){
-                    Logger.warning("Cannot send order, please connect serial first");
+                    Logger.warning("Cannot send order, please connect serial");
                     return;
                 }
 

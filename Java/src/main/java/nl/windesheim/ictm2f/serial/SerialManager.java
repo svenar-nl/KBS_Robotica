@@ -67,6 +67,7 @@ public class SerialManager {
     }
 
     public void write(String data) {
+        data += "\n";
         if (!isConnected()) {
             return;
         }

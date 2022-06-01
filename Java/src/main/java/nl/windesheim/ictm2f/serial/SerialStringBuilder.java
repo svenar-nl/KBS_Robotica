@@ -35,7 +35,7 @@ public class SerialStringBuilder {
         for (int name : this.path){
             for (GridPoint gp : this.points){
                 if(Integer.parseInt(gp.getName()) == name + 1){
-                    r += String.format("x%sy%sp", gp.getX(), gp.getY());
+                    r += String.format("x%sy%sp", gp.getX(), 6 - gp.getY());
                     continue;
                 }
             }

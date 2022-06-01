@@ -16,7 +16,7 @@ public class OrderPanel extends JPanel {
     private final int marginTop = 330;
     private final int marginLeft = 0;
     private final int width = 400;
-    private final int height = 130;
+    private final int height = 230;
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
@@ -38,13 +38,13 @@ public class OrderPanel extends JPanel {
         this.orderLabel.setFont(new Font(this.orderLabel.getFont().getName(), Font.PLAIN, 22));
 
         this.managerOrderButton = new JButton("Manager Order");
-        this.managerOrderButton.setBounds(20, height - 60, width / 2 - 40, 40);
+        this.managerOrderButton.setBounds(20, height - 160, width / 2 - 40, 40);
         this.managerOrderButton.setBorderPainted(false);
         this.managerOrderButton.setFocusPainted(false);
         this.managerOrderButton.setContentAreaFilled(true);
 
         this.startOrderButton = new JButton("Start Order");
-        this.startOrderButton.setBounds(width / 2 + 20, height - 60, width / 2 - 40, 40);
+        this.startOrderButton.setBounds(width / 2 + 20, height - 160, width / 2 - 40, 40);
         this.startOrderButton.setBorderPainted(false);
         this.startOrderButton.setFocusPainted(false);
         this.startOrderButton.setContentAreaFilled(true);
@@ -96,8 +96,13 @@ public class OrderPanel extends JPanel {
 
         // Background
         g.setColor(this.guiTheme.getTheme().getGridBackgroundColor()); // getAltBackgroundColor?
+        g.fillRect(0, 0, width, height);
+
+        // bars
         int backgroundOffset = 35;
-        g.fillRect(0, backgroundOffset, width, height - backgroundOffset);
+        g.setColor(this.guiTheme.getTheme().getBackgroundColor());
+        g.fillRect(0, 0, width, backgroundOffset);
+        g.fillRect(0, height - 100, width, 200);
 
         // Title
         g.setColor(this.guiTheme.getTheme().getGridTitleColor());

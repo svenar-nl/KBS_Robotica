@@ -127,8 +127,8 @@ public class OrderGUIPanel extends JPanel {
             Main.getInstance().getSolver().addPoint(point);
         }
         Main.getInstance().getSolver().SolveDynamic();
-        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
         Main.getInstance().getGuiManager().getControlPanel().repaint();
+        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
     }
 
     protected void deleteOrder(String orderName) {
@@ -136,8 +136,8 @@ public class OrderGUIPanel extends JPanel {
 
         Main.getInstance().getSolver().clearPoints();
         Main.getInstance().getSolver().clearPath();
-        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
         Main.getInstance().getGuiManager().getControlPanel().repaint();
+        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
     }
 
     @Override

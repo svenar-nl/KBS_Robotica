@@ -45,7 +45,11 @@ public class StatusPanel extends JPanel {
 
         // grid background
         g.setColor(this.guiTheme.getTheme().getGridBackgroundColor());
-        g.fillRect(marginLeft, marginTop, width, height);
+        g.fillRect(marginLeft, 0, width, height + marginTop);
+
+        // fill top
+        g.setColor(this.guiTheme.getTheme().getBackgroundColor());
+        g.fillRect(marginLeft, 0, width, marginTop);
 
         // text
         g.setColor(this.guiTheme.getTheme().getGridTitleColor());

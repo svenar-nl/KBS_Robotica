@@ -23,7 +23,7 @@ public class SerialConnectionManager extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private JButton connectionButton, settingsButton; // startButton
+    private JButton connectionButton, settingsButton, estopButton;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension.getX(), 50);
@@ -50,14 +50,14 @@ public class SerialConnectionManager extends JPanel {
         this.connectionButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
         this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
-        // this.startButton = new JButton("Run order");
-        // this.startButton.setBounds(540, 10, 120, 30);
+        this.estopButton = new JButton("E-Stop");
+        this.estopButton.setBounds(540, 10, 120, 30);
 
-        // this.startButton.setBorderPainted(false);
-        // this.startButton.setFocusPainted(false);
-        // this.startButton.setContentAreaFilled(true);
-        // this.startButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
-        // this.startButton.setForeground(this.guiTheme.getTheme().getTextColor());
+        this.estopButton.setBorderPainted(false);
+        this.estopButton.setFocusPainted(false);
+        this.estopButton.setContentAreaFilled(true);
+        this.estopButton.setBackground(this.guiTheme.getTheme().getGridStartPointColor());
+        this.estopButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
         Icon settingsIcon = new ImageIcon(getClass().getResource("/gear.png"));
         this.settingsButton = new JButton(settingsIcon);
@@ -71,7 +71,7 @@ public class SerialConnectionManager extends JPanel {
 
         this.add(jComboBox);
         this.add(this.connectionButton);
-        //this.add(this.startButton);
+        this.add(this.estopButton);
         this.add(this.settingsButton);
 
         this.connectionButton.addActionListener(new ActionListener() {
@@ -91,17 +91,22 @@ public class SerialConnectionManager extends JPanel {
             }
         });
 
-        // this.startButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         try {
-        //             Main.getInstance().getSolver().SolveDynamic();
-        //             Main.getInstance().getGuiManager().getControlPanel().repaint(); // repaint panel
-        //         } catch (SerialPortInvalidPortException ex) {
-        //             Logger.exception(ex);
-        //         }
-        //     }
-        // });
+        this.estopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (Main.getInstance().getSerialManager().isConnected()) {
+                        Main.getInstance().getSerialManager().write("s");
+                        Logger.warning("Stopping robot.");
+                    } else {
+                        Logger.warning("Robot not connected.");
+                    }
+                    repaint();
+                } catch (SerialPortInvalidPortException ex) {
+                    Logger.exception(ex);
+                }
+            }
+        });
 
         this.settingsButton.addActionListener(new ActionListener() {
             @Override

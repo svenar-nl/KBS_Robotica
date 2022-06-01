@@ -104,6 +104,8 @@ public class OrderGUIPanel extends JPanel {
         });
     }
 
+    // BUG: Selecting order sets the previous selected order's points to []
+    // WHAT?!?!?
     protected void selectOrder(String orderName) {
         Main.getInstance().getOrderManager().setCurrentOrder(orderName);
 

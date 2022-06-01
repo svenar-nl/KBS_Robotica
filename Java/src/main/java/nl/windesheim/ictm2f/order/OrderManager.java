@@ -1,7 +1,9 @@
 package nl.windesheim.ictm2f.order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import nl.windesheim.ictm2f.Main;
@@ -55,6 +57,7 @@ public class OrderManager {
     }
 
     public void deleteOrder(String orderName) {
+        this.currentOrder = null;
         for (Order order : this.orders) {
             if (order.getName().equals(orderName)) {
                 this.orders.remove(order);
@@ -64,6 +67,18 @@ public class OrderManager {
     }
 
     public void save() {
+        Map<String, Object> data = new HashMap<>();
+        
+        for (Entry<String, Object> entry : Main.getInstance().getCachedData().getData().entrySet()) {
+            data.put(entry.getKey(), entry.getKey());
+        }
+
+        for (Entry<String, Object> entry : data.entrySet()) {
+            if (entry.getKey().startsWith("orders")) {
+                Main.getInstance().getCachedData().removeKey(entry.getKey());
+            }
+        }
+
         for (Order order : getOrders()) {
             String orderName = order.getName();
             String orderPoints = "";

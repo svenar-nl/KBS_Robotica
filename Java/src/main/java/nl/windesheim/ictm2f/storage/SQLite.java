@@ -132,6 +132,20 @@ public class SQLite implements IDatabase {
     public void save(Map<String, Object> data) {
         Instant startTime = Instant.now();
 
+        try {
+            String clearQuery = "DELETE FROM `kvstorage`;";
+            this.connection.createStatement().executeUpdate(clearQuery);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            String clearQuery = "DELETE FROM `kvstorage`;";
+            this.connection.createStatement().executeUpdate(clearQuery);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         String query = "INSERT INTO `kvstorage` (keyname, val, type) VALUES (?, ?, ?) ON CONFLICT(keyname) DO UPDATE SET val=?, type=?;";
 
         PreparedStatement stmt = null;

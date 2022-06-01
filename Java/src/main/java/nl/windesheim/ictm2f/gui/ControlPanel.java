@@ -57,7 +57,7 @@ public class ControlPanel extends JPanel {
 
         Solver solver = Main.getInstance().getSolver();
         ArrayList<GridPoint> destinationPoints = solver.getPoints();
-        
+
         for (GridPoint p : destinationPoints) {
             if (p.getX() == cellX && p.getY() == cellY) {
                 solver.removePoint(p);
@@ -65,6 +65,12 @@ public class ControlPanel extends JPanel {
                 solver.SolveDynamic();
 
                 usedNames[Integer.parseInt(p.getName()) - 1] = 0; // de allocate name
+
+                // Add points to the order aswell
+                Main.getInstance().getOrderManager().getCurrentOrder().setPoints(solver.getPoints());
+                Main.getInstance().getOrderManager().updateOrder(Main.getInstance().getOrderManager().getCurrentOrder());
+                Main.getInstance().getOrderManager().save();
+                Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
 
                 repaint();
                 return;

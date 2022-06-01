@@ -26,7 +26,10 @@ public class Order {
     }
 
     public void setPoints(List<GridPoint> points) {
-        this.points = points;
+        this.points.clear();
+        for (GridPoint point : points) {
+            this.points.add(point);
+        }
     }
 
     public void addPoint(String pointName, int x, int y) {

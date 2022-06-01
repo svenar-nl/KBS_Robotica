@@ -81,6 +81,10 @@ public class OrderGUIPanel extends JPanel {
                 }
                 Main.getInstance().getOrderManager().createEmptyOrder(inputNewOrder.getText());
                 inputNewOrder.setText("");
+
+                Main.getInstance().getOrderManager().save();
+                Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
+
                 repaint();
             }
         });
@@ -88,8 +92,13 @@ public class OrderGUIPanel extends JPanel {
         this.selectOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedItem = (String) orderSelect.getSelectedValue().split(":")[0];
-                selectOrder(selectedItem);
+                String selectedItem = (String) orderSelect.getSelectedValue();
+                if (!selectedItem.contains(":")) {
+                    return;
+                }
+                selectOrder(selectedItem.split(":")[0]);
+                Main.getInstance().getOrderManager().save();
+                Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
                 repaint();
             }
         });
@@ -97,15 +106,18 @@ public class OrderGUIPanel extends JPanel {
         this.deleteOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedItem = (String) orderSelect.getSelectedValue().split(":")[0];
-                deleteOrder(selectedItem);
+                String selectedItem = (String) orderSelect.getSelectedValue();
+                if (!selectedItem.contains(":")) {
+                    return;
+                }
+                deleteOrder(selectedItem.split(":")[0]);
+                Main.getInstance().getOrderManager().save();
+                Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
                 repaint();
             }
         });
     }
 
-    // BUG: Selecting order sets the previous selected order's points to []
-    // WHAT?!?!?
     protected void selectOrder(String orderName) {
         Main.getInstance().getOrderManager().setCurrentOrder(orderName);
 

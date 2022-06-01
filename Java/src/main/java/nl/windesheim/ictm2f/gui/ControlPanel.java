@@ -38,21 +38,26 @@ public class ControlPanel extends JPanel {
     }
 
     public void mouseClicked(int x, int y) {
-        if (Main.getInstance().getOrderManager().getCurrentOrder() == null) {
-            Logger.severe("No order selected!");
-            return;
-        }
-        Solver solver = Main.getInstance().getSolver();
-        ArrayList<GridPoint> destinationPoints = solver.getPoints();
-
         // translate mouse coords to cell
         int cellX = ((x - marginLeft) / gridSize) + 1;
         int cellY = ((y - marginTop) / gridSize) + 1;
 
         // run some checks to see if the point can exist
-        if (cellX > 5 || cellY > 5 || cellY < 0 || cellX < 0) {
+        if (cellX > 5 || cellY > 5 || cellY < 1 || cellX < 1) {
             return;
         }
+
+        // Check if an order is selected to add points to
+        if (Main.getInstance().getOrderManager().getCurrentOrder() == null) {
+            Logger.severe("No order selected!");
+            return;
+        }
+
+        Main.getInstance().getGuiManager().getOrderManagerGUI().getOrderGUIPanel().repaint();
+
+        Solver solver = Main.getInstance().getSolver();
+        ArrayList<GridPoint> destinationPoints = solver.getPoints();
+        
         for (GridPoint p : destinationPoints) {
             if (p.getX() == cellX && p.getY() == cellY) {
                 solver.removePoint(p);
@@ -76,6 +81,12 @@ public class ControlPanel extends JPanel {
             }
         }
         solver.addPoint(new GridPoint(String.valueOf(name), cellX, cellY));
+
+        // Add points to the order aswell
+        Main.getInstance().getOrderManager().getCurrentOrder().setPoints(solver.getPoints());
+        Main.getInstance().getOrderManager().updateOrder(Main.getInstance().getOrderManager().getCurrentOrder());
+        Main.getInstance().getOrderManager().save();
+        Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
 
         // solve
         solver.SolveDynamic();

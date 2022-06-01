@@ -88,7 +88,7 @@ public class OrderGUIPanel extends JPanel {
         this.selectOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedItem = (String) orderSelect.getSelectedValue();
+                String selectedItem = (String) orderSelect.getSelectedValue().split(":")[0];
                 selectOrder(selectedItem);
                 repaint();
             }
@@ -97,7 +97,7 @@ public class OrderGUIPanel extends JPanel {
         this.deleteOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedItem = (String) orderSelect.getSelectedValue();
+                String selectedItem = (String) orderSelect.getSelectedValue().split(":")[0];
                 deleteOrder(selectedItem);
                 repaint();
             }
@@ -132,7 +132,7 @@ public class OrderGUIPanel extends JPanel {
 
         this.existingOrderList.clear();
         for (Order order : Main.getInstance().getOrderManager().getOrders()) {
-            this.existingOrderList.addElement(order.getName());
+            this.existingOrderList.addElement(order.getName() + ": " + order.getPoints().size() + " points");
         }
 
         this.setBackground(this.guiTheme.getTheme().getBackgroundColor());

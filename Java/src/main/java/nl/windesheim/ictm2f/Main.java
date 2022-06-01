@@ -91,6 +91,8 @@ public class Main {
         }
         this.guiManager.changeTheme(GUIThemes.getTheme(this.cachedData.getString("theme")));
 
+        this.orderManager.load();
+
         this.splash.close();
     }
 

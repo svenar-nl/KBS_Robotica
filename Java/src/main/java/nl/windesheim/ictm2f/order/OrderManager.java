@@ -31,7 +31,21 @@ public class OrderManager {
         this.orders.add(newOrder);
     }
 
+    public void updateOrder(Order order) {
+        int index = 0;
+        for (Order cachedOrder : this.orders) {
+            if (cachedOrder.getName().equals(order.getName())) {
+                this.orders.set(index, order);
+                break;
+            }
+            index++;
+        }
+    }
+
     public void setCurrentOrder(String orderName) {
+        if (currentOrder != null) {
+            updateOrder(currentOrder);
+        }
         for (Order order : this.orders) {
             if (order.getName().equals(orderName)) {
                 this.currentOrder = order;
@@ -56,7 +70,9 @@ public class OrderManager {
             for (GridPoint point : order.getPoints()) {
                 orderPoints += point.getName() + "," + point.getX() + "," + point.getY() + ";";
             }
-            orderPoints = orderPoints.substring(0, orderPoints.length() - 1);
+            if (orderPoints.endsWith(";")) {
+                orderPoints = orderPoints.substring(0, orderPoints.length() - 1);
+            }
 
             Main.getInstance().getCachedData().set("orders." + orderName, orderPoints);
         }
@@ -66,15 +82,18 @@ public class OrderManager {
         this.orders.clear();
         for (Entry<String, Object> entry : Main.getInstance().getCachedData().getData().entrySet()) {
             if (entry.getKey().startsWith("orders.")) {
-                String orderName = entry.getKey().replace("orders\\.", ""); // .substring(7);
+                String orderName = entry.getKey().replace("orders.", ""); // .substring(7);
                 Order order = new Order();
                 order.setName(orderName);
                 List<GridPoint> points = new ArrayList<GridPoint>();
-                for (String pointData : Main.getInstance().getCachedData().getString(entry.getKey()).split(";")) {
-                    String pointName = pointData.split(",")[0];
-                    int pointX = Integer.parseInt(pointData.split(",")[1]);
-                    int pointY = Integer.parseInt(pointData.split(",")[2]);
-                    points.add(new GridPoint(pointName, pointX, pointY));
+                String stringPoints = Main.getInstance().getCachedData().getString(entry.getKey());
+                if (stringPoints.length() > 0) {
+                    for (String pointData : stringPoints.split(";")) {
+                        String pointName = pointData.split(",")[0];
+                        int pointX = Integer.parseInt(pointData.split(",")[1]);
+                        int pointY = Integer.parseInt(pointData.split(",")[2]);
+                        points.add(new GridPoint(pointName, pointX, pointY));
+                    }
                 }
                 order.setPoints(points);
                 this.orders.add(order);

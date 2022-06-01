@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.order.Order;
@@ -114,6 +116,21 @@ public class OrderGUIPanel extends JPanel {
                 Main.getInstance().getOrderManager().save();
                 Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
                 repaint();
+            }
+        });
+
+        this.orderSelect.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    String selectedItem = (String) orderSelect.getSelectedValue();
+                    if (!selectedItem.contains(":")) {
+                        return;
+                    }
+                    selectOrder(selectedItem.split(":")[0]);
+                    Main.getInstance().getOrderManager().save();
+                    Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
+                    repaint();
+                }
             }
         });
     }

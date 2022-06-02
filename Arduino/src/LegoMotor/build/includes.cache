@@ -1,0 +1,17 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Stuff\\Programs\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Stuff\\Programs\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+  },
+  {
+    "Sourcefile": "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\build\\sketch\\sketch.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]

@@ -66,7 +66,7 @@ public class Logger {
         }
 
         if (Main.getInstance().getGuiManager() != null) {
-            Main.getInstance().getGuiManager().getStatusPanel().repaint(); // TODO: Shouldn't be done here!
+           Main.getInstance().getGuiManager().getStatusPanel().repaint(); // TODO: Shouldn't be done here!
         }
     }
 

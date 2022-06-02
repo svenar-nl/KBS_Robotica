@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui.order;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,6 +14,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import nl.windesheim.ictm2f.Main;
 import nl.windesheim.ictm2f.order.Order;
@@ -28,8 +31,10 @@ public class OrderGUIPanel extends JPanel {
     private JButton createNewEmptyOrderButton, selectOrderButton, deleteOrderButton;
     private JList<String> orderSelect;
     private DefaultListModel<String> existingOrderList;
+    private JFrame parent;
 
-    public OrderGUIPanel(Dimension size, GUIThemes guiTheme) {
+    public OrderGUIPanel(JFrame parent, Dimension size, GUIThemes guiTheme) {
+        this.parent = parent;
         this.screenDimension = size;
         this.guiTheme = guiTheme;
         this.setPreferredSize(size);
@@ -80,10 +85,11 @@ public class OrderGUIPanel extends JPanel {
                     }
                 }
                 Main.getInstance().getOrderManager().createEmptyOrder(inputNewOrder.getText());
-                inputNewOrder.setText("");
-
                 Main.getInstance().getOrderManager().save();
                 Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
+
+                selectOrder(inputNewOrder.getText());
+                inputNewOrder.setText("");
 
                 repaint();
             }
@@ -116,6 +122,22 @@ public class OrderGUIPanel extends JPanel {
                 repaint();
             }
         });
+
+        this.orderSelect.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    String selectedItem = (String) orderSelect.getSelectedValue();
+                    if (!selectedItem.contains(":")) {
+                        return;
+                    }
+                    selectOrder(selectedItem.split(":")[0]);
+                    Main.getInstance().getOrderManager().save();
+                    Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
+                    repaint();
+                    parent.setVisible(false);
+                }
+            }
+        });
     }
 
     protected void selectOrder(String orderName) {
@@ -127,8 +149,8 @@ public class OrderGUIPanel extends JPanel {
             Main.getInstance().getSolver().addPoint(point);
         }
         Main.getInstance().getSolver().SolveDynamic();
-        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
         Main.getInstance().getGuiManager().getControlPanel().repaint();
+        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
     }
 
     protected void deleteOrder(String orderName) {
@@ -136,8 +158,8 @@ public class OrderGUIPanel extends JPanel {
 
         Main.getInstance().getSolver().clearPoints();
         Main.getInstance().getSolver().clearPath();
-        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
         Main.getInstance().getGuiManager().getControlPanel().repaint();
+        Main.getInstance().getGuiManager().getStatusPanel().getOrderPanel().repaint();
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.fazecast.jSerialComm.SerialPort;
 
 public class SerialManager {
 
-    private int DEFAULT_BAUD = 115200;
+    private int DEFAULT_BAUD = 9600; // 115200
 
     private SerialPort currentPort;
 
@@ -67,6 +67,7 @@ public class SerialManager {
     }
 
     public void write(String data) {
+        data = data.endsWith("\n") ? data : data + "\n";
         if (!isConnected()) {
             return;
         }

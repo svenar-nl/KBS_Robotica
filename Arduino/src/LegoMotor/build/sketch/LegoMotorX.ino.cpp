@@ -21,9 +21,9 @@ void Motor2(int pwm, boolean links);
 void Motor1(int pwm, boolean links);
 #line 45 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
 void duw();
-#line 57 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+#line 58 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
 void gaan(int schap);
-#line 76 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+#line 77 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
 void loop();
 #line 14 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
 void setup() {
@@ -66,12 +66,13 @@ void duw(){
     currentCommand = 'n';
     Motor2(0, true);
     mySerial.write('e');
+    delay(500);
   } 
 }
 
 void gaan(int schap){
   bool richting = (robotX - schap) > 0;
-  int runtime = (robotX - schap) * 590;
+  int runtime = (robotX - schap) * 500;
 
   // make positive
   if(!richting){

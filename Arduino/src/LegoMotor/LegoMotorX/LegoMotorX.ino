@@ -51,12 +51,13 @@ void duw(){
     currentCommand = 'n';
     Motor2(0, true);
     mySerial.write('e');
+    delay(500);
   } 
 }
 
 void gaan(int schap){
   bool richting = (robotX - schap) > 0;
-  int runtime = (robotX - schap) * 590;
+  int runtime = (robotX - schap) * 500;
 
   // make positive
   if(!richting){

@@ -76,12 +76,6 @@ void goToFirst(){
 int current = 0;
 
 void loop() {
-  if(hasXRecieved && hasYRecieved){
-    delay(5000);
-    hasXRecieved = false;
-    hasYRecieved = false;
-  }
-
   if (getDistance() < current + 2 && getDistance() > current - 2) {
     current = getDistance();
   }
@@ -158,6 +152,14 @@ void loop() {
       Serial.write(taskList.charAt(0));
       taskList.remove(0,1);
     }
+  }
+
+  if(hasXRecieved && hasYRecieved){
+    delay(2000);
+    mySerial.write("p");
+    delay(2000);
+    hasXRecieved = false;
+    hasYRecieved = false;
   }
 }
 

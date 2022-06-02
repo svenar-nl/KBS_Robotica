@@ -27,6 +27,7 @@ public class SerialConnectionManager extends JPanel implements Runnable {
     private Dimension screenDimension;
     private JButton reloadSerialPortsButton, connectionButton, settingsButton, estopButton;
     private DefaultComboBoxModel<String> portsData;
+    private JComboBox<String> jComboBox;
     private boolean repaintRXTXOnly = false;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
@@ -41,18 +42,14 @@ public class SerialConnectionManager extends JPanel implements Runnable {
         String[] ports = new String[availablePorts.size()];
         ports = availablePorts.toArray(ports);
         this.portsData = new DefaultComboBoxModel<>(ports);
-        JComboBox<String> jComboBox = new JComboBox<>();
-        jComboBox.setModel(this.portsData);
-        jComboBox.setBounds(160, 10, 180, 30);
-        jComboBox.setBackground(this.guiTheme.getTheme().getBackgroundColor());
-        jComboBox.setForeground(this.guiTheme.getTheme().getTextColor());
+        this.jComboBox = new JComboBox<>();
+        this.jComboBox.setModel(this.portsData);
+        this.jComboBox.setBounds(160, 10, 180, 30);
 
         Icon reloadIcon = new ImageIcon(getClass().getResource("/reload.png"));
         this.reloadSerialPortsButton = new JButton(reloadIcon);
         this.reloadSerialPortsButton.setBounds(350, 10, 30, 30);
 
-        this.reloadSerialPortsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
-        this.reloadSerialPortsButton.setForeground(this.guiTheme.getTheme().getTextColor());
         this.reloadSerialPortsButton.setBorderPainted(false);
         this.reloadSerialPortsButton.setFocusPainted(false);
         this.reloadSerialPortsButton.setContentAreaFilled(true);
@@ -63,8 +60,6 @@ public class SerialConnectionManager extends JPanel implements Runnable {
         this.connectionButton.setBorderPainted(false);
         this.connectionButton.setFocusPainted(false);
         this.connectionButton.setContentAreaFilled(true);
-        this.connectionButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
-        this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
         this.estopButton = new JButton("E-Stop");
         this.estopButton.setBounds(580, 10, 120, 30);
@@ -72,20 +67,16 @@ public class SerialConnectionManager extends JPanel implements Runnable {
         this.estopButton.setBorderPainted(false);
         this.estopButton.setFocusPainted(false);
         this.estopButton.setContentAreaFilled(true);
-        this.estopButton.setBackground(this.guiTheme.getTheme().getGridStartPointColor());
-        this.estopButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
         Icon settingsIcon = new ImageIcon(getClass().getResource("/gear.png"));
         this.settingsButton = new JButton(settingsIcon);
         this.settingsButton.setBounds(750, 10, 30, 30);
 
-        this.settingsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
-        this.settingsButton.setForeground(this.guiTheme.getTheme().getTextColor());
         this.settingsButton.setBorderPainted(false);
         this.settingsButton.setFocusPainted(false);
         this.settingsButton.setContentAreaFilled(true);
 
-        this.add(jComboBox);
+        this.add(this.jComboBox);
         this.add(this.reloadSerialPortsButton);
         this.add(this.connectionButton);
         this.add(this.estopButton);
@@ -115,6 +106,8 @@ public class SerialConnectionManager extends JPanel implements Runnable {
                     if (Main.getInstance().getSerialManager().isConnected()) {
                         Main.getInstance().getSerialManager().write("s");
                         Logger.warning("Stopping robot.");
+                        Logger.severe("Reconnect robot to continue.");
+                        Main.getInstance().getSerialManager().disconnect();
                     } else {
                         Logger.warning("Robot not connected.");
                     }
@@ -159,6 +152,17 @@ public class SerialConnectionManager extends JPanel implements Runnable {
         super.paintComponent(g);
 
         if (!repaintRXTXOnly) {
+            this.reloadSerialPortsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+            this.reloadSerialPortsButton.setForeground(this.guiTheme.getTheme().getTextColor());
+            this.jComboBox.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+            this.jComboBox.setForeground(this.guiTheme.getTheme().getTextColor());
+            this.connectionButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+            this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
+            this.estopButton.setBackground(this.guiTheme.getTheme().getGridStartPointColor());
+            this.estopButton.setForeground(this.guiTheme.getTheme().getTextColor());
+            this.settingsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+            this.settingsButton.setForeground(this.guiTheme.getTheme().getTextColor());
+
             g.setColor(this.guiTheme.getTheme().getAltBackgroundColor());
             g.fillRect(0, 0, this.screenDimension.getX(), this.screenDimension.getY());
             g.setColor(this.guiTheme.getTheme().getAltTextColor());

@@ -37,7 +37,7 @@ public class OrderPanel extends JPanel {
         this.orderLabel.setBounds(0, 40, width, 20);
         this.orderLabel.setFont(new Font(this.orderLabel.getFont().getName(), Font.PLAIN, 22));
 
-        this.managerOrderButton = new JButton("Manager Order");
+        this.managerOrderButton = new JButton("Manage Orders");
         this.managerOrderButton.setBounds(20, height - 160, width / 2 - 40, 40);
         this.managerOrderButton.setBorderPainted(false);
         this.managerOrderButton.setFocusPainted(false);

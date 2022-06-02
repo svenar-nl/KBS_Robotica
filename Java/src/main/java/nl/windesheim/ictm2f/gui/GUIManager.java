@@ -22,11 +22,15 @@ public class GUIManager extends JFrame implements MouseListener {
     private OrderManagerGUI orderManagerGui;
     private SettingsFrame settings;
     private boolean mouseDown;
+    private Thread scmThread;
 
     public GUIManager(Dimension screenDimension) {
         this.guiTheme = new GUIThemes();
 
         this.scmPanel = new SerialConnectionManager(screenDimension, this.guiTheme);
+        this.scmThread = new Thread(this.scmPanel);
+        this.scmThread.start();
+
         this.controlPanel = new ControlPanel(350, this.guiTheme);
         this.controlPanel.addMouseListener(this);
 

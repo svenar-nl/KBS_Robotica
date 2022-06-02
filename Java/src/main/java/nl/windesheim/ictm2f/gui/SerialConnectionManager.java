@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -20,12 +21,13 @@ import nl.windesheim.ictm2f.themes.ITheme;
 import nl.windesheim.ictm2f.util.Dimension;
 import nl.windesheim.ictm2f.util.Logger;
 
-public class SerialConnectionManager extends JPanel {
+public class SerialConnectionManager extends JPanel implements Runnable {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
     private JButton reloadSerialPortsButton, connectionButton, settingsButton, estopButton;
     private DefaultComboBoxModel<String> portsData;
+    private boolean repaintRXTXOnly = false;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension.getX(), 50);
@@ -156,29 +158,54 @@ public class SerialConnectionManager extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(this.guiTheme.getTheme().getAltBackgroundColor());
-        g.fillRect(0, 0, this.screenDimension.getX(), this.screenDimension.getY());
-        g.setColor(this.guiTheme.getTheme().getAltTextColor());
-        g.drawLine(0, this.screenDimension.getY() - 1, this.screenDimension.getX(), this.screenDimension.getY() - 1);
+        if (!repaintRXTXOnly) {
+            g.setColor(this.guiTheme.getTheme().getAltBackgroundColor());
+            g.fillRect(0, 0, this.screenDimension.getX(), this.screenDimension.getY());
+            g.setColor(this.guiTheme.getTheme().getAltTextColor());
+            g.drawLine(0, this.screenDimension.getY() - 1, this.screenDimension.getX(),
+                    this.screenDimension.getY() - 1);
 
-        g.setColor(this.guiTheme.getTheme().getTextColor());
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("Select device:", 15, this.screenDimension.getY() - 20);
+            g.setColor(this.guiTheme.getTheme().getTextColor());
+            g.setFont(new Font("Arial", Font.BOLD, 18));
+            g.drawString("Select device:", 15, this.screenDimension.getY() - 20);
 
-        this.connectionButton.setText(Main.getInstance().getSerialManager().isConnected() ? "Disconnect" : "Connect");
+            this.connectionButton
+                    .setText(Main.getInstance().getSerialManager().isConnected() ? "Disconnect" : "Connect");
 
-        g.setColor(this.guiTheme.getTheme().getTextColor());
-        g.setFont(new Font("Arial", Font.BOLD, 13));
-        g.drawString("RX", 520, 20);
-        g.drawString("TX", 550, 20);
+            g.setColor(this.guiTheme.getTheme().getTextColor());
+            g.setFont(new Font("Arial", Font.BOLD, 13));
+            g.drawString("RX", 520, 20);
+            g.drawString("TX", 550, 20);
+        }
 
-        g.setColor(!Main.getInstance().getSerialManager().isConnected() ? this.guiTheme.getTheme().getGridPointColor()
-                : (!Main.getInstance().getSerialManager().pingRX() ? this.guiTheme.getTheme().getGridPathColor()
-                        : this.guiTheme.getTheme().getGridFetchedPointColor()));
+        Color pingRXColor = Main.getInstance().getSerialManager().pingRX()
+                ? this.guiTheme.getTheme().getGridFetchedPointColor()
+                : this.guiTheme.getTheme().getGridPathColor();
+        Color pingTXColor = Main.getInstance().getSerialManager().pingTX()
+                ? this.guiTheme.getTheme().getGridFetchedPointColor()
+                : this.guiTheme.getTheme().getGridPathColor();
+        g.setColor(
+                !Main.getInstance().getSerialManager().isConnected() ? this.guiTheme.getTheme().getGridPointColor()
+                        : pingRXColor);
         g.fillOval(522, this.screenDimension.getY() - 22, 12, 12);
-        g.setColor(!Main.getInstance().getSerialManager().isConnected() ? this.guiTheme.getTheme().getGridPointColor()
-                : (!Main.getInstance().getSerialManager().pingTX() ? this.guiTheme.getTheme().getGridPathColor()
-                        : this.guiTheme.getTheme().getGridFetchedPointColor()));
+
+        g.setColor(
+                !Main.getInstance().getSerialManager().isConnected() ? this.guiTheme.getTheme().getGridPointColor()
+                        : pingTXColor);
         g.fillOval(552, this.screenDimension.getY() - 22, 12, 12);
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                Logger.exception(e);
+            }
+            repaintRXTXOnly = true;
+            repaint();
+            repaintRXTXOnly = false;
+        }
     }
 }

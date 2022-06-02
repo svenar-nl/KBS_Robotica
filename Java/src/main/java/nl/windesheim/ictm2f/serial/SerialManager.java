@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.fazecast.jSerialComm.SerialPort;
 
-import nl.windesheim.ictm2f.Main;
-
 public class SerialManager {
 
     private int DEFAULT_BAUD = 115200;
@@ -65,20 +63,17 @@ public class SerialManager {
         String data = "";
 
         this.stateHasRX = true;
-        Main.getInstance().getGuiManager().getSerialConnectionManager().repaint();
         return data;
     }
 
     public void write(String data) {
-        data += "\n";
+        data = data.endsWith("\n") ? data : data + "\n";
         if (!isConnected()) {
             return;
         }
 
         this.currentPort.writeBytes(data.getBytes(), data.length());
         this.stateHasTX = true;
-
-        Main.getInstance().getGuiManager().getSerialConnectionManager().repaint();
     }
 
     public boolean pingRX() {

@@ -2,6 +2,7 @@ package nl.windesheim.ictm2f.gui.order;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,8 +31,10 @@ public class OrderGUIPanel extends JPanel {
     private JButton createNewEmptyOrderButton, selectOrderButton, deleteOrderButton;
     private JList<String> orderSelect;
     private DefaultListModel<String> existingOrderList;
+    private JFrame parent;
 
-    public OrderGUIPanel(Dimension size, GUIThemes guiTheme) {
+    public OrderGUIPanel(JFrame parent, Dimension size, GUIThemes guiTheme) {
+        this.parent = parent;
         this.screenDimension = size;
         this.guiTheme = guiTheme;
         this.setPreferredSize(size);
@@ -82,10 +85,11 @@ public class OrderGUIPanel extends JPanel {
                     }
                 }
                 Main.getInstance().getOrderManager().createEmptyOrder(inputNewOrder.getText());
-                inputNewOrder.setText("");
-
                 Main.getInstance().getOrderManager().save();
                 Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
+
+                selectOrder(inputNewOrder.getText());
+                inputNewOrder.setText("");
 
                 repaint();
             }
@@ -130,6 +134,7 @@ public class OrderGUIPanel extends JPanel {
                     Main.getInstance().getOrderManager().save();
                     Main.getInstance().getDatabase().save(Main.getInstance().getCachedData().getData());
                     repaint();
+                    parent.setVisible(false);
                 }
             }
         });

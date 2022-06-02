@@ -20,7 +20,7 @@ public class OrderManagerGUI extends JFrame {
         this.setResizable(false);
         this.setVisible(false);
 
-        this.orderGUIPanel = new OrderGUIPanel(this.size, guiTheme);
+        this.orderGUIPanel = new OrderGUIPanel(this, this.size, guiTheme);
         this.add(this.orderGUIPanel);
     }
 

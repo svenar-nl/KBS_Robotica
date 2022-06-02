@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +24,8 @@ public class SerialConnectionManager extends JPanel {
 
     private GUIThemes guiTheme;
     private Dimension screenDimension;
-    private JButton connectionButton, settingsButton, estopButton;
+    private JButton reloadSerialPortsButton, connectionButton, settingsButton, estopButton;
+    private DefaultComboBoxModel<String> portsData;
 
     public SerialConnectionManager(Dimension screenDimension, GUIThemes guiTheme) {
         this.screenDimension = new Dimension(screenDimension.getX(), 50);
@@ -36,13 +38,25 @@ public class SerialConnectionManager extends JPanel {
         List<String> availablePorts = Main.getInstance().getSerialManager().getAvailablePorts();
         String[] ports = new String[availablePorts.size()];
         ports = availablePorts.toArray(ports);
-        JComboBox<String> jComboBox = new JComboBox<>(ports);
+        this.portsData = new DefaultComboBoxModel<>(ports);
+        JComboBox<String> jComboBox = new JComboBox<>();
+        jComboBox.setModel(this.portsData);
         jComboBox.setBounds(160, 10, 180, 30);
         jComboBox.setBackground(this.guiTheme.getTheme().getBackgroundColor());
         jComboBox.setForeground(this.guiTheme.getTheme().getTextColor());
 
+        Icon reloadIcon = new ImageIcon(getClass().getResource("/reload.png"));
+        this.reloadSerialPortsButton = new JButton(reloadIcon);
+        this.reloadSerialPortsButton.setBounds(350, 10, 30, 30);
+
+        this.reloadSerialPortsButton.setBackground(this.guiTheme.getTheme().getBackgroundColor());
+        this.reloadSerialPortsButton.setForeground(this.guiTheme.getTheme().getTextColor());
+        this.reloadSerialPortsButton.setBorderPainted(false);
+        this.reloadSerialPortsButton.setFocusPainted(false);
+        this.reloadSerialPortsButton.setContentAreaFilled(true);
+
         this.connectionButton = new JButton("Connect");
-        this.connectionButton.setBounds(350, 10, 120, 30);
+        this.connectionButton.setBounds(390, 10, 120, 30);
 
         this.connectionButton.setBorderPainted(false);
         this.connectionButton.setFocusPainted(false);
@@ -51,7 +65,7 @@ public class SerialConnectionManager extends JPanel {
         this.connectionButton.setForeground(this.guiTheme.getTheme().getTextColor());
 
         this.estopButton = new JButton("E-Stop");
-        this.estopButton.setBounds(540, 10, 120, 30);
+        this.estopButton.setBounds(580, 10, 120, 30);
 
         this.estopButton.setBorderPainted(false);
         this.estopButton.setFocusPainted(false);
@@ -70,6 +84,7 @@ public class SerialConnectionManager extends JPanel {
         this.settingsButton.setContentAreaFilled(true);
 
         this.add(jComboBox);
+        this.add(this.reloadSerialPortsButton);
         this.add(this.connectionButton);
         this.add(this.estopButton);
         this.add(this.settingsButton);
@@ -114,6 +129,23 @@ public class SerialConnectionManager extends JPanel {
                 Main.getInstance().getGuiManager().getSettings().display();
             }
         });
+
+        this.reloadSerialPortsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadSerialPorts();
+            }
+        });
+    }
+
+    private void reloadSerialPorts() {
+        List<String> availablePorts = Main.getInstance().getSerialManager().getAvailablePorts();
+        String[] ports = new String[availablePorts.size()];
+        ports = availablePorts.toArray(ports);
+        this.portsData.removeAllElements();
+        for (String port : ports) {
+            this.portsData.addElement(port);
+        }
     }
 
     public ITheme getTheme() {
@@ -137,16 +169,16 @@ public class SerialConnectionManager extends JPanel {
 
         g.setColor(this.guiTheme.getTheme().getTextColor());
         g.setFont(new Font("Arial", Font.BOLD, 13));
-        g.drawString("RX", 480, 20);
-        g.drawString("TX", 510, 20);
+        g.drawString("RX", 520, 20);
+        g.drawString("TX", 550, 20);
 
         g.setColor(!Main.getInstance().getSerialManager().isConnected() ? this.guiTheme.getTheme().getGridPointColor()
                 : (!Main.getInstance().getSerialManager().pingRX() ? this.guiTheme.getTheme().getGridPathColor()
                         : this.guiTheme.getTheme().getGridFetchedPointColor()));
-        g.fillOval(482, this.screenDimension.getY() - 22, 12, 12);
+        g.fillOval(522, this.screenDimension.getY() - 22, 12, 12);
         g.setColor(!Main.getInstance().getSerialManager().isConnected() ? this.guiTheme.getTheme().getGridPointColor()
                 : (!Main.getInstance().getSerialManager().pingTX() ? this.guiTheme.getTheme().getGridPathColor()
                         : this.guiTheme.getTheme().getGridFetchedPointColor()));
-        g.fillOval(512, this.screenDimension.getY() - 22, 12, 12);
+        g.fillOval(552, this.screenDimension.getY() - 22, 12, 12);
     }
 }

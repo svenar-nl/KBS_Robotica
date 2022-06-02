@@ -1,3 +1,5 @@
+#include <Arduino.h>
+#line 1 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
 #include <SoftwareSerial.h>
 
 SoftwareSerial mySerial(2,3);
@@ -11,6 +13,19 @@ int robotX = 1;
 char currentCommand = 'n';
 unsigned long startTime = millis();
 
+#line 14 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+void setup();
+#line 27 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+void Motor2(int pwm, boolean links);
+#line 36 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+void Motor1(int pwm, boolean links);
+#line 45 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+void duw();
+#line 57 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+void gaan(int schap);
+#line 76 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+void loop();
+#line 14 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
 void setup() {
   for(int i=0; i<=13; i++){
     if (!(i==2||i==3)) {

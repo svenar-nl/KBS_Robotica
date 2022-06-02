@@ -16,13 +16,15 @@ const int echoPin = 3;
 
 bool newTasks = false;
 bool printBef = false;
+bool cycleDone = false;
+bool hasXRecieved = false;
+bool hasYRecieved = false;
 
-String taskList = "1123";
+String taskList = "";
 
 char taskArray[] = {'s'};
 char currentTask = 'n';
 char nextTask = 'n';
-
 
 int robotY = 1; // save robot y location
 
@@ -36,9 +38,11 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  Serial.begin(115200);
+  Serial.begin(9600);
 
-  mySerial.begin(115200);
+  mySerial.begin(9600);
+
+  goToFirst();
 }
 
 void Motor2(int pwm, boolean links){
@@ -50,8 +54,6 @@ void Motor2(int pwm, boolean links){
   }
 }
 
-
-
 void Motor1(int pwm, boolean links){
   analogWrite(M1R, pwm);
   if(links){
@@ -61,24 +63,27 @@ void Motor1(int pwm, boolean links){
   }
 }
 
-void calib() {
-  unsigned long tijd = millis();
-  while (millis() - tijd <= 3000) {
-    Motor2(80,true);
-  }
-  Motor2(0,false);
-}
-
-void hust(){
+void bekDicht(){
   Motor2(0, false);
+}
+void goToFirst(){
+  Motor2(70, true);
+  mySerial.write("x6x6");
+  delay(2000);
+  Motor2(0, true);
 }
 
 int current = 0;
 
 void loop() {
+  if(hasXRecieved && hasYRecieved){
+    delay(5000);
+    hasXRecieved = false;
+    hasYRecieved = false;
+  }
+
   if (getDistance() < current + 2 && getDistance() > current - 2) {
-    Serial.println(getDistance());
-    current = getDistance;
+    current = getDistance();
   }
   
   if (Serial.available() > 0){
@@ -87,7 +92,6 @@ void loop() {
     if (!(t == '\n')) 
     {
       taskList = taskList + t;
-      Serial.println(taskList);
     } 
     else 
     {
@@ -98,10 +102,9 @@ void loop() {
   {
     if(taskList.charAt(0)=='x') 
     {
-      Serial.print("Sending X command: ");
+      //Serial.print("Sending X command: ");
       if(taskList.charAt(1)=='\0') 
       {
-        Serial.println("Empty.");
         taskList.remove(0,1);
       } 
       else 
@@ -111,16 +114,20 @@ void loop() {
         Serial.write('\n');
         taskList.remove(0,2);
       }
-    } 
+
+      hasXRecieved = true;
+    } else if (taskList.charAt(0)=='p') {
+      Serial.write('p');
+      Serial.write('\n');
+      taskList.remove(0,1);
+    }
     else if (taskList.charAt(0)=='y') 
     {
-      Serial.print("Sending Y command: ");
+      //Serial.print("Sending Y command: ");
       char c = taskList.charAt(1);
       if(taskList.charAt(1)=='\0') {
-        Serial.println("Empty.");
       } else {
         Serial.write(taskList.charAt(1));
-        Serial.println();
       }
 
       if (c == '1') {
@@ -137,14 +144,18 @@ void loop() {
       
       taskList.remove(0,2);
 
+      hasYRecieved = true;
+
     } else if (taskList.charAt(0)=='d') {
       delay(250);
       taskList.remove(0,1);
-    }
-    else 
-    {
+    }else if (taskList.charAt(0) == 's') {
+      bekDicht();
+      for (int i = 0; i < sizeof(taskList);  i++) {
+        taskList[i] = (char)0;
+      }
+    } else {
       Serial.write(taskList.charAt(0));
-      Serial.println();
       taskList.remove(0,1);
     }
   }
@@ -182,12 +193,8 @@ void goToHeight(int low) {
       Motor2(255,false);
     }
     endAv = getAverage();
-    Serial.println(endAv);
     if (checkAvDist(low,low)) { break; }
   }
-  Serial.println("Done!");
-  Serial.print("With: ");
-  Serial.print(getAverage());
   Motor2(80,false);
 }
 

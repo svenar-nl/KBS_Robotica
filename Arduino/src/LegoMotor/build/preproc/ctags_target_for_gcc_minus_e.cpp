@@ -1,4 +1,5 @@
-#include <SoftwareSerial.h>
+# 1 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino"
+# 2 "c:\\Stuff\\School\\java1\\projects\\src\\KBS_Robotica\\Arduino\\src\\LegoMotor\\LegoMotorX\\LegoMotorX.ino" 2
 
 SoftwareSerial mySerial(2,3);
 
@@ -14,10 +15,10 @@ unsigned long startTime = millis();
 void setup() {
   for(int i=0; i<=13; i++){
     if (!(i==2||i==3)) {
-     pinMode(i, OUTPUT); 
+     pinMode(i, 0x1);
     }
   }
-  pinMode(A0, INPUT);
+  pinMode(A0, 0x0);
 
   Serial.begin(9600);
 
@@ -27,18 +28,18 @@ void setup() {
 void Motor2(int pwm, boolean links){
   analogWrite(M2R, pwm);
   if(links){
-    digitalWrite(M2S, HIGH);
+    digitalWrite(M2S, 0x1);
   } else {
-    digitalWrite(M2S, LOW);
+    digitalWrite(M2S, 0x0);
   }
 }
 
 void Motor1(int pwm, boolean links){
   analogWrite(M1S, pwm);
   if(links){
-    digitalWrite(M1R, HIGH);
+    digitalWrite(M1R, 0x1);
   } else {
-    digitalWrite(M1R, LOW);
+    digitalWrite(M1R, 0x0);
   }
 }
 
@@ -51,7 +52,7 @@ void duw(){
     currentCommand = 'n';
     Motor2(0, true);
     mySerial.write('e');
-  } 
+  }
 }
 
 void gaan(int schap){
@@ -81,7 +82,7 @@ void loop() {
 
       Serial.write(c);
 
-      if(c == 'p' || c == '1' || c == '2'|| c == '3'|| c == '4'|| c == '5' || c == '6'|| c == '7'|| c=='c'){            // lijst van geverifieerde commandos
+      if(c == 'p' || c == '1' || c == '2'|| c == '3'|| c == '4'|| c == '5' || c == '6'|| c == '7'|| c=='c'){ // lijst van geverifieerde commandos
         currentCommand = c;
 
         startTime = millis();
